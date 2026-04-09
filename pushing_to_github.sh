@@ -1,6 +1,6 @@
 # For commiting to gitlab for the first time
-rm -rf .git
-git init
+#rm -rf .git
+#git init
 # upload to github
 git add .
 git commit -m 'update version of the REANNZ Containers Workshop'
