@@ -1,0 +1,1122 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Genomics Aotearoa & NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/introduction-to-shel/01-introduction/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../02-the-filesystem/">
+      
+      
+      <link rel="icon" href="../fig/nesi_ga.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Introducing the Shell - Introduction to  Shell for Bioinformatics</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#what-is-a-shell-and-why-should-i-care" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-header__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction to  Shell for Bioinformatics
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Introducing the Shell
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-nav__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    Introduction to  Shell for Bioinformatics
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Introducing the Shell
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Introducing the Shell
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-shell-and-why-should-i-care" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a shell and why should I care?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-access-the-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to access the shell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-access-the-remote-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to access the remote server
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to access the remote server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-jupyter-on-nesi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connect to Jupyter on NeSI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigating-your-file-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigating your file system
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparation-magic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparation Magic
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#challenge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Challenge
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shortcut-tab-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shortcut: Tab Completion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-the-filesystem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Navigating Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-working-with-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Working with Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-redirection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Redirection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-writing-scripts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Writing Scripts and Working with Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-organization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project Organization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-shell-and-why-should-i-care" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a shell and why should I care?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-access-the-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to access the shell
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-access-the-remote-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to access the remote server
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="How to access the remote server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connect-to-jupyter-on-nesi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Connect to Jupyter on NeSI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tip" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tip
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigating-your-file-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigating your file system
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparation-magic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparation Magic
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#challenge" class="md-nav__link">
+    <span class="md-ellipsis">
+      Challenge
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Solution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shortcut-tab-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shortcut: Tab Completion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Introducing the Shell</h1>
+
+<p>::::::::::::::::::::::::::::::::::::::: objectives</p>
+<ul>
+<li>Describe key reasons for learning shell.</li>
+<li>Navigate your file system using the command line.</li>
+<li>Access and read help files for <code>bash</code> programs and use help files to identify useful command options.</li>
+<li>Demonstrate the use of tab completion, and explain its advantages.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>:::::::::::::::::::::::::::::::::::::::: questions</p>
+<ul>
+<li>What is a command shell and why would I use one?</li>
+<li>How can I move around on my computer?</li>
+<li>How can I see what files and directories I have?</li>
+<li>How can I specify the location of a file or directory on my computer?</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p><strong>This lesson has been adapted from the original <a href="https://datacarpentry.org/shell-genomics/">Data Carpentry - Shell Genomics</a> to be run using the NeSI infrastructure as part of the Otago Bioinformatics Spring School instead of AWS.</strong></p>
+<h2 id="what-is-a-shell-and-why-should-i-care">What is a shell and why should I care?<a class="headerlink" href="#what-is-a-shell-and-why-should-i-care" title="Permanent link">&para;</a></h2>
+<p>A <em>shell</em> is a computer program that presents a command line interface
+which allows you to control your computer using commands entered
+with a keyboard instead of controlling graphical user interfaces
+(GUIs) with a mouse/keyboard/touchscreen combination.</p>
+<p>There are many reasons to learn about the shell:</p>
+<ul>
+<li>Many bioinformatics tools can only be used through a command line interface. Many more
+  have features and parameter options which are not available in the GUI.
+  BLAST is an example. Many of the advanced functions are only accessible
+  to users who know how to use a shell.</li>
+<li>The shell makes your work less boring. In bioinformatics you often need to repeat tasks with a large number of files. With the shell, you can automate those repetitive tasks and leave you free to do more exciting things.</li>
+<li>The shell makes your work less error-prone. When humans do the same thing a hundred different times
+  (or even ten times), they're likely to make a mistake. Your computer can do the same thing a thousand times
+  with no mistakes.</li>
+<li>The shell makes your work more reproducible. When you carry out your work in the command-line
+  (rather than a GUI), your computer keeps a record of every step that you've carried out, which you can use
+  to re-do your work when you need to. It also gives you a way to communicate unambiguously what you've done,
+  so that others can inspect or apply your process to new data.</li>
+<li>Many bioinformatic tasks require large amounts of computing power and can't realistically be run on your
+  own machine. These tasks are best performed using remote computers or cloud computing, which can only be accessed
+  through a shell.</li>
+</ul>
+<p>In this lesson you will learn how to use the command line interface to move around in your file system.</p>
+<h2 id="how-to-access-the-shell">How to access the shell<a class="headerlink" href="#how-to-access-the-shell" title="Permanent link">&para;</a></h2>
+<p>On a Mac or Linux machine, you can access a shell through a program called "Terminal", which is already available
+on your computer. The Terminal is a window into which we will type commands. If you're using Windows,
+you'll need to download a separate program to access the shell.</p>
+<p>To save time, we are going to be working on a remote server where all the necessary data and software available.
+When we say a 'remote server', we are talking about a computer that is not the one you are working on right now.
+You will access the Carpentries remote server where everything is prepared for the lesson.
+We will learn the basics of the shell by manipulating some data files. Some of these files are very large
+, and would take time to download to your computer.
+We will also be using several bioinformatic packages in later lessons and installing all of the software
+would take up time even more time. A 'ready-to-go' server lets us focus on learning.</p>
+<h2 id="how-to-access-the-remote-server">How to access the remote server<a class="headerlink" href="#how-to-access-the-remote-server" title="Permanent link">&para;</a></h2>
+<p>During this workshop we will be running the material on the NeSI platform, using the Jupyter interface, however it is
+also possible to run this material locally on your own machine.</p>
+<p>One of the differences between running on NeSI or your own machine is that on NeSI we preinstall popular software and make it available to our users, whereas on your own machine you need to install the software yourself (e.g. using a package manager such as conda).</p>
+<h3 id="connect-to-jupyter-on-nesi">Connect to Jupyter on NeSI<a class="headerlink" href="#connect-to-jupyter-on-nesi" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Connect to <a href="https://jupyter.nesi.org.nz">https://jupyter.nesi.org.nz</a></li>
+<li><p>Enter NeSI username, HPC password and 6 digit second factor token (as set on <a href="https://my.nesi.org.nz/account/hpc-account">MyNeSI</a>)<br><a class="glightbox" href="../fig/nesi_images/Login_jupyterhubNeSI.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image" src="../fig/nesi_images/Login_jupyterhubNeSI.png" /></a></p></li>
+<li><p>Choose server options as below
+   <br>make sure to choose the correct project code <code>nesi02659</code>, number of CPUs <strong>4</strong>, memory <strong>4GB</strong> prior to pressing the Start button.</li>
+</ol>
+<p><br><a class="glightbox" href="../fig/nesi_images/ServerOptions_jupyterhubNeSI.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image" src="../fig/nesi_images/ServerOptions_jupyterhubNeSI.png" width="700" /></a></p>
+<ol>
+<li><p>Start a terminal session from the JupyterLab launcher<br><a class="glightbox" href="../fig/nesi_images/ga-vl01jupyterhubNeSI.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="image" src="../fig/nesi_images/ga-vl01jupyterhubNeSI.png" width="500" /></a></li>
+</ol>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<p>You can log-in to the remote server using the <a href="https://datacarpentry.org/cloud-genomics/02-logging-onto-cloud#logging-onto-a-cloud-instance">instructions from the Introduction to Cloud Computing for Genomics lesson</a>.
+Your instructor will supply to you the <code>ip_address</code> and password that you need to login.</p>
+<p>Each of you will have a different <code>ip_address</code>. This will
+prevent us from accidentally changing each other's files as we work through the
+exercises. The password will be the same for everyone.</p>
+<p>After logging in, you will see a screen showing something like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">Welcome to Ubuntu 20.04.5 LTS (GNU/Linux 5.4.0-137-generic x86_64)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="go"> * Documentation:  https://help.ubuntu.com</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="go"> * Management:     https://landscape.canonical.com</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="go"> * Support:        https://ubuntu.com/advantage</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="go">  System information as of Mon 13 Mar 2023 03:57:46 AM UTC</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="go">  System load:  0.0                Processes:             192</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="go">  Usage of /:   20.3% of 98.27GB   Users logged in:       0</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="go">  Memory usage: 25%                IPv4 address for eth0: 172.31.12.214</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="go">  Swap usage:   0%</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="go">  Get cloud support with Ubuntu Advantage Cloud Guest:</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="go">    http://www.ubuntu.com/business/services/cloud</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="go">178 updates can be applied immediately.</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="go">108 of these updates are standard security updates.</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="go">To see these additional updates run: apt list --upgradable</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="go">Last login: Fri Mar 10 03:14:44 2023 from 72.83.168.14</span>
+</code></pre></div>
+<p>This provides a lot of information about the remote server that you're logging into. We're not going to use most of this information for
+our workshop, so you can clear your screen using the <code>clear</code> command.</p>
+<p>Type the word <code>clear</code> into the terminal and press the <code>Enter</code> key.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>clear
+</code></pre></div>
+<p>This will scroll your screen down to give you a fresh screen and will make it easier to read.
+You haven't lost any of the information on your screen. If you scroll up, you can see everything that has been output to your screen
+up until this point.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="tip">Tip<a class="headerlink" href="#tip" title="Permanent link">&para;</a></h2>
+<p>Hot-key combinations are shortcuts for performing common commands.
+The hot-key combination for clearing the console is <code>Ctrl+L</code>. Feel free to try it and see for yourself.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="navigating-your-file-system">Navigating your file system<a class="headerlink" href="#navigating-your-file-system" title="Permanent link">&para;</a></h2>
+<p>The part of the operating system that manages files and directories
+is called the <strong>file system</strong>.
+It organizes our data into files,
+which hold information,
+and directories (also called "folders"),
+which hold files or other directories.</p>
+<p>Several commands are frequently used to create, inspect, rename, and delete files and directories.</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="preparation-magic">Preparation Magic<a class="headerlink" href="#preparation-magic" title="Permanent link">&para;</a></h2>
+<p>You may have a prompt (the characters to the left of the cursor) that looks different from the <code>$</code> sign character used here.
+If you would like to change your prompt to match the example prompt, first type the command:
+<code>echo $PS1</code>
+into your shell, followed by pressing the <kbd>Enter</kbd> key.</p>
+<p>This will print the bash special characters that are currently defining your prompt.
+To change the prompt to a <code>$</code> (followed by a space), enter the command:
+<code>PS1='$ '</code>
+Your window should look like our example in this lesson.</p>
+<p>To change back to your original prompt, type in the output of the previous command <code>echo $PS1</code> (this will be different depending on the
+original configuration) between the quotes in the following command:
+<code>PS1=""</code></p>
+<p>For example, if the output of <code>echo $PS1</code> was <code>\u@\h:\w $</code>,
+then type those characters between the quotes in the above command: <code>PS1="\u@\h:\w $ "</code>.
+Alternatively, you can reset your original prompt by exiting the shell and opening a new session.</p>
+<p>This isn't necessary to follow along (in fact, your prompt may have other helpful information you want to know about). This is up to you!</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$
+</code></pre></div>
+<p>The dollar sign is a <strong>prompt</strong>, which shows us that the shell is waiting for input;
+your shell may use a different character as a prompt and may add information before
+the prompt. When typing commands, either from these lessons or from other sources,
+do not type the prompt, only the commands that follow it.</p>
+<p>Let's find out where we are by running a command called <code>pwd</code>
+(which stands for "print working directory").
+At any moment, our <strong>current working directory</strong>
+is our current default directory,
+i.e.,
+the directory that the computer assumes we want to run commands in,
+unless we explicitly specify something else.
+Here,
+the computer's response is <code>/home/&lt;username&gt;</code>,
+which is the top level directory within NeSI:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span><span class="nb">pwd</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">/home/&lt;username&gt;</span>
+</code></pre></div>
+<p>Let's look at how our file system is organized. We can see what files and subdirectories are in this directory by running <code>ls</code>,
+which stands for "listing":</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>ls
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">obss_2023</span>
+</code></pre></div>
+<p><code>ls</code> prints the names of the files and directories in the current directory in
+alphabetical order,
+arranged neatly into columns.
+We'll be working within the <code>shell_data</code> subdirectory, and creating new subdirectories, throughout this workshop.</p>
+<p>The command to change locations in our file system is <code>cd</code>, followed by a
+directory name to change our working directory.
+<code>cd</code> stands for "change directory".</p>
+<p>Let's say we want to navigate to the <code>obss_2023/commandline/shell_data</code> directory we saw above. We can
+use the following command to get there:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>obss_2023
+</code></pre></div>
+<p>Let's look at what is in this directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>ls
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">commandline  genome_assembly  genomic_dna  intro_git  intro_snakemake  nanopore</span>
+</code></pre></div>
+<p>And we'll then navigate into <code>commandline</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">cd</span><span class="w"> </span>commandline
+</code></pre></div>
+<p>and take a look</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>ls
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="go">shell4b_data  shell_data</span>
+</code></pre></div>
+<p>And then we'll <code>cd</code> into <code>shell_data</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>shell_data
+</code></pre></div>
+<p>And take a look</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ls
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="go">sra_metadata  untrimmed_fastq</span>
+</code></pre></div>
+<p>We can make the <code>ls</code> output more comprehensible by using the <strong>flag</strong> <code>-F</code>,
+which tells <code>ls</code> to add a trailing <code>/</code> to the names of directories:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$<span class="w"> </span>ls<span class="w"> </span>-F
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="go">sra_metadata/  untrimmed_fastq/</span>
+</code></pre></div>
+<p>Anything with a "/" after it is a directory. Things with a "*" after them are programs. If
+there are no decorations, it's a file.</p>
+<p><code>ls</code> has lots of other options. To find out what they are, we can type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>$<span class="w"> </span>man<span class="w"> </span>ls
+</code></pre></div>
+<p><code>man</code> (short for manual) displays detailed documentation (also referred as man page or man file)
+for <code>bash</code> commands. It is a powerful resource to explore <code>bash</code> commands, understand
+their usage and flags. Some manual files are very long. You can scroll through the
+file using your keyboard's down arrow or use the <kbd>Space</kbd> key to go forward one page
+and the <kbd>b</kbd> key to go backwards one page. When you are done reading, hit <kbd>q</kbd>
+to quit.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="challenge">Challenge<a class="headerlink" href="#challenge" title="Permanent link">&para;</a></h2>
+<p>Use the <code>-l</code> option for the <code>ls</code> command to display more information for each item
+in the directory. What is one piece of additional information this long format
+gives you that you don't see with the bare <code>ls</code> command?</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>$<span class="w"> </span>ls<span class="w"> </span>-l
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="go">total 8</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="go">drwxr-x--- 2 dcuser dcuser 4096 Jul 30  2015 sra_metadata</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="go">drwxr-xr-x 2 dcuser dcuser 4096 Nov 15  2017 untrimmed_fastq</span>
+</code></pre></div>
+<p>The additional information given includes the name of the owner of the file,
+when the file was last modified, and whether the current user has permission
+to read and write to the file.</p>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>No one can possibly learn all of these arguments, that's what the manual page
+is for. You can (and should) refer to the manual page or other help files
+as needed.</p>
+<p>Let's go into the <code>untrimmed_fastq</code> directory and see what is in there.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>untrimmed_fastq
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>$<span class="w"> </span>ls<span class="w"> </span>-F
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="go">SRR097977.fastq  SRR098026.fastq</span>
+</code></pre></div>
+<p>This directory contains two files with <code>.fastq</code> extensions. FASTQ is a format
+for storing information about sequencing reads and their quality.
+We will be learning more about FASTQ files in a later lesson.</p>
+<h3 id="shortcut-tab-completion">Shortcut: Tab Completion<a class="headerlink" href="#shortcut-tab-completion" title="Permanent link">&para;</a></h3>
+<p>Typing out file or directory names can waste a
+lot of time and it's easy to make typing mistakes. Instead we can use tab complete
+as a shortcut. When you start typing out the name of a directory or file, then
+hit the <kbd>Tab</kbd> key, the shell will try to fill in the rest of the
+directory or file name.</p>
+<p>Return to your home directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>$<span class="w"> </span><span class="nb">cd</span>
+</code></pre></div>
+<p>then enter:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>obss_2023/com&lt;tab&gt;/she&lt;tab&gt;_&lt;tab&gt;
+</code></pre></div>
+<p>The shell will fill in the rest of the directory name for <code>commandline</code> and then <code>shell_data</code>.</p>
+<p>Now change directories to <code>untrimmed_fastq</code> in <code>shell_data</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>shell_data
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>untrimmed_fastq
+</code></pre></div>
+<p>Using tab complete can be very helpful. However, it will only autocomplete
+a file or directory name if you've typed enough characters to provide
+a unique identifier for the file or directory you are trying to access.</p>
+<p>For example, if we now try to list the files which names start with <code>SR</code>
+by using tab complete:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>$<span class="w"> </span>ls<span class="w"> </span>SR&lt;tab&gt;
+</code></pre></div>
+<p>The shell auto-completes your command to <code>SRR09</code>, because all file names in
+the directory begin with this prefix. When you hit
+<kbd>Tab</kbd> again, the shell will list the possible choices.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>$<span class="w"> </span>ls<span class="w"> </span>SRR09&lt;tab&gt;&lt;tab&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="go">SRR097977.fastq  SRR098026.fastq</span>
+</code></pre></div>
+<p>Tab completion can also fill in the names of programs, which can be useful if you
+remember the beginning of a program name.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>$<span class="w"> </span>pw&lt;tab&gt;&lt;tab&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="go">pwck      pwconv    pwd       pwdx      pwunconv</span>
+</code></pre></div>
+<p>Displays the name of every program that starts with <code>pw</code>.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>We now know how to move around our file system using the command line.
+This gives us an advantage over interacting with the file system through
+a GUI as it allows us to work on a remote server, carry out the same set of operations
+on a large number of files quickly, and opens up many opportunities for using
+bioinformatic software that is only available in command line versions.</p>
+<p>In the next few episodes, we'll be expanding on these skills and seeing how
+using the command line shell enables us to make our workflow more efficient and reproducible.</p>
+<p>:::::::::::::::::::::::::::::::::::::::: keypoints</p>
+<ul>
+<li>The shell gives you the ability to work more efficiently by using keyboard commands rather than a GUI.</li>
+<li>Useful commands for navigating your file system include: <code>ls</code>, <code>pwd</code>, and <code>cd</code>.</li>
+<li>Most commands take options (flags) which begin with a <code>-</code>.</li>
+<li>Tab completion can reduce errors from mistyping and make work more efficient in the shell.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../02-the-filesystem/" class="md-footer__link md-footer__link--next" aria-label="Next: Navigating Files and Directories">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Navigating Files and Directories
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Introduction Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

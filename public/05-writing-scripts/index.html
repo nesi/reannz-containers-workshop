@@ -1,0 +1,1298 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Genomics Aotearoa & NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/introduction-to-shel/05-writing-scripts/">
+      
+      
+        <link rel="prev" href="../04-redirection/">
+      
+      
+        <link rel="next" href="../06-organization/">
+      
+      
+      <link rel="icon" href="../fig/nesi_ga.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Writing Scripts and Working with Data - Introduction to  Shell for Bioinformatics</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#writing-files" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-header__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction to  Shell for Bioinformatics
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Writing Scripts and Working with Data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-nav__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    Introduction to  Shell for Bioinformatics
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introducing the Shell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-the-filesystem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Navigating Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-working-with-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Working with Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-redirection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Redirection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Writing Scripts and Working with Data
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Writing Scripts and Working with Data
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Which Editor?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-ctrl-or-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control, Ctrl, or ^ Key
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing scripts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-grep-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom grep control
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-the-script-into-a-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      Making the script into a program
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-and-downloading-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving and Downloading Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving and Downloading Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-data-from-the-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting data from the cloud
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-files-between-your-laptop-and-nesi-with-jupyterhub" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving files between your laptop and NeSI with Jupyterhub
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-files-between-your-laptop-and-your-instance-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving files between your laptop and your instance - AWS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transferring-data-between-your-local-machine-and-the-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transferring Data Between your Local Machine and the Cloud
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transferring Data Between your Local Machine and the Cloud">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uploading-data-to-your-virtual-machine-with-scp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Data to your Virtual Machine with scp
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uploading Data to your Virtual Machine with scp">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uploading-data-to-your-virtual-machine-with-scp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Data to your Virtual Machine with scp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-data-from-your-virtual-machine-with-scp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Downloading Data from your Virtual Machine with scp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploading-data-to-your-virtual-machine-with-pscp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Data to your Virtual Machine with PSCP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-data-from-your-virtual-machine-with-pscp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Downloading Data from your Virtual Machine with PSCP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-organization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project Organization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Which Editor?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-ctrl-or-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      Control, Ctrl, or ^ Key
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-scripts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing scripts
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-grep-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom grep control
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-the-script-into-a-program" class="md-nav__link">
+    <span class="md-ellipsis">
+      Making the script into a program
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-and-downloading-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving and Downloading Data
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving and Downloading Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getting-data-from-the-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting data from the cloud
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-files-between-your-laptop-and-nesi-with-jupyterhub" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving files between your laptop and NeSI with Jupyterhub
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-files-between-your-laptop-and-your-instance-aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving files between your laptop and your instance - AWS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transferring-data-between-your-local-machine-and-the-cloud" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transferring Data Between your Local Machine and the Cloud
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transferring Data Between your Local Machine and the Cloud">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uploading-data-to-your-virtual-machine-with-scp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Data to your Virtual Machine with scp
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Uploading Data to your Virtual Machine with scp">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uploading-data-to-your-virtual-machine-with-scp_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Data to your Virtual Machine with scp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-data-from-your-virtual-machine-with-scp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Downloading Data from your Virtual Machine with scp
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uploading-data-to-your-virtual-machine-with-pscp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading Data to your Virtual Machine with PSCP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#downloading-data-from-your-virtual-machine-with-pscp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Downloading Data from your Virtual Machine with PSCP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Writing Scripts and Working with Data</h1>
+
+<p>::::::::::::::::::::::::::::::::::::::: objectives</p>
+<ul>
+<li>Use the <code>nano</code> text editor to modify text files.</li>
+<li>Write a basic shell script.</li>
+<li>Use the <code>bash</code> command to execute a shell script.</li>
+<li>Use <code>chmod</code> to make a script an executable program.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>:::::::::::::::::::::::::::::::::::::::: questions</p>
+<ul>
+<li>How can we automate a commonly used set of commands?</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<script language="javascript" type="text/javascript">
+function set_page_view_defaults() {
+    document.getElementById('div_win').style.display = 'block';
+    document.getElementById('div_unix').style.display = 'none';
+};
+
+function change_content_by_platform(form_control){
+    if (!form_control || document.getElementById(form_control).value == 'win') {
+        set_page_view_defaults();
+    } else if (document.getElementById(form_control).value == 'unix') {
+        document.getElementById('div_win').style.display = 'none';
+        document.getElementById('div_unix').style.display = 'block';
+    } else {
+        alert("Error: Missing platform value for 'change_content_by_platform()' script!");
+    }
+}
+
+window.onload = set_page_view_defaults;
+</script>
+
+<h2 id="writing-files">Writing files<a class="headerlink" href="#writing-files" title="Permanent link">&para;</a></h2>
+<p>We've been able to do a lot of work with files that already exist, but what if we want to write our own files? We're not going to type in a FASTA file, but we'll see as we go through other tutorials, there are a lot of reasons we'll want to write a file, or edit an existing file.</p>
+<p>To add text to files, we're going to use a text editor called Nano. We're going to create a file to take notes about what we've been doing with the data files in <code>~/obss_2023/commandline/shell_data/untrimmed_fastq</code>.</p>
+<p>This is good practice when working in bioinformatics. We can create a file called <code>README.txt</code> that describes the data files in the directory or documents how the files in that directory were generated. As the name suggests, it's a file that we or others should read to understand the information in that directory.</p>
+<p>Let's change our working directory to <code>~/obss_2023/commandline/shell_data/untrimmed_fastq</code> using <code>cd</code>,
+then run <code>nano</code> to create a file called <code>README.txt</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/obss_2023/commandline/shell_data/untrimmed_fastq
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>$<span class="w"> </span>nano<span class="w"> </span>README.txt
+</code></pre></div>
+<p>You should see something like this:</p>
+<p><a class="glightbox" href="../fig/nano201711.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="nano201711.png" src="../fig/nano201711.png" /></a></p>
+<p>The text at the bottom of the screen shows the keyboard shortcuts for performing various tasks in <code>nano</code>. We will talk more about how to interpret this information soon.</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="which-editor">Which Editor?<a class="headerlink" href="#which-editor" title="Permanent link">&para;</a></h2>
+<p>When we say, "<code>nano</code> is a text editor," we really do mean "text": <code>nano</code> can
+only work with plain character data, not tables, images, or any other
+human-friendly media. We use <code>nano</code> in examples because it is one of the
+least complex text editors. However, because of this trait, <code>nano</code> may
+not be powerful enough or flexible enough for the work you need to do
+after this workshop. On Unix systems (such as Linux and Mac OS X),
+many programmers use <a href="https://www.gnu.org/software/emacs/">Emacs</a> or
+<a href="https://www.vim.org/">Vim</a> (both of which require more time to learn),
+or a graphical editor such as
+<a href="https://projects.gnome.org/gedit/">Gedit</a>. On Windows, you may wish to
+use <a href="https://notepad-plus-plus.org/">Notepad++</a>. Windows also has a built-in
+editor called <code>notepad</code> that can be run from the command line in the same
+way as <code>nano</code> for the purposes of this lesson.</p>
+<p>No matter what editor you use, you will need to know the default location where it searches
+for files and where files are saved. If you start an editor from the shell, it will (probably)
+use your current working directory as its default location. If you use
+your computer's start menu, the editor may want to save files in your desktop or
+documents directory instead. You can change this by navigating to
+another directory the first time you "Save As..."</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>Let's type in a few lines of text. Describe what the files in this
+directory are or what you've been doing with them.
+Once we're happy with our text, we can press <kbd>Ctrl</kbd>-<kbd>O</kbd> (press the <kbd>Ctrl</kbd> or <kbd>Control</kbd> key and, while
+holding it down, press the <kbd>O</kbd> key) to write our data to disk. You'll be asked what file we want to save this to:
+press <kbd>Return</kbd> to accept the suggested default of <code>README.txt</code>.</p>
+<p>Once our file is saved, we can use <kbd>Ctrl</kbd>-<kbd>X</kbd> to quit the <code>nano</code> editor and
+return to the shell.</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="control-ctrl-or-key">Control, Ctrl, or ^ Key<a class="headerlink" href="#control-ctrl-or-key" title="Permanent link">&para;</a></h2>
+<p>The Control key is also called the "Ctrl" key. There are various ways
+in which using the Control key may be described. For example, you may
+see an instruction to press the <kbd>Ctrl</kbd> key and, while holding it down,
+press the <kbd>X</kbd> key, described as any of:</p>
+<ul>
+<li><code>Control-X</code></li>
+<li><code>Control+X</code></li>
+<li><code>Ctrl-X</code></li>
+<li><code>Ctrl+X</code></li>
+<li><code>^X</code></li>
+<li><code>C-x</code></li>
+</ul>
+<p>In <code>nano</code>, along the bottom of the screen you'll see <code>^G Get Help ^O WriteOut</code>.
+This means that you can use <kbd>Ctrl</kbd>-<kbd>G</kbd> to get help and <kbd>Ctrl</kbd>-<kbd>O</kbd> to save your
+file.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>Now you've written a file. You can take a look at it with <code>less</code> or <code>cat</code>, or open it up again and edit it with <code>nano</code>.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<p>Open <code>README.txt</code> and add the date to the top of the file and save the file.</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
+<p>Use <code>nano README.txt</code> to open the file.<br />
+Add today's date and then use <kbd>Ctrl</kbd>-<kbd>X</kbd> followed by <code>y</code> and <kbd>Enter</kbd> to save.</p>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="writing-scripts">Writing scripts<a class="headerlink" href="#writing-scripts" title="Permanent link">&para;</a></h2>
+<p>A really powerful thing about the command line is that you can write scripts. Scripts let you save commands to run them and also lets you put multiple commands together. Though writing scripts may require an additional time investment initially, this can save you time as you run them repeatedly. Scripts can also address the challenge of reproducibility: if you need to repeat an analysis, you retain a record of your command history within the script.</p>
+<p>One thing we will commonly want to do with sequencing results is pull out bad reads and write them to a file to see if we can figure out what's going on with them. We're going to look for reads with long sequences of N's like we did before, but now we're going to write a script, so we can run it each time we get new sequences, rather than type the code in by hand each time.</p>
+<p>We're going to create a new file to put this command in. We'll call it <code>bad-reads-script.sh</code>. The <code>sh</code> isn't required, but using that extension tells us that it's a shell script.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>nano<span class="w"> </span>bad-reads-script.sh
+</code></pre></div>
+<p>Bad reads have a lot of N's, so we're going to look for <code>NNNNNNNNNN</code> with <code>grep</code>. We want the whole FASTQ record, so we're also going to get the one line above the sequence and the two lines below. We also want to look in all the files that end with <code>.fastq</code>, so we're going to use the <code>*</code> wildcard.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>-h<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>*.fastq<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^--&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>scripted_bad_reads.txt
+</code></pre></div>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="custom-grep-control">Custom <code>grep</code> control<a class="headerlink" href="#custom-grep-control" title="Permanent link">&para;</a></h2>
+<p>We introduced the <code>-v</code> option in <a href="../04-redirection/">the previous episode</a>, now we
+are using <code>-h</code> to "Suppress the prefixing of file names on output" according to the documentation shown by <code>man grep</code>.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>Type your <code>grep</code> command into the file and save it as before. Be careful that you did not add the <code>$</code> at the beginning of the line.</p>
+<p>Now comes the neat part. We can run this script. Type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>bash<span class="w"> </span>bad-reads-script.sh
+</code></pre></div>
+<p>It will look like nothing happened, but now if you look at <code>scripted_bad_reads.txt</code>, you can see that there are now reads in the file.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_1">Exercise<a class="headerlink" href="#exercise_1" title="Permanent link">&para;</a></h2>
+<p>We want the script to tell us when it's done.</p>
+<ol>
+<li>Open <code>bad-reads-script.sh</code> and add the line <code>echo "Script finished!"</code> after the <code>grep</code> command and save the file.</li>
+<li>Run the updated script.</li>
+</ol>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_1">Solution<a class="headerlink" href="#solution_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$ bash bad-reads-script.sh
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Script finished!
+</code></pre></div>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="making-the-script-into-a-program">Making the script into a program<a class="headerlink" href="#making-the-script-into-a-program" title="Permanent link">&para;</a></h2>
+<p>We had to type <code>bash</code> because we needed to tell the computer what program to use to run this script. Instead, we can turn this script into its own program. We need to tell the computer that this script is a program by making the script file executable. We can do this by changing the file permissions. We talked about permissions in <a href="../03-working-with-files/">an earlier episode</a>.</p>
+<p>First, let's look at the current permissions.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>bad-reads-script.sh
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">-rw-rw-r-- 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh</span>
+</code></pre></div>
+<p>We see that it says <code>-rw-r--r--</code>. This shows that the file can be read by any user and written to by the file owner (you). We want to change these permissions so that the file can be executed as a program. We use the command <code>chmod</code> like we did earlier when we removed write permissions. Here we are adding (<code>+</code>) executable permissions (<code>+x</code>).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>chmod<span class="w"> </span>+x<span class="w"> </span>bad-reads-script.sh
+</code></pre></div>
+<p>Now let's look at the permissions again.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>ls<span class="w"> </span>-l<span class="w"> </span>bad-reads-script.sh
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="go">-rwxrwxr-x 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh</span>
+</code></pre></div>
+<p>Now we see that it says <code>-rwxr-xr-x</code>. The <code>x</code>'s that are there now tell us we can run it as a program. So, let's try it! We'll need to put <code>./</code> at the beginning so the computer knows to look here in this directory for the program.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$<span class="w"> </span>./bad-reads-script.sh
+</code></pre></div>
+<p>The script should run the same way as before, but now we've created our very own computer program!</p>
+<p>You will learn more about writing scripts in <a href="https://datacarpentry.org/wrangling-genomics/05-automation">a later lesson</a>.</p>
+<h2 id="moving-and-downloading-data">Moving and Downloading Data<a class="headerlink" href="#moving-and-downloading-data" title="Permanent link">&para;</a></h2>
+<p>So far, we've worked with data that is pre-loaded on the instance in the cloud. Usually, however,
+most analyses begin with moving data onto the instance. Below we'll show you some commands to
+download data onto your instance, or to move data between your computer and the cloud.</p>
+<h3 id="getting-data-from-the-cloud">Getting data from the cloud<a class="headerlink" href="#getting-data-from-the-cloud" title="Permanent link">&para;</a></h3>
+<p>There are two programs that will download data from a remote server to your local
+(or remote) machine: <code>wget</code> and <code>curl</code>. They were designed to do slightly different
+tasks by default, so you'll need to give the programs somewhat different options to get
+the same behaviour, but they are mostly interchangeable.</p>
+<ul>
+<li>
+<p><code>wget</code> is short for "world wide web get", and it's basic function is to <em>download</em>
+  web pages or data at a web address.</p>
+</li>
+<li>
+<p><code>cURL</code> is a pun, it is supposed to be read as "see URL", so its basic function is
+  to <em>display</em> webpages or data at a web address.</p>
+</li>
+</ul>
+<p>Which one you need to use mostly depends on your operating system, as most computers will
+only have one or the other installed by default.</p>
+<p>Let's say you want to download some data from Ensembl. We're going to download a very small
+tab-delimited file that just tells us what data is available on the Ensembl bacteria server.
+Before we can start our download, we need to know whether we're using <code>curl</code> or <code>wget</code>.</p>
+<p>To see which program you have, type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>which<span class="w"> </span>curl
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>$<span class="w"> </span>which<span class="w"> </span>wget
+</code></pre></div>
+<p><code>which</code> is a BASH program that looks through everything you have
+installed, and tells you what folder it is installed to. If it can't
+find the program you asked for, it returns nothing, i.e. gives you no
+results.</p>
+<p>On Mac OSX, you'll likely get the following output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$<span class="w"> </span>which<span class="w"> </span>curl
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="go">/usr/bin/curl</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>$<span class="w"> </span>which<span class="w"> </span>wget
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="go">$</span>
+</code></pre></div>
+<p>This output means that you have <code>curl</code> installed, but not <code>wget</code>.</p>
+<p>Once you know whether you have <code>curl</code> or <code>wget</code>, use one of the
+following commands to download the file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$<span class="w"> </span><span class="nb">cd</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>$<span class="w"> </span>wget<span class="w"> </span>ftp://ftp.ensemblgenomes.org/pub/release-37/bacteria/species_EnsemblBacteria.txt
+</code></pre></div>
+<p>or</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>$<span class="w"> </span><span class="nb">cd</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>$<span class="w"> </span>curl<span class="w"> </span>-O<span class="w"> </span>ftp://ftp.ensemblgenomes.org/pub/release-37/bacteria/species_EnsemblBacteria.txt
+</code></pre></div>
+<p>Since we wanted to <em>download</em> the file rather than just view it, we used <code>wget</code> without
+any modifiers. With <code>curl</code> however, we had to use the -O flag, which simultaneously tells <code>curl</code> to
+download the page instead of showing it to us <strong>and</strong> specifies that it should save the
+file using the same name it had on the server: species_EnsemblBacteria.txt</p>
+<p>It's important to note that both <code>curl</code> and <code>wget</code> download to the computer that the
+command line belongs to. So, if you are logged into AWS on the command line and execute
+the <code>curl</code> command above in the AWS terminal, the file will be downloaded to your AWS
+machine, not your local one.</p>
+<h3 id="moving-files-between-your-laptop-and-nesi-with-jupyterhub">Moving files between your laptop and NeSI with Jupyterhub<a class="headerlink" href="#moving-files-between-your-laptop-and-nesi-with-jupyterhub" title="Permanent link">&para;</a></h3>
+<p>With Jupyterhub on NeSI, one of the easiest way to move small-medium sized files is to use the upload option on the file explorer panel</p>
+<p><a class="glightbox" href="../fig/nesi_images/upload.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../fig/nesi_images/upload.png" /></a></p>
+<p>And to download a file, you can right click on it in the explorer panel and select "Download"</p>
+<p><a class="glightbox" href="../fig/nesi_images/download.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="../fig/nesi_images/download.png" /></a></p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<p><strong>Original instructions for downloading data from AWS</strong></p>
+<h3 id="moving-files-between-your-laptop-and-your-instance-aws">Moving files between your laptop and your instance - AWS<a class="headerlink" href="#moving-files-between-your-laptop-and-your-instance-aws" title="Permanent link">&para;</a></h3>
+<p>What if the data you need is on your local computer, but you need to get it <em>into</em> the
+cloud? There are also several ways to do this, but it's <em>always</em> easier
+to start the transfer locally. <strong>This means if you're typing into a terminal, the terminal
+should not be logged into your instance, it should be showing your local computer. If you're
+using a transfer program, it needs to be installed on your local machine, not your instance.</strong></p>
+<h2 id="transferring-data-between-your-local-machine-and-the-cloud">Transferring Data Between your Local Machine and the Cloud<a class="headerlink" href="#transferring-data-between-your-local-machine-and-the-cloud" title="Permanent link">&para;</a></h2>
+<p>If you're using Windows with PuTTY instead of Git Bash, please select the alternative option here:
+<select id="id_platform" name="platformlist" onchange="change_content_by_platform('id_platform');return false;"></p>
+<option value="unix" id="id_unix" selected> Linux, Mac OS, Git Bash </option>
+<option value="win" id="id_win"> PuTTY </option>
+<p></select></p>
+<div id="div_unix" style="display:block">
+<h3 id="uploading-data-to-your-virtual-machine-with-scp">Uploading Data to your Virtual Machine with scp<a class="headerlink" href="#uploading-data-to-your-virtual-machine-with-scp" title="Permanent link">&para;</a></h3>
+<p><code>scp</code> stands for 'secure copy protocol', and is a widely used UNIX tool for moving files
+between computers. The simplest way to use <code>scp</code> is to run it in your local terminal,
+and use it to copy a single file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>scp<span class="w"> </span>&lt;file<span class="w"> </span>I<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>move&gt;<span class="w"> </span>&lt;where<span class="w"> </span>I<span class="w"> </span>want<span class="w"> </span>to<span class="w"> </span>move<span class="w"> </span>it&gt;
+</code></pre></div>
+<p>Note that you are always running <code>scp</code> locally, but that <em>doesn't</em> mean that
+you can only move files from your local computer. In order to move a file from your local computer to an AWS instance, the command would look like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>$<span class="w"> </span>scp<span class="w"> </span>&lt;<span class="nb">local</span><span class="w"> </span>file&gt;<span class="w"> </span>&lt;AWS<span class="w"> </span>instance&gt;
+</code></pre></div>
+<p>To move it back to your local computer, you re-order the <code>to</code> and <code>from</code> fields:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>$<span class="w"> </span>scp<span class="w"> </span>&lt;AWS<span class="w"> </span>instance&gt;<span class="w"> </span>&lt;<span class="nb">local</span><span class="w"> </span>file&gt;
+</code></pre></div>
+<h4 id="uploading-data-to-your-virtual-machine-with-scp_1">Uploading Data to your Virtual Machine with scp<a class="headerlink" href="#uploading-data-to-your-virtual-machine-with-scp_1" title="Permanent link">&para;</a></h4>
+<p>Open the terminal and use the <code>scp</code> command to upload a file (e.g. local_file.txt) to the dcuser home directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>$<span class="w">  </span>scp<span class="w"> </span>local_file.txt<span class="w"> </span>dcuser@ip.address:/home/dcuser/
+</code></pre></div>
+<h4 id="downloading-data-from-your-virtual-machine-with-scp">Downloading Data from your Virtual Machine with scp<a class="headerlink" href="#downloading-data-from-your-virtual-machine-with-scp" title="Permanent link">&para;</a></h4>
+<p>Let's download a text file from our remote machine. You should have a file that contains bad reads called ~/shell_data/scripted_bad_reads.txt.</p>
+<p><strong>Tip:</strong> If you are looking for another (or any really) text file in your home directory to use instead, try:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>$<span class="w"> </span>find<span class="w"> </span>~<span class="w"> </span>-name<span class="w"> </span>*.txt
+</code></pre></div>
+<p>Download the bad reads file in ~/shell_data/scripted_bad_reads.txt to your home ~/Download directory using the following command <strong>(make sure you substitute <a href="mailto:dcuser@ip.address">dcuser@ip.address</a> with your remote login credentials)</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>$<span class="w"> </span>scp<span class="w"> </span>dcuser@ip.address:/home/dcuser/shell_data/untrimmed_fastq/scripted_bad_reads.txt<span class="w"> </span>~/Downloads
+</code></pre></div>
+<p>Remember that in both instances, the command is run from your local machine, we've just flipped the order of the to and from parts of the command.</p>
+</div>
+<div id="div_win" style="display:block">
+<h3 id="uploading-data-to-your-virtual-machine-with-pscp">Uploading Data to your Virtual Machine with PSCP<a class="headerlink" href="#uploading-data-to-your-virtual-machine-with-pscp" title="Permanent link">&para;</a></h3>
+<p>If you're using a Windows PC without Git Bash, we recommend you use the <em>PSCP</em> program.
+This program is from the same suite of tools as the PuTTY program we have been using to connect.</p>
+<ol>
+<li>If you haven't done so, download pscp from <a href="https://the.earth.li/~sgtatham/putty/latest/x86/pscp.exe">http://the.earth.li/~sgtatham/putty/latest/x86/pscp.exe</a></li>
+<li>Make sure the <em>PSCP</em> program is somewhere you know on your computer. In this case,
+   your Downloads folder is appropriate.</li>
+<li>Open the windows <a href="https://en.wikipedia.org/wiki/Windows_PowerShell">PowerShell</a>;
+   go to your start menu/search enter the term <strong>'cmd'</strong>; you will be able to start the shell
+   (the shell should start from C:\Users\your-pc-username&gt;).</li>
+<li>Change to the Downloads directory:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>&gt;<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>Downloads
+</code></pre></div>
+<ol>
+<li>Locate a file on your computer that you wish to upload (be sure you know the path). Then upload it to your remote machine <strong>(you will need to know your AMI instance address (which starts with ec2), and login credentials)</strong>. You will be prompted to enter a password, and then your upload will begin. <strong>(make sure you substitute 'your-pc-username' for your actual pc username and 'ec2-54-88-126-85.compute-1.amazonaws.com' with your AMI instance address)</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>C:<span class="se">\U</span>ser<span class="se">\y</span>our-pc-username<span class="se">\D</span>ownloads&gt;<span class="w"> </span>pscp.exe<span class="w"> </span>local_file.txt<span class="w"> </span>dcuser@ec2-54-88-126-85.compute-1.amazonaws.com:/home/dcuser/
+</code></pre></div>
+<h3 id="downloading-data-from-your-virtual-machine-with-pscp">Downloading Data from your Virtual Machine with PSCP<a class="headerlink" href="#downloading-data-from-your-virtual-machine-with-pscp" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Follow the instructions in the Upload section to download (if needed) and access the <em>PSCP</em> program (steps 1-3)</li>
+<li>Download the text file to your current working directory (represented by a .) using the following command <strong>(make sure you substitute 'your-pc-username' for your actual pc username and 'ec2-54-88-126-85.compute-1.amazonaws.com' with your AMI instance address)</strong></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>C:<span class="se">\U</span>ser<span class="se">\y</span>our-pc-username<span class="se">\D</span>ownloads&gt;<span class="w"> </span>pscp.exe<span class="w"> </span>dcuser@ec2-54-88-126-85.compute-1.amazonaws.com:/home/dcuser/shell_data/untrimmed_fastq/scripted_bad_reads.txt<span class="w"> </span>.
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>C:<span class="se">\U</span>ser<span class="se">\y</span>our-pc-username<span class="se">\D</span>ownloads
+</code></pre></div>
+</div>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>:::::::::::::::::::::::::::::::::::::::: keypoints</p>
+<ul>
+<li>Scripts are a collection of commands executed together.</li>
+<li>Transferring information to and from virtual and local computers.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../04-redirection/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Redirection">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Redirection
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../06-organization/" class="md-footer__link md-footer__link--next" aria-label="Next: Project Organization">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Project Organization
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Introduction Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

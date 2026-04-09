@@ -1,0 +1,1399 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Genomics Aotearoa & NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/introduction-to-shel/04-redirection/">
+      
+      
+        <link rel="prev" href="../03-working-with-files/">
+      
+      
+        <link rel="next" href="../05-writing-scripts/">
+      
+      
+      <link rel="icon" href="../fig/nesi_ga.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Redirection - Introduction to  Shell for Bioinformatics</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#searching-files" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-header__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction to  Shell for Bioinformatics
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Redirection
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-nav__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    Introduction to  Shell for Bioinformatics
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introducing the Shell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-the-filesystem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Navigating Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-working-with-files/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Working with Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Redirection
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Redirection
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#searching-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Searching files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleotide-abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nucleotide abbreviations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#determining-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Determining quality
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redirecting-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirecting output
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      File extensions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-extensions-part-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      File extensions - part 2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-grep-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom grep control
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-manipulation-and-more-practices-with-pipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      File manipulation and more practices with pipes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-for-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing for loops
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-basename-in-for-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Basename in for loops
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-writing-scripts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Writing Scripts and Working with Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-organization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project Organization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#searching-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Searching files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nucleotide-abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nucleotide abbreviations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#determining-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      Determining quality
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redirecting-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirecting output
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      File extensions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-extensions-part-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      File extensions - part 2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-grep-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom grep control
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-manipulation-and-more-practices-with-pipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      File manipulation and more practices with pipes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-for-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing for loops
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-basename-in-for-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Basename in for loops
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Redirection</h1>
+
+<p>::::::::::::::::::::::::::::::::::::::: objectives</p>
+<ul>
+<li>Employ the <code>grep</code> command to search for information within files.</li>
+<li>Print the results of a command to a file.</li>
+<li>Construct command pipelines with two or more stages.</li>
+<li>Use <code>for</code> loops to run the same command for several input files.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>:::::::::::::::::::::::::::::::::::::::: questions</p>
+<ul>
+<li>How can I search within files?</li>
+<li>How can I combine existing commands to do new things?</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="searching-files">Searching files<a class="headerlink" href="#searching-files" title="Permanent link">&para;</a></h2>
+<p>We discussed in a previous episode how to search within a file using <code>less</code>. We can also
+search within files without even opening them, using <code>grep</code>. <code>grep</code> is a command-line
+utility for searching plain-text files for lines matching a specific set of
+characters (sometimes called a string) or a particular pattern
+(which can be specified using something called regular expressions). We're not going to work with
+regular expressions in this lesson, and are instead going to specify the strings
+we are searching for.
+Let's give it a try!</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="nucleotide-abbreviations">Nucleotide abbreviations<a class="headerlink" href="#nucleotide-abbreviations" title="Permanent link">&para;</a></h2>
+<p>The four nucleotides that appear in DNA are abbreviated <code>A</code>, <code>C</code>, <code>T</code> and <code>G</code>.
+Unknown nucleotides are represented with the letter <code>N</code>. An <code>N</code> appearing
+in a sequencing file represents a position where the sequencing machine was not able to
+confidently determine the nucleotide in that position. You can think of an <code>N</code> as being aNy
+nucleotide at that position in the DNA sequence.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>We'll search for strings inside of our fastq files. Let's first make sure we are in the correct
+directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/obss_2023/commandline/shell_data/untrimmed_fastq
+</code></pre></div>
+<p>Suppose we want to see how many reads in our file have really bad segments containing 10 consecutive unknown nucleotides (Ns).</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="determining-quality">Determining quality<a class="headerlink" href="#determining-quality" title="Permanent link">&para;</a></h2>
+<p>In this lesson, we're going to be manually searching for strings of <code>N</code>s within our sequence
+results to illustrate some principles of file searching. It can be really useful to do this
+type of searching to get a feel for the quality of your sequencing results, however, in your
+research you will most likely use a bioinformatics tool that has a built-in program for
+filtering out low-quality reads. You'll learn how to use one such tool in
+<a href="https://datacarpentry.org/wrangling-genomics/02-quality-control">a later lesson</a>.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>Let's search for the string NNNNNNNNNN in the SRR098026 file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>grep<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<p>This command returns a lot of output to the terminal. Every single line in the SRR098026
+file that contains at least 10 consecutive Ns is printed to the terminal, regardless of how long or short the file is.
+We may be interested not only in the actual sequence which contains this string, but
+in the name (or identifier) of that sequence. We discussed in a previous lesson
+that the identifier line immediately precedes the nucleotide sequence for each read
+in a FASTQ file. We may also want to inspect the quality scores associated with
+each of these reads. To get all of this information, we will return the line
+immediately before each match and the two lines immediately after each match.</p>
+<p>We can use the <code>-B</code> argument for grep to return a specific number of lines before
+each match. The <code>-A</code> argument returns a specific number of lines after each matching line. Here we want the line <em>before</em> and the two lines <em>after</em> each
+matching line, so we add <code>-B1 -A2</code> to our grep command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<p>One of the sets of lines returned by this command is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="go">CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="go">+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="go">#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+</code></pre></div>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Search for the sequence <code>GNATNACCACTTCC</code> in the <code>SRR098026.fastq</code> file.
+   Have your search return all matching lines and the name (or identifier) for each sequence
+   that contains a match.</p>
+</li>
+<li>
+<p>Search for the sequence <code>AAGTT</code> in both FASTQ files.
+   Have your search return all matching lines and the name (or identifier) for each sequence
+   that contains a match.</p>
+</li>
+</ol>
+<p>::::::::::::::: solution</p>
+<h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>grep -B1 GNATNACCACTTCC SRR098026.fastq</code></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>@SRR098026.245 HWUSI-EAS1599_1:2:1:2:801 length=35
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>GNATNACCACTTCCAGTGCTGANNNNNNNGGGATG
+</code></pre></div>
+<ol>
+<li><code>grep -B1 AAGTT *.fastq</code></li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>SRR097977.fastq-@SRR097977.11 209DTAAXX_Lenski2_1_7:8:3:247:351 length=36
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>SRR097977.fastq:GATTGCTTTAATGAAAAAGTCATATAAGTTGCCATG
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>--
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>SRR097977.fastq-@SRR097977.67 209DTAAXX_Lenski2_1_7:8:3:544:566 length=36
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>SRR097977.fastq:TTGTCCACGCTTTTCTATGTAAAGTTTATTTGCTTT
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>--
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>SRR097977.fastq-@SRR097977.68 209DTAAXX_Lenski2_1_7:8:3:724:110 length=36
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>SRR097977.fastq:TGAAGCCTGCTTTTTTATACTAAGTTTGCATTATAA
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>--
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>SRR097977.fastq-@SRR097977.80 209DTAAXX_Lenski2_1_7:8:3:258:281 length=36
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>SRR097977.fastq:GTGGCGCTGCTGCATAAGTTGGGTTATCAGGTCGTT
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>--
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>SRR097977.fastq-@SRR097977.92 209DTAAXX_Lenski2_1_7:8:3:353:318 length=36
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>SRR097977.fastq:GGCAAAATGGTCCTCCAGCCAGGCCAGAAGCAAGTT
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>--
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>SRR097977.fastq-@SRR097977.139 209DTAAXX_Lenski2_1_7:8:3:703:655 length=36
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>SRR097977.fastq:TTTATTTGTAAAGTTTTGTTGAAATAAGGGTTGTAA
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>--
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>SRR097977.fastq-@SRR097977.238 209DTAAXX_Lenski2_1_7:8:3:592:919 length=36
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>SRR097977.fastq:TTCTTACCATCCTGAAGTTTTTTCATCTTCCCTGAT
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>--
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>SRR098026.fastq-@SRR098026.158 HWUSI-EAS1599_1:2:1:1:1505 length=35
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>SRR098026.fastq:GNNNNNNNNCAAAGTTGATCNNNNNNNNNTGTGCG
+</code></pre></div>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="redirecting-output">Redirecting output<a class="headerlink" href="#redirecting-output" title="Permanent link">&para;</a></h2>
+<p><code>grep</code> allowed us to identify sequences in our FASTQ files that match a particular pattern.
+All of these sequences were printed to our terminal screen, but in order to work with these
+sequences and perform other operations on them, we will need to capture that output in some
+way.</p>
+<p>We can do this with something called "redirection". The idea is that
+we are taking what would ordinarily be printed to the terminal screen and redirecting it to another location.
+In our case, we want to print this information to a file so that we can look at it later and
+use other commands to analyze this data.</p>
+<p>The command for redirecting output to a file is <code>&gt;</code>.</p>
+<p>Let's try out this command and copy all the records (including all four lines of each record)
+in our FASTQ files that contain
+'NNNNNNNNNN' to another file called <code>bad_reads.txt</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="file-extensions">File extensions<a class="headerlink" href="#file-extensions" title="Permanent link">&para;</a></h2>
+<p>You might be confused about why we're naming our output file with a <code>.txt</code> extension. After all,
+it will be holding FASTQ formatted data that we're extracting from our FASTQ files. Won't it
+also be a FASTQ file? The answer is, yes - it will be a FASTQ file and it would make sense to
+name it with a <code>.fastq</code> extension. However, using a <code>.fastq</code> extension will lead us to problems
+when we move to using wildcards later in this episode. We'll point out where this becomes
+important. For now, it's good that you're thinking about file extensions!</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>The prompt should sit there a little bit, and then it should look like nothing
+happened. But type <code>ls</code>. You should see a new file called <code>bad_reads.txt</code>.</p>
+<p>We can check the number of lines in our new file using a command called <code>wc</code>.
+<code>wc</code> stands for <strong>word count</strong>. This command counts the number of words, lines, and characters
+in a file. The FASTQ file may change over time, so given the potential for updates,
+make sure your file matches your instructor's output.</p>
+<p>As of Sept. 2020, wc gives the following output:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>wc<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">  802    1338   24012 bad_reads.txt</span>
+</code></pre></div>
+<p>This will tell us the number of lines, words and characters in the file. If we
+want only the number of lines, we can use the <code>-l</code> flag for <code>lines</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">802 bad_reads.txt</span>
+</code></pre></div>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_1">Exercise<a class="headerlink" href="#exercise_1" title="Permanent link">&para;</a></h2>
+<p>How many sequences are there in <code>SRR098026.fastq</code>? Remember that every sequence is formed by four lines.</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_1">Solution<a class="headerlink" href="#solution_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="go">996</span>
+</code></pre></div>
+<p>Now you can divide this number by four to get the number of sequences in your fastq file.</p>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_2">Exercise<a class="headerlink" href="#exercise_2" title="Permanent link">&para;</a></h2>
+<p>How many sequences in <code>SRR098026.fastq</code> contain at least 3 consecutive Ns?</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_2">Solution<a class="headerlink" href="#solution_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>$<span class="w"> </span>grep<span class="w"> </span>NNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.txt
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="go">249</span>
+</code></pre></div>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>We might want to search multiple FASTQ files for sequences that match our search pattern.
+However, we need to be careful, because each time we use the <code>&gt;</code> command to redirect output
+to a file, the new output will replace the output that was already present in the file.
+This is called "overwriting" and, just like you don't want to overwrite your video recording
+of your kid's first birthday party, you also want to avoid overwriting your data files.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.txt
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="go">802 bad_reads.txt</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR097977.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.txt
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="go">0 bad_reads.txt</span>
+</code></pre></div>
+<p>Here, the output of our second call to <code>wc</code> shows that we no longer have any lines in our <code>bad_reads.txt</code> file. This is
+because the second file we searched (<code>SRR097977.fastq</code>) does not contain any lines that match our
+search sequence. So our file was overwritten and is now empty.</p>
+<p>We can avoid overwriting our files by using the command <code>&gt;&gt;</code>. <code>&gt;&gt;</code> is known as the "append redirect" and will
+append new output to the end of a file, rather than overwriting it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.txt
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="go">802 bad_reads.txt</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR097977.fastq<span class="w"> </span>&gt;&gt;<span class="w"> </span>bad_reads.txt
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="go">802 bad_reads.txt</span>
+</code></pre></div>
+<p>The output of our second call to <code>wc</code> shows that we have not overwritten our original data.</p>
+<p>We can also do this with a single line of code by using a wildcard:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>*.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.txt
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>$<span class="w"> </span>wc<span class="w"> </span>-l<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="go">802 bad_reads.txt</span>
+</code></pre></div>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="file-extensions-part-2">File extensions - part 2<a class="headerlink" href="#file-extensions-part-2" title="Permanent link">&para;</a></h2>
+<p>This is where we would have trouble if we were naming our output file with a <code>.fastq</code> extension.
+If we already had a file called <code>bad_reads.fastq</code> (from our previous <code>grep</code> practice)
+and then ran the command above using a <code>.fastq</code> extension instead of a <code>.txt</code> extension, <code>grep</code>
+would give us a warning.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>*.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="go">grep: input file ‘bad_reads.fastq&#39; is also the output</span>
+</code></pre></div>
+<p><code>grep</code> is letting you know that the output file <code>bad_reads.fastq</code> is also included in your
+<code>grep</code> call because it matches the <code>*.fastq</code> pattern. Be careful with this as it can lead to
+some unintended results.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>Since we might have multiple different criteria we want to search for,
+creating a new output file each time has the potential to clutter up our workspace. We also
+thus far haven't been interested in the actual contents of those files, only in the number of
+reads that we've found. We created the files to store the reads and then counted the lines in
+the file to see how many reads matched our criteria. There's a way to do this, however, that
+doesn't require us to create these intermediate files - the pipe command (<code>|</code>).</p>
+<p>This is probably not a key on
+your keyboard you use very much, so let's all take a minute to find that key.
+In the UK and US keyboard layouts, and several others,
+the <code>|</code> character can be found using the key combination <kbd>Shift</kbd>+<kbd>\</kbd>.
+This may be different for other language-specific layouts.</p>
+<p>What <code>|</code> does is take the output that is scrolling by on the terminal and uses that output as input to another command.
+When our output was scrolling by, we might have wished we could slow it down and
+look at it, like we can with <code>less</code>. Well it turns out that we can! We can redirect our output
+from our <code>grep</code> call through the <code>less</code> command.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
+</code></pre></div>
+<p>We can now see the output from our <code>grep</code> call within the <code>less</code> interface. We can use the up and down arrows
+to scroll through the output and use <code>q</code> to exit <code>less</code>.</p>
+<p>If we don't want to create a file before counting lines of output from our <code>grep</code> search, we could directly pipe
+the output of the grep search to the command <code>wc -l</code>. This can be helpful for investigating your output if you are not sure
+you would like to save it to a file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div>
+<p>Because we asked <code>grep</code> for all four lines of each FASTQ record, we need to divide the output by
+four to get the number of sequences that match our search pattern. Since 802 / 4 = 200.5 and we
+are expecting an integer number of records, there is something added or missing in <code>bad_reads.txt</code>.
+If we explore <code>bad_reads.txt</code> using <code>less</code>, we might be able to notice what is causing the uneven
+number of lines. Luckily, this issue happens by the end of the file so we can also spot it with <code>tail</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span>&gt;<span class="w"> </span>bad_reads.txt
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>$<span class="w"> </span>tail<span class="w"> </span>bad_reads.txt
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="go">@SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="go">ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="go">+SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="go">#!!!!!!!!!##########!!!!!!!!!!##!#!</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="go">--</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="go">--</span>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="go">@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="go">CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="go">+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="go">#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+</code></pre></div>
+<p>The fifth and six lines in the output display "--" which is the default action for <code>grep</code> to separate groups of
+lines matching the pattern, and indicate groups of lines which did not match the pattern so are not displayed.
+To fix this issue, we can redirect the output of grep to a second instance of <code>grep</code> as follows.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>$<span class="w"> </span>grep<span class="w"> </span>-B1<span class="w"> </span>-A2<span class="w"> </span>NNNNNNNNNN<span class="w"> </span>SRR098026.fastq<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^--&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>bad_reads.fastq
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>$<span class="w"> </span>tail<span class="w"> </span>bad_reads.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="go">+SRR098026.132 HWUSI-EAS1599_1:2:1:0:320 length=35</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="go">#!!!!!!!!!##########!!!!!!!!!!##!#!</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="go">@SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="go">ANNNNNNNNNTTCAGCGACTNNNNNNNNNNGTNGN</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="go">+SRR098026.133 HWUSI-EAS1599_1:2:1:0:1978 length=35</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="go">#!!!!!!!!!##########!!!!!!!!!!##!#!</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="go">@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35</span>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="go">CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a><span class="go">+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35</span>
+<a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="go">#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+</code></pre></div>
+<p>The <code>-v</code> option in the second <code>grep</code> search stands for <code>--invert-match</code> meaning <code>grep</code> will now only display the
+lines which do not match the searched pattern, in this case <code>'^--'</code>. The caret (<code>^</code>) is an <strong>anchoring</strong>
+character matching the beginning of the line, and the pattern has to be enclose by single quotes so <code>grep</code> does
+not interpret the pattern as an extended option (starting with --).</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="custom-grep-control">Custom <code>grep</code> control<a class="headerlink" href="#custom-grep-control" title="Permanent link">&para;</a></h2>
+<p>Use <code>man grep</code> to read more about other options to customize the output of <code>grep</code> including extended options,
+anchoring characters, and much more.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>Redirecting output is often not intuitive, and can take some time to get used to. Once you're
+comfortable with redirection, however, you'll be able to combine any number of commands to
+do all sorts of exciting things with your data!</p>
+<p>None of the command line programs we've been learning
+do anything all that impressive on their own, but when you start chaining
+them together, you can do some really powerful things very
+efficiently.</p>
+<p>::::::::::::::::::::::::::::::::::::::::: callout</p>
+<h2 id="file-manipulation-and-more-practices-with-pipes">File manipulation and more practices with pipes<a class="headerlink" href="#file-manipulation-and-more-practices-with-pipes" title="Permanent link">&para;</a></h2>
+<p>To practice a bit more with the tools we've added to our tool kit so far and learn a few extra ones you can follow <a href="Extra_lesson.md">this extra lesson</a> which uses the SRA metadata file.</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="writing-for-loops">Writing for loops<a class="headerlink" href="#writing-for-loops" title="Permanent link">&para;</a></h2>
+<p>Loops are key to productivity improvements through automation as they allow us to execute commands repeatedly.
+Similar to wildcards and tab completion, using loops also reduces the amount of typing (and typing mistakes).
+Loops are helpful when performing operations on groups of sequencing files, such as unzipping or trimming multiple
+files. We will use loops for these purposes in subsequent analyses, but will cover the basics of them for now.</p>
+<p>When the shell sees the keyword <code>for</code>, it knows to repeat a command (or group of commands) once for each item in a list.
+Each time the loop runs (called an iteration), an item in the list is assigned in sequence to the <strong>variable</strong>, and
+the commands inside the loop are executed, before moving on to the next item in the list. Inside the loop, we call for
+the variable's value by putting <code>$</code> in front of it. The <code>$</code> tells the shell interpreter to treat the <strong>variable</strong>
+as a variable name and substitute its value in its place, rather than treat it as text or an external command. In shell programming, this is usually called "expanding" the variable.</p>
+<p>Sometimes, we want to expand a variable without any whitespace to its right.
+Suppose we have a variable named <code>foo</code> that contains the text <code>abc</code>, and would
+like to expand <code>foo</code> to create the text <code>abcEFG</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>$<span class="w"> </span><span class="nv">foo</span><span class="o">=</span>abc
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>foo<span class="w"> </span>is<span class="w"> </span><span class="nv">$foo</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>foo<span class="w"> </span>is<span class="w"> </span>abc
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>foo<span class="w"> </span>is<span class="w"> </span><span class="nv">$fooEFG</span><span class="w">      </span><span class="c1"># doesn&#39;t work</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>foo<span class="w"> </span>is
+</code></pre></div>
+<p>The interpreter is trying to expand a variable named <code>fooEFG</code>, which (probably)
+doesn't exist. We can avoid this problem by enclosing the variable name in
+braces (<code>{</code> and <code>}</code>, also called "curly brackets"). <code>bash</code> treats the <code>#</code>
+character as a comment character. Any text on a line after a <code>#</code> is ignored by
+bash when evaluating the text as code.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>$<span class="w"> </span><span class="nv">foo</span><span class="o">=</span>abc
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>foo<span class="w"> </span>is<span class="w"> </span><span class="nv">$foo</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>foo<span class="w"> </span>is<span class="w"> </span>abc
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>foo<span class="w"> </span>is<span class="w"> </span><span class="si">${</span><span class="nv">foo</span><span class="si">}</span>EFG<span class="w">      </span><span class="c1"># now it works!</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>foo<span class="w"> </span>is<span class="w"> </span>abcEFG
+</code></pre></div>
+<p>Let's write a for loop to show us the first two lines of the fastq files we downloaded earlier. You will notice the shell prompt changes from <code>$</code> to <code>&gt;</code> and back again as we were typing in our loop. The second prompt, <code>&gt;</code>, is different to remind us that we haven't finished typing a complete command yet. A semicolon, <code>;</code>, can be used to separate two commands written on a single line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>../untrimmed_fastq/
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>$<span class="w"> </span><span class="k">for</span><span class="w"> </span>filename<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.fastq
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>&gt;<span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>&gt;<span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span>
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>&gt;<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<p>The for loop begins with the formula <code>for &lt;variable&gt; in &lt;group to iterate over&gt;</code>. In this case, the word <code>filename</code> is designated
+as the variable to be used over each iteration. In our case <code>SRR097977.fastq</code> and <code>SRR098026.fastq</code> will be substituted for <code>filename</code>
+because they fit the pattern of ending with .fastq in the directory we've specified. The next line of the for loop is <code>do</code>. The next line is
+the code that we want to execute. We are telling the loop to print the first two lines of each variable we iterate over. Finally, the
+word <code>done</code> ends the loop.</p>
+<p>After executing the loop, you should see the first two lines of both fastq files printed to the terminal. Let's create a loop that
+will save this information to a file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>$<span class="w"> </span><span class="k">for</span><span class="w"> </span>filename<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.fastq
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>&gt;<span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>&gt;<span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>seq_info.txt
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>&gt;<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<p>When writing a loop, you will not be able to return to previous lines once you have pressed Enter. Remember that we can cancel the current command using</p>
+<ul>
+<li><kbd>Ctrl</kbd>+<kbd>C</kbd></li>
+</ul>
+<p>If you notice a mistake that is going to prevent your loop for executing correctly.</p>
+<p>Note that we are using <code>&gt;&gt;</code> to append the text to our <code>seq_info.txt</code> file. If we used <code>&gt;</code>, the <code>seq_info.txt</code> file would be rewritten
+every time the loop iterates, so it would only have text from the last variable used. Instead, <code>&gt;&gt;</code> adds to the end of the file.</p>
+<h2 id="using-basename-in-for-loops">Using Basename in for loops<a class="headerlink" href="#using-basename-in-for-loops" title="Permanent link">&para;</a></h2>
+<p>Basename is a function in UNIX that is helpful for removing a uniform part of a name from a list of files. In this case, we will use basename to remove the <code>.fastq</code> extension from the files that we've been working with.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>$<span class="w"> </span>basename<span class="w"> </span>SRR097977.fastq<span class="w"> </span>.fastq
+</code></pre></div>
+<p>We see that this returns just the SRR accession, and no longer has the .fastq file extension on it.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="go">SRR097977</span>
+</code></pre></div>
+<p>If we try the same thing but use <code>.fasta</code> as the file extension instead, nothing happens. This is because basename only works when it exactly matches a string in the file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>$<span class="w"> </span>basename<span class="w"> </span>SRR097977.fastq<span class="w"> </span>.fasta
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="go">SRR097977.fastq</span>
+</code></pre></div>
+<p>Basename is really powerful when used in a for loop. It allows to access just the file prefix, which you can use to name things. Let's try this.</p>
+<p>Inside our for loop, we create a new name variable. We call the basename function inside the parenthesis, then give our variable name from the for loop, in this case <code>${filename}</code>, and finally state that <code>.fastq</code> should be removed from the file name. It's important to note that we're not changing the actual files, we're creating a new variable called name. The line &gt; echo $name will print to the terminal the variable name each time the for loop runs. Because we are iterating over two files, we expect to see two lines of output.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>$<span class="w"> </span><span class="k">for</span><span class="w"> </span>filename<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.fastq
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>&gt;<span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>&gt;<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="w"> </span>.fastq<span class="k">)</span>
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>&gt;<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>&gt;<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_3">Exercise<a class="headerlink" href="#exercise_3" title="Permanent link">&para;</a></h2>
+<p>Print the file prefix of all of the <code>.txt</code> files in our current directory.</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_3">Solution<a class="headerlink" href="#solution_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>$<span class="w"> </span><span class="k">for</span><span class="w"> </span>filename<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.txt
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>&gt;<span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>&gt;<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="w"> </span>.txt<span class="k">)</span>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>&gt;<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>&gt;<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>One way this is really useful is to move files. Let's rename all of our .txt files using <code>mv</code> so that they have the years on them, which will document when we created them.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>$<span class="w"> </span><span class="k">for</span><span class="w"> </span>filename<span class="w"> </span><span class="k">in</span><span class="w"> </span>*.txt
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>&gt;<span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>&gt;<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="w"> </span>.txt<span class="k">)</span>
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>&gt;<span class="w"> </span>mv<span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="w">  </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>_2019.txt
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>&gt;<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_4">Exercise<a class="headerlink" href="#exercise_4" title="Permanent link">&para;</a></h2>
+<p>Remove <code>_2019</code> from all of the <code>.txt</code> files.</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_4">Solution<a class="headerlink" href="#solution_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>$<span class="w"> </span><span class="k">for</span><span class="w"> </span>filename<span class="w"> </span><span class="k">in</span><span class="w"> </span>*_2019.txt
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>&gt;<span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>&gt;<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="k">$(</span>basename<span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="w"> </span>_2019.txt<span class="k">)</span>
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>&gt;<span class="w"> </span>mv<span class="w"> </span><span class="si">${</span><span class="nv">filename</span><span class="si">}</span><span class="w"> </span><span class="si">${</span><span class="nv">name</span><span class="si">}</span>.txt
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>&gt;<span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>:::::::::::::::::::::::::::::::::::::::: keypoints</p>
+<ul>
+<li><code>grep</code> is a powerful search tool with many options for customization.</li>
+<li><code>&gt;</code>, <code>&gt;&gt;</code>, and <code>|</code> are different ways of redirecting output.</li>
+<li><code>command &gt; file</code> redirects a command's output to a file.</li>
+<li><code>command &gt;&gt; file</code> redirects a command's output to a file without overwriting the existing contents of the file.</li>
+<li><code>command_1 | command_2</code> redirects the output of the first command as input to the second command.</li>
+<li><code>for</code> loops are used for iteration.</li>
+<li><code>basename</code> gets rid of repetitive parts of names.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../03-working-with-files/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Working with Files and Directories">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Working with Files and Directories
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../05-writing-scripts/" class="md-footer__link md-footer__link--next" aria-label="Next: Writing Scripts and Working with Data">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Writing Scripts and Working with Data
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Introduction Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

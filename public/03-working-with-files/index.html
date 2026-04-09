@@ -1,0 +1,1485 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Genomics Aotearoa & NeSI">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/introduction-to-shel/03-working-with-files/">
+      
+      
+        <link rel="prev" href="../02-the-filesystem/">
+      
+      
+        <link rel="next" href="../04-redirection/">
+      
+      
+      <link rel="icon" href="../fig/nesi_ga.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.30">
+    
+    
+      
+        <title>Working with Files and Directories - Introduction to  Shell for Bioinformatics</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#working-with-files" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-header__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction to  Shell for Bioinformatics
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Working with Files and Directories
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Introduction to  Shell for Bioinformatics" class="md-nav__button md-logo" aria-label="Introduction to  Shell for Bioinformatics" data-md-component="logo">
+      
+  <img src="../fig/nesi_ga.png" alt="logo">
+
+    </a>
+    Introduction to  Shell for Bioinformatics
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/introduction-to-shel" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/introduction-to-shel
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introducing the Shell
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-the-filesystem/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Navigating Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Working with Files and Directories
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Working with Files and Directories
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#our-data-set-fastq-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Our data set: FASTQ files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wildcards
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command History
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examining-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examining Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#details-on-the-fastq-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Details on the FASTQ format
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-moving-copying-and-removing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating, moving, copying, and removing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating, moving, copying, and removing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#copying-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copying Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Directories
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-renaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving / Renaming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-redirection/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Redirection
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-writing-scripts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Writing Scripts and Working with Data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-organization/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Project Organization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#working-with-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working with Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Working with Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#our-data-set-fastq-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Our data set: FASTQ files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wildcards
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command History
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examining-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examining Files
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#details-on-the-fastq-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      Details on the FASTQ format
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-moving-copying-and-removing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating, moving, copying, and removing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating, moving, copying, and removing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#copying-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Copying Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creating Directories
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#moving-renaming" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving / Renaming
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Removing
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercise_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Solution
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+  <h1>Working with Files and Directories</h1>
+
+<p>::::::::::::::::::::::::::::::::::::::: objectives</p>
+<ul>
+<li>View, search within, copy, move, and rename files. Create new directories.</li>
+<li>Use wildcards (<code>*</code>) to perform operations on multiple files.</li>
+<li>Make a file read only.</li>
+<li>Use the <code>history</code> command to view and repeat recently used commands.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>:::::::::::::::::::::::::::::::::::::::: questions</p>
+<ul>
+<li>How can I view and search file contents?</li>
+<li>How can I create, copy and delete files and directories?</li>
+<li>How can I control who has permission to modify a file?</li>
+<li>How can I repeat recently used commands?</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="working-with-files">Working with Files<a class="headerlink" href="#working-with-files" title="Permanent link">&para;</a></h2>
+<h3 id="our-data-set-fastq-files">Our data set: FASTQ files<a class="headerlink" href="#our-data-set-fastq-files" title="Permanent link">&para;</a></h3>
+<p>Now that we know how to navigate around our directory structure, let's
+start working with our sequencing files. We did a sequencing experiment and
+have two results files, which are stored in our <code>untrimmed_fastq</code> directory.</p>
+<h3 id="wildcards">Wildcards<a class="headerlink" href="#wildcards" title="Permanent link">&para;</a></h3>
+<p>Navigate to your <code>untrimmed_fastq</code> directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>~/obss_2023/commandline/shell_data/untrimmed_fastq
+</code></pre></div>
+<p>We are interested in looking at the FASTQ files in this directory. We can list
+all files with the .fastq extension using the command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>ls<span class="w"> </span>*.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">SRR097977.fastq  SRR098026.fastq</span>
+</code></pre></div>
+<p>The <code>*</code> character is a special type of character called a wildcard, which can be used to represent any number of any type of character.
+Thus, <code>*.fastq</code> matches every file that ends with <code>.fastq</code>.</p>
+<p>This command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>ls<span class="w"> </span>*977.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">SRR097977.fastq</span>
+</code></pre></div>
+<p>lists only the file that ends with <code>977.fastq</code>.</p>
+<p>This command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>ls<span class="w"> </span>/usr/bin/*.sh
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">/usr/bin/gettext.sh             /usr/bin/ibdiagm.sh   /usr/bin/mft_uninstall.sh       /usr/bin/unix-lpr.sh</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="go">/usr/bin/gflags_completions.sh  /usr/bin/lesspipe.sh  /usr/bin/mlnx_interface_mgr.sh</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="go">/usr/bin/gvmap.sh               /usr/bin/lprsetup.sh  /usr/bin/setup-nsssysinit.sh</span>
+</code></pre></div>
+<p>Lists every file in <code>/usr/bin</code> that ends in the characters <code>.sh</code>.
+Note that the output displays <strong>full</strong> paths to files, since
+each result starts with <code>/</code>.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise">Exercise<a class="headerlink" href="#exercise" title="Permanent link">&para;</a></h2>
+<p>Do each of the following tasks from your current directory using a single
+<code>ls</code> command for each:</p>
+<ol>
+<li>List all of the files in <code>/usr/bin</code> that start with the letter 'c'.</li>
+<li>List all of the files in <code>/usr/bin</code> that contain the letter 'a'.</li>
+<li>List all of the files in <code>/usr/bin</code> that end with the letter 'o'.</li>
+</ol>
+<p>Bonus: List all of the files in <code>/usr/bin</code> that contain the letter 'a' or the
+letter 'c'.</p>
+<p>Hint: The bonus question requires a Unix wildcard that we haven't talked about
+yet. Try searching the internet for information about Unix wildcards to find
+what you need to solve the bonus problem.</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution">Solution<a class="headerlink" href="#solution" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>ls /usr/bin/c*</code></li>
+<li><code>ls /usr/bin/*a*</code></li>
+<li><code>ls /usr/bin/*o</code><br />
+   Bonus: <code>ls /usr/bin/*[ac]*</code></li>
+</ol>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_1">Exercise<a class="headerlink" href="#exercise_1" title="Permanent link">&para;</a></h2>
+<p><code>echo</code> is a built-in shell command that writes its arguments, like a line of text to standard output.
+The <code>echo</code> command can also be used with pattern matching characters, such as wildcard characters.
+Here we will use the <code>echo</code> command to see how the wildcard character is interpreted by the shell.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>*.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">SRR097977.fastq SRR098026.fastq</span>
+</code></pre></div>
+<p>The <code>*</code> is expanded to include any file that ends with <code>.fastq</code>. We can see that the output of
+<code>echo *.fastq</code> is the same as that of <code>ls *.fastq</code>.</p>
+<p>What would the output look like if the wildcard could <em>not</em> be matched? Compare the outputs of
+<code>echo *.missing</code> and <code>ls *.missing</code>.</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_1">Solution<a class="headerlink" href="#solution_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>*.missing
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="go">*.missing</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>ls<span class="w"> </span>*.missing
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="go">ls: cannot access &#39;*.missing&#39;: No such file or directory</span>
+</code></pre></div>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="command-history">Command History<a class="headerlink" href="#command-history" title="Permanent link">&para;</a></h2>
+<p>If you want to repeat a command that you've run recently, you can access previous
+commands using the up arrow on your keyboard to go back to the most recent
+command. Likewise, the down arrow takes you forward in the command history.</p>
+<p>A few more useful shortcuts:</p>
+<ul>
+<li><kbd>Ctrl</kbd>+<kbd>C</kbd> will cancel the command you are writing, and give you a
+  fresh prompt.</li>
+<li><kbd>Ctrl</kbd>+<kbd>R</kbd> will do a reverse-search through your command history. This
+  is very useful.</li>
+<li><kbd>Ctrl</kbd>+<kbd>L</kbd> or the <code>clear</code> command will clear your screen.</li>
+</ul>
+<p>You can also review your recent commands with the <code>history</code> command, by entering:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>$<span class="w"> </span><span class="nb">history</span>
+</code></pre></div>
+<p>to see a numbered list of recent commands. You can reuse one of these commands
+directly by referring to the number of that command.</p>
+<p>For example, if your history looked like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="go">259  ls *</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="go">260  ls /usr/bin/*.sh</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="go">261  ls *R1*fastq</span>
+</code></pre></div>
+<p>then you could repeat command <a class="magiclink magiclink-github magiclink-issue" href="https://github.com/squidfunk/mkdocs-material/issues/260" title="GitHub Issue: squidfunk/mkdocs-material #260">#260</a> by entering:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>$<span class="w"> </span>!260
+</code></pre></div>
+<p>Type <code>!</code> (exclamation point) and then the number of the command from your history.
+You will be glad you learned this when you need to re-run very complicated commands.
+For more information on advanced usage of <code>history</code>, read section 9.3 of
+<a href="https://www.gnu.org/software/bash/manual/html_node/index.html">Bash manual</a>.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_2">Exercise<a class="headerlink" href="#exercise_2" title="Permanent link">&para;</a></h2>
+<p>Find the line number in your history for the command that listed all the .sh
+files in <code>/usr/bin</code>. Rerun that command.</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_2">Solution<a class="headerlink" href="#solution_2" title="Permanent link">&para;</a></h2>
+<p>First type <code>history</code>. Then use <code>!</code> followed by the line number to rerun that command.</p>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<h2 id="examining-files">Examining Files<a class="headerlink" href="#examining-files" title="Permanent link">&para;</a></h2>
+<p>We now know how to switch directories, run programs, and look at the
+contents of directories, but how do we look at the contents of files?</p>
+<p>One way to examine a file is to print out all of the
+contents using the program <code>cat</code>.</p>
+<p>Enter the following command from within the <code>untrimmed_fastq</code> directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>$<span class="w"> </span>cat<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<p>This will print out all of the contents of the <code>SRR098026.fastq</code> to the screen.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_3">Exercise<a class="headerlink" href="#exercise_3" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Print out the contents of the <code>~/obss_2023/commandline/shell_data/untrimmed_fastq/SRR097977.fastq</code> file. What is the last line of the file?</li>
+<li>From your home directory, and without changing directories,
+   use one short command to print the contents of all of the files in
+   the <code>~/obss_2023/commandline/shell_data/untrimmed_fastq</code> directory.</li>
+</ol>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_3">Solution<a class="headerlink" href="#solution_3" title="Permanent link">&para;</a></h2>
+<ol>
+<li>The last line of the file is <code>C:CCC::CCCCCCCC&lt;8?6A:C28C&lt;608'&amp;&amp;&amp;,'$</code>.</li>
+<li><code>cat ~/obss_2023/commandline/shell_data/untrimmed_fastq/*</code></li>
+</ol>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p><code>cat</code> is a terrific program, but when the file is really big, it can
+be annoying to use. The program, <code>less</code>, is useful for this
+case. <code>less</code> opens the file as read only, and lets you navigate through it. The navigation commands
+are identical to the <code>man</code> program.</p>
+<p>Enter the following command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>$<span class="w"> </span>less<span class="w"> </span>SRR097977.fastq
+</code></pre></div>
+<p>Some navigation commands in <code>less</code>:</p>
+<table>
+<thead>
+<tr>
+<th>key</th>
+<th>action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Space</kbd></td>
+<td>to go forward</td>
+</tr>
+<tr>
+<td><kbd>b</kbd></td>
+<td>to go backward</td>
+</tr>
+<tr>
+<td><kbd>g</kbd></td>
+<td>to go to the beginning</td>
+</tr>
+<tr>
+<td><kbd>G</kbd></td>
+<td>to go to the end</td>
+</tr>
+<tr>
+<td><kbd>q</kbd></td>
+<td>to quit</td>
+</tr>
+</tbody>
+</table>
+<p><code>less</code> also gives you a way of searching through files. Use the
+"/" key to begin a search. Enter the word you would like
+to search for and press <code>enter</code>. The screen will jump to the next location where
+that word is found.</p>
+<p><strong>Shortcut:</strong> If you hit "/" then "enter", <code>less</code> will repeat
+the previous search. <code>less</code> searches from the current location and
+works its way forward. Scroll up a couple lines on your terminal to verify
+you are at the beginning of the file. Note, if you are at the end of the file and search
+for the sequence "CAA", <code>less</code> will not find it. You either need to go to the
+beginning of the file (by typing <code>g</code>) and search again using <code>/</code> or you
+can use <code>?</code> to search backwards in the same way you used <code>/</code> previously.</p>
+<p>For instance, let's search forward for the sequence <code>TTTTT</code> in our file.
+You can see that we go right to that sequence, what it looks like,
+and where it is in the file. If you continue to type <code>/</code> and hit return, you will move
+forward to the next instance of this sequence motif. If you instead type <code>?</code> and hit
+return, you will search backwards and move up the file to previous examples of this motif.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_4">Exercise<a class="headerlink" href="#exercise_4" title="Permanent link">&para;</a></h2>
+<p>What are the next three nucleotides (characters) after the first instance of the sequence quoted above?</p>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_4">Solution<a class="headerlink" href="#solution_4" title="Permanent link">&para;</a></h2>
+<p><code>CAC</code></p>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>Remember, the <code>man</code> program actually uses <code>less</code> internally and
+therefore uses the same commands, so you can search documentation
+using "/" as well!</p>
+<p>There's another way that we can look at files, and in this case, just
+look at part of them. This can be particularly useful if we just want
+to see the beginning or end of the file, or see how it's formatted.</p>
+<p>The commands are <code>head</code> and <code>tail</code> and they let you look at
+the beginning and end of a file, respectively.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>$<span class="w"> </span>head<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="go">@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="go">NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="go">+SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="go">!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="go">@SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="go">NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="go">+SRR098026.2 HWUSI-EAS1599_1:2:1:0:312 length=35</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="go">!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="go">@SRR098026.3 HWUSI-EAS1599_1:2:1:0:570 length=35</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="go">NNNNNNNNNNNNNNNNANNNNNNNNNNNNNNNNNN</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>$<span class="w"> </span>tail<span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="go">+SRR098026.247 HWUSI-EAS1599_1:2:1:2:1311 length=35</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="go">#!##!#################!!!!!!!######</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="go">@SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="go">GNTGNGGTCATCATACGCGCCCNNNNNNNGGCATG</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="go">+SRR098026.248 HWUSI-EAS1599_1:2:1:2:118 length=35</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="go">B!;?!A=5922:##########!!!!!!!######</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="go">@SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="go">CNCTNTATGCGTACGGCAGTGANNNNNNNGGAGAT</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="go">+SRR098026.249 HWUSI-EAS1599_1:2:1:2:1057 length=35</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="go">A!@B!BBB@ABAB#########!!!!!!!######</span>
+</code></pre></div>
+<p>The <code>-n</code> option to either of these commands can be used to print the
+first or last <code>n</code> lines of a file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>$<span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="go">@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>$<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="go">A!@B!BBB@ABAB#########!!!!!!!######</span>
+</code></pre></div>
+<h2 id="details-on-the-fastq-format">Details on the FASTQ format<a class="headerlink" href="#details-on-the-fastq-format" title="Permanent link">&para;</a></h2>
+<p>Although it looks complicated (and it is), it's easy to understand the
+<a href="https://en.wikipedia.org/wiki/FASTQ_format">fastq</a> format with a little decoding. Some rules about the format
+include...</p>
+<table>
+<thead>
+<tr>
+<th>Line</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Always begins with '@' and then information about the read</td>
+</tr>
+<tr>
+<td>2</td>
+<td>The actual DNA sequence</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Always begins with a '+' and sometimes the same info in line 1</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Has a string of characters which represent the quality scores; must have same number of characters as line 2</td>
+</tr>
+</tbody>
+</table>
+<p>We can view the first complete read in one of the files in our dataset by using <code>head</code> to look at
+the first four lines.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>$<span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>SRR098026.fastq
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="go">@SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="go">NNNNNNNNNNNNNNNNCNNNNNNNNNNNNNNNNNN</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="go">+SRR098026.1 HWUSI-EAS1599_1:2:1:0:968 length=35</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="go">!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!</span>
+</code></pre></div>
+<p>All but one of the nucleotides in this read are unknown (<code>N</code>). This is a pretty bad read!
+Line 4 shows the quality for each nucleotide in the read. We'll cover the Fastq format more in depth tomorrow in when we look at <a href="https://otagobioinformaticsspringschool.github.io/wrangling-genomics-nesi/02-quality-control.html">assessing read quality</a> in the DNA variant calling workshop.</p>
+<h2 id="creating-moving-copying-and-removing">Creating, moving, copying, and removing<a class="headerlink" href="#creating-moving-copying-and-removing" title="Permanent link">&para;</a></h2>
+<p>Now we can move around in the file structure, look at files, and search files. But what if we want to copy files or move
+them around or get rid of them? Most of the time, you can do these sorts of file manipulations without the command line,
+but there will be some cases (like when you're working with a remote computer like we are for this lesson) where it will be
+impossible. You'll also find that you may be working with hundreds of files and want to do similar manipulations to all
+of those files. In cases like this, it's much faster to do these operations at the command line.</p>
+<h3 id="copying-files">Copying Files<a class="headerlink" href="#copying-files" title="Permanent link">&para;</a></h3>
+<p>When working with computational data, it's important to keep a safe copy of that data that can't be accidentally overwritten or deleted.
+For this lesson, our raw data is our FASTQ files. We don't want to accidentally change the original files, so we'll make a copy of them
+and change the file permissions so that we can read from, but not write to, the files.</p>
+<p>First, let's make a copy of one of our FASTQ files using the <code>cp</code> command.</p>
+<p>Navigate to the <code>~/obss_2023/commandline/shell_data/untrimmed_fastq</code> directory and enter:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>$<span class="w"> </span>cp<span class="w"> </span>SRR098026.fastq<span class="w"> </span>SRR098026-copy.fastq
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>$<span class="w"> </span>ls<span class="w"> </span>-F
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="go">SRR097977.fastq  SRR098026-copy.fastq  SRR098026.fastq</span>
+</code></pre></div>
+<p>We now have two copies of the <code>SRR098026.fastq</code> file, one of them named <code>SRR098026-copy.fastq</code>. We'll move this file to a new directory
+called <code>backup</code> where we'll store our backup data files.</p>
+<h3 id="creating-directories">Creating Directories<a class="headerlink" href="#creating-directories" title="Permanent link">&para;</a></h3>
+<p>The <code>mkdir</code> command is used to make a directory. Enter <code>mkdir</code>
+followed by a space, then the directory name you want to create:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>$<span class="w"> </span>mkdir<span class="w"> </span>backup
+</code></pre></div>
+<h3 id="moving-renaming">Moving / Renaming<a class="headerlink" href="#moving-renaming" title="Permanent link">&para;</a></h3>
+<p>We can now move our backup file to this directory. We can
+move files around using the command <code>mv</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>$<span class="w"> </span>mv<span class="w"> </span>SRR098026-copy.fastq<span class="w"> </span>backup
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>$<span class="w"> </span>ls<span class="w"> </span>backup
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="go">SRR098026-copy.fastq</span>
+</code></pre></div>
+<p>The <code>mv</code> command is also how you rename files. Let's rename this file to make it clear that this is a backup:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>backup
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>$<span class="w"> </span>mv<span class="w"> </span>SRR098026-copy.fastq<span class="w"> </span>SRR098026-backup.fastq
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>$<span class="w"> </span>ls
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="go">SRR098026-backup.fastq</span>
+</code></pre></div>
+<h3 id="file-permissions">File Permissions<a class="headerlink" href="#file-permissions" title="Permanent link">&para;</a></h3>
+<p>We've now made a backup copy of our file, but just because we have two copies, it doesn't make us safe. We can still accidentally delete or
+overwrite both copies. To make sure we can't accidentally mess up this backup file, we're going to change the permissions on the file so
+that we're only allowed to read (i.e. view) the file, not write to it (i.e. make new changes).</p>
+<p>View the current permissions on a file using the <code>-l</code> (long) flag for the <code>ls</code> command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>$<span class="w"> </span>ls<span class="w"> </span>-l
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="go">-rw-r--r-- 1 dcuser dcuser 43332 Nov 15 23:02 SRR098026-backup.fastq</span>
+</code></pre></div>
+<p>The first part of the output for the <code>-l</code> flag gives you information about the file's current permissions. There are ten slots in the
+permissions list. The first character in this list is related to file type, not permissions, so we'll ignore it for now. The next three
+characters relate to the permissions that the file owner has, the next three relate to the permissions for group members, and the final
+three characters specify what other users outside of your group can do with the file. We're going to concentrate on the three positions
+that deal with your permissions (as the file owner).</p>
+<p><a class="glightbox" href="../fig/rwx_figure.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="Permissions breakdown" src="../fig/rwx_figure.svg" /></a></p>
+<p>Here the three positions that relate to the file owner are <code>rw-</code>. The <code>r</code> means that you have permission to read the file, the <code>w</code>
+indicates that you have permission to write to (i.e. make changes to) the file, and the third position is a <code>-</code>, indicating that you
+don't have permission to carry out the ability encoded by that space (this is the space where <code>x</code> or executable ability is stored, we'll
+talk more about this in <a href="../05-writing-scripts/">a later lesson</a>).</p>
+<p>Our goal for now is to change permissions on this file so that you no longer have <code>w</code> or write permissions. We can do this using the <code>chmod</code> (change mode) command and subtracting (<code>-</code>) the write permission <code>-w</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>$<span class="w"> </span>chmod<span class="w"> </span>-w<span class="w"> </span>SRR098026-backup.fastq
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>$<span class="w"> </span>ls<span class="w"> </span>-l
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="go">-r--r--r-- 1 dcuser dcuser 43332 Nov 15 23:02 SRR098026-backup.fastq</span>
+</code></pre></div>
+<h3 id="removing">Removing<a class="headerlink" href="#removing" title="Permanent link">&para;</a></h3>
+<p>To prove to ourselves that you no longer have the ability to modify this file, try deleting it with the <code>rm</code> command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>$<span class="w"> </span>rm<span class="w"> </span>SRR098026-backup.fastq
+</code></pre></div>
+<p>You'll be asked if you want to override your file permissions:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="go">rm: remove write-protected regular file ‘SRR098026-backup.fastq&#39;?</span>
+</code></pre></div>
+<p>You should enter <code>n</code> for no. If you enter <code>n</code> (for no), the file will not be deleted. If you enter <code>y</code>, you will delete the file. This gives us an extra
+measure of security, as there is one more step between us and deleting our data files.</p>
+<p><strong>Important</strong>: The <code>rm</code> command permanently removes the file. Be careful with this command. It doesn't
+just nicely put the files in the Trash. They're really gone.</p>
+<p>By default, <code>rm</code> will not delete directories. You can tell <code>rm</code> to
+delete a directory using the <code>-r</code> (recursive) option. Let's delete the backup directory
+we just made.</p>
+<p>Enter the following command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>..
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>$<span class="w"> </span>rm<span class="w"> </span>-r<span class="w"> </span>backup
+</code></pre></div>
+<p>This will delete not only the directory, but all files within the directory. If you have write-protected files in the directory,
+you will be asked whether you want to override your permission settings.</p>
+<p>::::::::::::::::::::::::::::::::::::::: challenge</p>
+<h2 id="exercise_5">Exercise<a class="headerlink" href="#exercise_5" title="Permanent link">&para;</a></h2>
+<p>Starting in the <code>~/obss_2023/commandline/shell_data/untrimmed_fastq/</code> directory, do the following:</p>
+<ol>
+<li>Make sure that you have deleted your backup directory and all files it contains.</li>
+<li>Create a backup of each of your FASTQ files using <code>cp</code>. (Note: You'll need to do this individually for each of the two FASTQ files. We haven't
+   learned yet how to do this
+   with a wildcard.)</li>
+<li>Use a wildcard to move all of your backup files to a new backup directory.</li>
+<li>Change the permissions on all of your backup files to be write-protected.</li>
+</ol>
+<p>::::::::::::::: solution</p>
+<h2 id="solution_5">Solution<a class="headerlink" href="#solution_5" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>rm -r backup</code></li>
+<li><code>cp SRR098026.fastq SRR098026-backup.fastq</code> and <code>cp SRR097977.fastq SRR097977-backup.fastq</code></li>
+<li><code>mkdir backup</code> and <code>mv *-backup.fastq backup</code></li>
+<li><code>chmod -w backup/*-backup.fastq</code><br />
+   It's always a good idea to check your work with <code>ls -l backup</code>. You should see something like:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="go">-r--r--r-- 1 dcuser dcuser 47552 Nov 15 23:06 SRR097977-backup.fastq</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="go">-r--r--r-- 1 dcuser dcuser 43332 Nov 15 23:06 SRR098026-backup.fastq</span>
+</code></pre></div>
+<p>:::::::::::::::::::::::::</p>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+<p>:::::::::::::::::::::::::::::::::::::::: keypoints</p>
+<ul>
+<li>You can view file contents using <code>less</code>, <code>cat</code>, <code>head</code> or <code>tail</code>.</li>
+<li>The commands <code>cp</code>, <code>mv</code>, and <code>mkdir</code> are useful for manipulating existing files and creating new directories.</li>
+<li>You can view file permissions using <code>ls -l</code> and change permissions using <code>chmod</code>.</li>
+<li>The <code>history</code> command and the up arrow on your keyboard can be used to repeat recently used commands.</li>
+</ul>
+<p>::::::::::::::::::::::::::::::::::::::::::::::::::</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../02-the-filesystem/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Navigating Files and Directories">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Navigating Files and Directories
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../04-redirection/" class="md-footer__link md-footer__link--next" aria-label="Next: Redirection">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Redirection
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Introduction Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
