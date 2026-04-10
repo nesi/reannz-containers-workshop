@@ -1,60 +1,55 @@
-site_name: Introduction to  Shell for Bioinformatics
-site_author: Genomics Aotearoa & REANNZ
+site_name: Introduction to Containers
+site_author: REANNZ
 site_dir: public
-site_url: "https://genomicsaotearoa.github.io/introduction-to-shell/"
+site_url: "https://github.com/nesi/reannz-containers-workshop"
 
 #Repository information
 
-repo_name:  GenomicsAotearoa/introduction-to-shell
-repo_url: https://github.com/GenomicsAotearoa/introduction-to-shell
+repo_name: nesi/reannz-containers-workshop
+repo_url: https://github.com/nesi/reannz-containers-workshop
 
 nav:
   - Home: index.md
-  - "Overview : UNIX, Linux & UNIX Shell": 0-unixl-linux-overview.md
-  - "1. First steps - Say Goodbye to the 🐭 (mostly)": 01-introduction.md
-  - "2. Navigating Files and Directories": 02-the-filesystem.md
-  - "3. Working with Files and Directories": 03-working-with-files.md
-  - "4. Redirection": 04-redirection.md
-  - "5. Writing Scripts and Working with Data": 05-writing-scripts.md
-  - "6. Project Organisation": 06-organization.md
+  - 00-containers-overview.md
+  - 01-introduction.md
+  - 02-running-apptainer.md
+  - 03-pulling-images.md
+  - 04-building-images.md
+  - 05-running-MPI-containers.md
   - Supplementary:
     - "1. Supplementary - File manipulation": Supplementary/1-supplementary.md
 
 theme:
   name: material
   custom_dir: overrides
-  logo: fig/GA-logo-banner.png
-  favicon: fig/GA-image-black-favicon.png
-   # 404 page
+  logo: fig/reannz-logo.svg
+  favicon: fig/reannz-logo.svg
   static_templates:
     - 404.html
-
   palette:
 
-  # Palette toggle for automatic mode
-  - media: "(prefers-color-scheme)"
-    toggle:
-      icon: material/brightness-auto
-      name: Switch to light mode
-    primary: custom
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+      primary: custom
 
-  # Palette toggle for light mode
-  - media: "(prefers-color-scheme: light)"
-    scheme: default
-    primary: custom
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
 
-
-    toggle:
-      icon: material/brightness-7
-      name: Switch to dark mode
-
-  # Palette toggle for dark mode
-  - media: "(prefers-color-scheme: dark)"
-    scheme: slate
-    toggle:
-      icon: material/brightness-4
-      name: Switch to system preference
-    primary: custom
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+      primary: custom
   
   features:
     - navigation.tracking
@@ -64,7 +59,6 @@ theme:
     - navigation.footer
     - content.code.copy
     - content.code.annotate
-
 
   # Necessary for search to work properly
   include_search_page: false
@@ -129,7 +123,7 @@ extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
-copyright : Introduction Shell for Bioinformatics workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+copyright : Introduction to Containers workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
 
 
 extra_css:
