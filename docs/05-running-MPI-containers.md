@@ -1,4 +1,4 @@
-# 1. First steps - Say Goodbye to the 🐭  ( mostly)
+# 5. Running Containers with MPI
 
 !!! clipboard-list "Lesson Objectives"
 
