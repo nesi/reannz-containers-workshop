@@ -5,13 +5,10 @@
     - Know how to write a def file
     - Use the `build` command to build a container
 
-!!! clipboard-question "Questions"
 
-    - How 
+It is often very useful to be able to build your own containers. This is because you might want to:
 
-It is often very useful to be able to build your own containers to perform tasks. This is because you might want to:
-
-* Create an environment with toolchains that don't exist or exist exactly as you need them on Mahuika
+* Create an environment with toolchains that don't exist or don't exist exactly as you need them on Mahuika
 * Want to create environments that are transferable to other scientist on other HPC systems
 
 Here, we will learn how to build a container using Apptainer from a script called a definition file, known as a `def` file. 
@@ -35,14 +32,14 @@ In this section, we will write a `def` file containing the most important sectio
 
 ### The `Bootstrap` and `From` Section
 
-To build a container you need a base to build it on. `Bootstrap` and `From` allow apptainer to pull the base that you desire
+To build a container, you need a base to build it on. `Bootstrap` and `From` allow apptainer to pull the base that you desire:
 
-* `Bootstrap:` : The website that the base of the container comes from
-* `From:` : Related to `Bootstrap:`, what is the name of the base.
+* `Bootstrap` : The cloud that the base of the container comes from.
+* `From` : What is the name of the base you want to pull from the `Bootstrap` cloud.
 
-If you dont include these, the base of your container will be built from the OS of the computer you build your container on. 
+If you dont include these, the base will be built on the OS of the computer that you build the container on. 
 
-Example: 
+For example, if I wanted to build the container based on Ubuntu 22.04, I would include the following in the `Bootstrap` and `From` sections of the `def` file:
 
 ```def
 Bootstrap: docker
@@ -51,9 +48,9 @@ From: ubuntu:22.04
 
 ### The `%post` Section
 
-This section allows you to build your container how you would like to and install all the programs and packages that you want your container to contain. 
+This section allows you to build your container the way you want it and install all the programs and packages that you want your container to contain. 
 
-Example:
+For example, if I wanted to create a container that contained Python 3.12 (as well as all the other packages that Python needs), I could write it like so (Note: there are many ways one could write this `def` file. This is just one of those ways):
 
 ```def
 %post
@@ -102,9 +99,7 @@ Example:
 
 ### The `%runscript` Section
 
-This algorithm is responsible for determining what happens when you perform `apptainer run`. This is optional, as you could always execute your container using `apptainer exec`.
-
-Example:
+This algorithm is responsible for determining what happens when you perform `apptainer run`. This is optional, as you could always execute your container using `apptainer exec`. For example:
 
 ```def
 %runscript
@@ -148,9 +143,7 @@ INFO:    Creating SIF file...
 
 ## 3. Run or Execute your Container
 
-You can now run your container using `apptainer run <name-of-your-sif-file>`
-
-Example: 
+You can now run your container using `apptainer run <name-of-your-sif-file>`. For example: 
 
 ```bash
 geoff.weal@login03:$ apptainer run my_python3.12.sif
@@ -164,7 +157,7 @@ apptainer exec my_python3.12.sif python3.12 -c 'print("Hello Mars!")'
 Hello Mars!
 ```
 
-## Other Tips and Skills for Building Containers
+## Other Tips and Tricks for Building Containers
 
 ### Using the `$1`, `$2`, `$3`, and `$@` symbols in `apptainer run`
 

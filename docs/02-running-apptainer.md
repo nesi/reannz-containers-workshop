@@ -4,14 +4,17 @@
 
     - Run images using `run`, `exec` and `shell` in Apptainer
 
-!!! clipboard-question "Questions"
+The first three command that are crucial to know if you want to interact with containers are `run`, `exec` and `shell`. In this section, we will look at how to use all three of these commands and see what they do. 
 
-    - How do I run an container in apptainer?
-    - How do I perform any command using the container?
+For these examples, we will use the `hello_world.sif` container, which is based on ubuntu. This container is found in the `../` folder:
+
+```bash 
+cd .. 
+```
 
 ## The `run` command
 
-In this example, we will use the `hello_world.sif` container. Consider that we want to run a container as intended by the creator of the container. We would do this by using the `run` command in apptainer:
+Consider that we want to run a container as intended by its creator. We would do this by using the `run` command in apptainer:
 
 ```bash 
 apptainer run hello-world.sif
@@ -20,14 +23,14 @@ apptainer run hello-world.sif
 This container has been designed to print out `Hello World!` when run:
 
 ```bash 
-apptainer run hello-world.sif
+geoff.weal@login03:$ apptainer run hello-world.sif
 Hello World!
 ```
 
 We can look inside the container to see what the `run` command is meant to do for this container by using the `inspect --runscript` feature of Apptainer
 
 ```bash
-apptainer inspect --runscript hello-world.sif
+geoff.weal@login03:$ apptainer inspect --runscript hello-world.sif
 #!/bin/sh
 
     echo "Hello World!"
@@ -37,10 +40,12 @@ We will come back to the `inspect` feature later on.
 
 ## The `exec` command
 
-Next, lets consider we want to use the container, but we want to use it slightly differently to how the creator intended the container to be run. In this case, we want to use the `exec` command. For example, lets say that I want the container to actually print the text `Hello Mars!`. We could do this by typing the following into the terminal:
+Next, lets consider we want to use the container, but we want to use it slightly differently to how the creator intended the container to be run. In this case, we want to use the `exec` command. 
+
+For example, lets say that I want the container to actually print the text `Hello Mars!`. We could do this by typing the following into the terminal:
 
 ```bash
-apptainer exec hello-world.sif echo Hello Mars!
+geoff.weal@login03:$ apptainer exec hello-world.sif echo Hello Mars!
 Hello Mars!
 ```
 
@@ -54,13 +59,15 @@ What happened here
 We could keep doing this for the other planets in the solar system
 
 ```bash
-apptainer exec hello-world.sif echo Hello Venus!
+geoff.weal@login03:$ apptainer exec hello-world.sif echo Hello Venus!
 Hello Venus!
 ```
 
 ## The `shell` command
 
-Now lets consider that we actually want to work with the container interactively. To do this, we use the `shell` command. For example, lets consider that we want to interactively say hello to all the planets in the solar system. 
+Now lets consider that we actually want to work with the container interactively. To do this, we use the `shell` command. 
+
+For example, lets say we want to interactively say hello to all the planets in the solar system (and bye to Pluto). 
 
 ```bash
 geoff.weal@login03:$ apptainer shell hello-world.sif
@@ -78,6 +85,8 @@ Apptainer> echo Hello Saturn!
 Hello Saturn!
 Apptainer> echo Hello Neptune!
 Hello Neptune!
+Apptainer> echo Bye Pluto!
+Bye Pluto!
 Apptainer> exit
 exit
 ```
@@ -86,9 +95,78 @@ Using the `shell` command, we can interactively work inside the container just l
 
 ## Exercises
 
-OK, lets consider we have been given a 
+OK, lets consider we have been given a container called `lolcow.sif` (found in `..`):
+
+```bash 
+cd ..
+```
+
+!!! dumbbell "Question 1"
+
+    How would you run the container as specified by the creator?
+
+    ??? success "Solution"
+
+        Use the `run` command by typing in `apptainer run lolcow.sif`
+
+        ```bash
+            geoff.weal@login03:$ apptainer run lolcow.sif 
+             _________________________________________
+            / He that breaks a thing to find out what \
+            | it is has left the path of wisdom.      |
+            |                                         |
+            \ -- J.R.R. Tolkien                       /
+             -----------------------------------------
+                    \   ^__^
+                     \  (oo)\_______
+                        (__)\       )\/\
+                            ||----w |
+                            ||     ||
+        ```
+
+!!! dumbbell "Question 2"
+
+    How would you get the cow to say "Hello Mars!"?
+
+    Note: You will need to execute the line ``cowsay Hello Mars!`` in your command
+
+    ??? success "Solution"
+
+        There are two solutions to this
+
+        1. Use the 'exec' command by typing in in `apptainer exec lolcow.sif cowsay Hello Mars!`
+
+        ```bash
+            geoff.weal@login03:$ apptainer exec lolcow.sif cowsay Hello Mars!
+             _____________
+            < Hello Mars! >
+             -------------
+                    \   ^__^
+                     \  (oo)\_______
+                        (__)\       )\/\
+                            ||----w |
+                            ||     ||
+        ```
+
+        2. Or, use the `shell` command by doing the following:
+
+        ```bash
+        geoff.weal@login03:$ apptainer shell lolcow.sif
+        Apptainer> cowsay Hello Mars!
+         _____________
+        < Hello Mars! >
+         -------------
+                \   ^__^
+                 \  (oo)\_______
+                    (__)\       )\/\
+                        ||----w |
+                        ||     ||
+        Apptainer> exit  
+        exit
+        ```
+
 
 
 !!! graduation-cap "Keypoints"
 
-- Use `apptainer --help` to list all the options available in Apptainer
+    - Use `apptainer run` to list all the options available in Apptainer

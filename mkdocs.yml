@@ -13,7 +13,7 @@ nav:
   - 00-containers-overview.md
   - 01-introduction.md
   - 02-running-apptainer.md
-  - 03-pulling-images.md
+  - 03-pulling-and-running-images.md
   - 04-building-images.md
   - 05-running-MPI-containers.md
   - Supplementary:
