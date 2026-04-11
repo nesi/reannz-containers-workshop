@@ -92,10 +92,10 @@ We will start by looking at the 5 most important commands in apptainer. These ar
 
 Some others that we will also look at (but are less essential) are:
 
-* `cache`
-* `inspect`
-* `run-help`
-* `verify`
+* `inspect`: 
+* `cache`: 
+* `test`: 
+* `run-help`: 
 
 
 !!! graduation-cap "Takeaway Points"

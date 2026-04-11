@@ -16,6 +16,7 @@ nav:
   - 03-pulling-and-running-images.md
   - 04-building-images.md
   - 05-running-MPI-containers.md
+  - 06-other-commands.md
   - Supplementary:
     - Supplementary/1-supplementary.md
 
