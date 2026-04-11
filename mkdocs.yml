@@ -19,6 +19,7 @@ nav:
     - 05-editting-containers.md
     - 06-running-MPI-containers.md
   - Day 2 - Advanced:
+    - recap-beginner-class.md
     - 07-other-commands.md
   - Supplementary:
     - Supplementary/1-supplementary.md
