@@ -971,16 +971,16 @@
 }
 .md-typeset .admonition.clipboard-list,
 .md-typeset details.clipboard-list {
-  border-color: rgb(235, 235, 235);
+  border-color: rgba(255, 255, 255);
 }
 .md-typeset .clipboard-list > .admonition-title,
 .md-typeset .clipboard-list > summary {
-  color:rgb(225, 225, 236);
-  background-color: rgba(5, 6, 75, 0.842);
+  color: #ffffff;   /* white text */
+  background-color: #001c36;
 }
 .md-typeset .clipboard-list > .admonition-title::before,
 .md-typeset .clipboard-list > summary::before {
-  background-color: rgba(238, 93, 9, 0.966);
+  background-color: rgba(255, 255, 255, 1);
   -webkit-mask-image: var(--md-admonition-icon--clipboard-list);
           mask-image: var(--md-admonition-icon--clipboard-list);
 }
@@ -1020,21 +1020,33 @@
   -webkit-mask-image: var(--md-admonition-icon--graduation-cap);
           mask-image: var(--md-admonition-icon--graduation-cap);
 }
+[data-md-color-scheme="slate"]
+.md-typeset .graduation-cap > .admonition-title::before,
+[data-md-color-scheme="slate"]
+.md-typeset .graduation-cap > summary::before {
+  background-color: #00bcd4; /* darker cyan-blue */
+
+  filter: drop-shadow(0 0 3px #00bcd4)
+          drop-shadow(0 0 7px rgba(0, 188, 212, 0.7));
+}
+
+
 
 :root {
   --md-admonition-icon--dumbbell: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M96 64c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32l0 160 0 64 0 160c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-64-32 0c-17.7 0-32-14.3-32-32l0-64c-17.7 0-32-14.3-32-32s14.3-32 32-32l0-64c0-17.7 14.3-32 32-32l32 0 0-64zm448 0l0 64 32 0c17.7 0 32 14.3 32 32l0 64c17.7 0 32 14.3 32 32s-14.3 32-32 32l0 64c0 17.7-14.3 32-32 32l-32 0 0 64c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-160 0-64 0-160c0-17.7 14.3-32 32-32l32 0c17.7 0 32 14.3 32 32zM416 224l0 64-192 0 0-64 192 0z"/></svg>')
 }
 .md-typeset .admonition.dumbbell,
 .md-typeset details.dumbbell {
-  border-color: rgb(255,255,0);
+  border-color: rgb(255,255,255);
 }
 .md-typeset .dumbbell > .admonition-title,
 .md-typeset .dumbbell > summary {
-  background-color: rgba(255,255,0, 0.2);
+  color: #ffffff;   /* white text */
+  background-color: #001c36;
 }
 .md-typeset .dumbbell > .admonition-title::before,
 .md-typeset .dumbbell > summary::before {
-  background-color: rgb(25,25,112);
+  background-color: rgb(255,255,255);
   -webkit-mask-image: var(--md-admonition-icon--dumbbell);
           mask-image: var(--md-admonition-icon--dumbbell);
 }

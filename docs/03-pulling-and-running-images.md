@@ -204,6 +204,9 @@ In this case, I am using the version of alpine that is currently stored in the a
         In this case, because I have already downloaded the `docker://python:3.14-alpine` image once before, apptainer is using the cached version of `docker://python:3.14-alpine`.
 
 
-!!! graduation-cap "Keypoints"
+## Takeaway Points
 
-    - Use `apptainer --help` to list all the options available in Apptainer
+!!! graduation-cap "What you take away from this lesson"
+
+    - Can pull a container from the cloud using the `pull` command
+    - Can run a container directly from the cloud using `run`, `exec`, or `shell`

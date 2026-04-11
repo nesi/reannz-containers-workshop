@@ -2,18 +2,8 @@
 
 !!! clipboard-list "Lesson Objectives"
 
-    - Explain the similarities and differences between a file and a directory.
-    - Translate an absolute path into a relative path and vice versa.
-    - Construct absolute and relative paths that identify specific files and directories.
-    - Use options and arguments to change the behaviour of a shell command.
-    - Demonstrate the use of tab completion and explain its advantages.
-
-
-!!! clipboard-question "Questions"
-
-    - How can I move around on my computer?
-    - How can I see what files and directories I have?
-    - How can I specify the location of a file or directory on my computer?
+    - Know about the `apptainer` command in the terminal
+    - Know about `run`, `exec`, `shell`, `pull` and `build` commands
 
 
 Apptainer is loaded on mahuika by default. If you type in `apptainer --version` into the terminal:
@@ -92,21 +82,22 @@ Examples:
   $ apptainer help instance start
 ```
 
-We will be looking at a few of these, in particular:
+We will start by looking at the 5 most important commands in apptainer. These are:
 
-* `build`
+1. **`run`**: Run a specific command as designed by the creator of the container.
+2. **`exec`**: Execute a custom command that you want to run on the container.
+3. **`shell`**: Perform tasks on the container interactively.
+4. **`pull`**: Pull (download) a container from the cloud.
+5. **`build`**: Construct a container from a definition (`def`) file.
+
+Some others that we will also look at (but are less essential) are:
+
 * `cache`
-* `exec`
 * `inspect`
-* `pull`
-* `run`
 * `run-help`
-* `shell`
 * `verify`
 
 
+!!! graduation-cap "Takeaway Points"
 
-
-!!! graduation-cap "Keypoints"
-
-- Use `apptainer --help` to list all the options available in Apptainer
+    - Know of the 5 most important commands in apptainer: `run`, `exec`, `shell`, `pull`, `build`

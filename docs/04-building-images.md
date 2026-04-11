@@ -157,7 +157,7 @@ apptainer exec my_python3.12.sif python3.12 -c 'print("Hello Mars!")'
 Hello Mars!
 ```
 
-## Other Tips and Tricks for Building Containers
+## Other Useful Tips and Tricks
 
 ### Using the `$1`, `$2`, `$3`, and `$@` symbols in `apptainer run`
 
@@ -215,22 +215,114 @@ apptainer run tip3.sif Mercury Venus Earth Mars Jupiter Saturn Neptune
 Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 ```
 
+## Exercises
 
-## Extra for those Interested
+!!! dumbbell "Question 1"
+
+    Write a `def` file that will allows the user build a container that runs `lolcow` from their terminal.
+
+    Hint: The instructions for building lolcow are:
+
+    ```bash
+    apt-get -y update
+    apt-get -y install fortune cowsay lolcat
+    ```
+
+    and the way you run lolcow is by doing the following in the terminal:
+
+    ```bash
+    fortune | cowsay | lolcat
+    ```
+
+    ??? success "Solution"
+
+        The def file for `lolcow` is:
+
+        ```bash
+        Bootstrap: docker
+        From: ubuntu:24.04
+
+        %post
+            apt-get -y update
+            apt-get -y install fortune cowsay lolcat
+
+        %runscript
+            fortune | cowsay | lolcat
+        ```
+
+!!! dumbbell "Question 2"
+
+    Using the answer from Question 1, how would you build and run the `lolcow` container?
+
+    ??? success "Solution"
+
+        Type into the terminal:
+
+        ```bash
+        apptainer build lolcow.sif lolcow.def
+        ```
+
+        You will see something like this as the `lolcow` container is being built:
+
+        ```bash
+        geoff.weal@login03:~$ apptainer build lolcow.sif lolcow.def
+        INFO:    User not listed in /etc/subuid, trying root-mapped namespace
+        INFO:    The %post section will be run under the fakeroot command
+        INFO:    Starting build...
+        INFO:    Fetching OCI image...
+        28.4MiB / 28.4MiB [================================================================================================================================================================================] 100 % 9.4 MiB/s 0s
+        INFO:    Extracting OCI image...
+        INFO:    Inserting Apptainer configuration...
+        INFO:    Running post scriptlet
+        + apt-get -y update
+        ...
+        done.
+        INFO:    Adding environment to container
+        INFO:    Adding runscript
+        INFO:    Creating SIF file...
+        [============================================================================================================================================================================================================] 100 % 0s
+        INFO:    Build complete: lolcow.sif
+        ```
+
+        You can then run the `lolcow` container by running in the terminal
+
+        ```bash
+        apptainer run lolcow.sif
+        ```
+
+        This will give an output like this:
+
+        ```bash
+        geoff.weal@login03:~$ apptainer run lolcow.sif
+         ________________________________________
+        / No violence, gentlemen -- no violence, \
+        | I beg of you! Consider the furniture!  |
+        |                                        |
+        \ -- Sherlock Holmes                     /
+         ----------------------------------------
+                \   ^__^
+                 \  (oo)\_______
+                    (__)\       )\/\
+                        ||----w |
+                        ||     ||
+        ```
+
+!!! dumbbell "Question 3"
+
+    Using the skills you have learnt in this tutorial, create your own container for running a program that would be useful for you on Mahuika. 
+
+## Takeaway Points
+
+!!! graduation-cap "What you take away from this lesson"
+
+    - Can write a `def` file that apptainer can use to build a container, including the:
+        - `Bootstrap` and `From` sections for downloading the base of the container
+        - `%post` section for customising what is built when building the container.
+        - `%runscript` section for write the desired command you would commonly want the user to run when using the container.
+    - Understand how to use the `build` command for building a container from the `def` file
+    - Know how to include `$1`, `$2`, `$3`, and `$@` symbols in `%runscript` so the user can pass arguments into `apptainer run`
 
 
-Other sections of the `def` file (optional): 
-
-* `%arguments`: These are variables that are referred to during a build
-* `%setup`: 
-* `%files`
-* `%environment`
-* `%post`
-* `%runscript`
-* `%startscript`
-* `%test`
-* `%labels`
-* `%help`
 
 
 
@@ -238,81 +330,3 @@ Other sections of the `def` file (optional):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-An example of a `def` file is shown below:
-
-```def
-Bootstrap: docker
-From: ubuntu:{{ VERSION }}
-Stage: build
-
-%arguments
-    VERSION=22.04
-
-%setup
-    touch /file1
-    touch ${APPTAINER_ROOTFS}/file2
-
-%files
-    /file1
-    /file1 /opt
-
-%environment
-    export LISTEN_PORT=54321
-    export LC_ALL=C
-
-%post
-    apt-get update && apt-get install -y netcat
-    NOW=`date`
-    echo "export NOW=\"${NOW}\"" >> $APPTAINER_ENVIRONMENT
-
-%runscript
-    echo "Container was created $NOW"
-    echo "Arguments received: $*"
-    exec echo "$@"
-
-%startscript
-    nc -lp $LISTEN_PORT
-
-%test
-    grep -q NAME=\"Ubuntu\" /etc/os-release
-    if [ $? -eq 0 ]; then
-        echo "Container base is Ubuntu as expected."
-    else
-        echo "Container base is not Ubuntu."
-        exit 1
-    fi
-
-%labels
-    Author myuser@example.com
-    Version v0.0.1
-
-%help
-    This is a demo container used to illustrate a def file that uses all
-    supported sections.
-```
-
-Note that this is a very complete `def` file which makes it look overwhelming. In general, you do not need to include all these features. We show it here just so we can describe all the features you can include in a `def` file. 
-
-
-
-
-
-!!! graduation-cap "Keypoints"
-
-- Use `apptainer --help` to list all the options available in Apptainer

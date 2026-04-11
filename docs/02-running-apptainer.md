@@ -165,8 +165,21 @@ cd ..
         exit
         ```
 
+## Takeaway Points
+
+!!! graduation-cap "What you take away from this lesson"
+
+    - Understand how to use the `run` command to perform a specific command as designed by the creator of the container.
+    - Know how to use `exec` to perform custom tasks in the container.
+    - Can use `shell` to run an interactive session in the container.
 
 
-!!! graduation-cap "Keypoints"
 
-    - Use `apptainer run` to list all the options available in Apptainer
+
+
+
+
+
+
+
+

@@ -17,7 +17,7 @@ nav:
   - 04-building-images.md
   - 05-running-MPI-containers.md
   - Supplementary:
-    - "1. Supplementary - File manipulation": Supplementary/1-supplementary.md
+    - Supplementary/1-supplementary.md
 
 theme:
   name: material
