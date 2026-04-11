@@ -92,10 +92,10 @@ We will start by looking at the 5 most important commands in apptainer. These ar
 
 Some others that we will also look at (but are less essential) are:
 
-* `inspect`: 
-* `cache`: 
-* `test`: 
-* `run-help`: 
+* `inspect`: To check out features of your container, including the `%runscript` and `def` file.
+* `cache`: To check out and remove files in th eapptainer cache.
+* `test`: Allows the user to test the container as designed by the creator of the container. 
+* `run-help`: Allows the creator to provide notes to help explain how to use the container. 
 
 
 !!! graduation-cap "Takeaway Points"

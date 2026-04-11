@@ -208,3 +208,13 @@ geoff.weal@login03:~$ apptainer run-help lolcow.sif
     TEST:
       apptainer test lolcow.sif
 ```
+
+## Takeaway Points
+
+!!! graduation-cap "What you take away from this lesson"
+
+    - Understand the following commands:
+        * `inspect`: To check out features of your container, including the `%runscript` and `def` file.
+        * `cache`: To check out and remove files in th eapptainer cache.
+        * `test`: Allows the user to test the container as designed by the creator of the container. 
+        * `run-help`: Allows the creator to provide notes to help explain how to use the container. 
