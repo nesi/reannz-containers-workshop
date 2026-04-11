@@ -2,66 +2,10 @@
 
 !!! clipboard-list "Lesson Objectives"
 
-    - Learn how to use the `inspect`, `cache`, `test`, and `run-help` commands in Apptainer
+    - Learn how to use the `cache`, `test`, and `run-help` commands in Apptainer
 
 In this section, we will wrap up by learning about some subtle but helpful commands that one can use in Apptainer
 
-## The `inspect` command
-
-This command allows the user to learn about features of the container, such as the architecture the container was built using, and the base the container was built on. If you type in 
-
-```bash
-apptainer inspect
-```
-
-into the terminal, you will get the following output:
-
-```bash
-geoff.weal@login03:~$ apptainer inspect lolcow.sif
-org.label-schema.build-arch: amd64
-org.label-schema.build-date: Friday_10_April_2026_15:57:1_NZST
-org.label-schema.schema-version: 1.0
-org.label-schema.usage.apptainer.version: 1.4.5-3.el9
-org.label-schema.usage.singularity.deffile.bootstrap: docker
-org.label-schema.usage.singularity.deffile.from: ubuntu:24.04
-org.opencontainers.image.version: 24.04
-```
-
-And, as mentioned previously, you can also use this command to learn what the `run` command will do by typing 
-
-```bash
-apptainer inspect --runscript
-``` 
-
-into the terminal:
-
-```bash
-geoff.weal@login03:~$ apptainer inspect --runscript lolcow.sif
-#!/bin/sh
-
-    fortune | cowsay | lolcat
-```
-
-We can also read the `def` file that was used to build this container by typing 
-
-```bash
-apptainer inspect --deffile
-``` 
-
-into the terminal:
-
-```bash
-geoff.weal@login03:/nesi/project/nesi99999/geoffreyweal/Tutorials/containers$ apptainer inspect --deffile lolcow.sif
-Bootstrap: docker
-From: ubuntu:24.04
-
-%post
-    apt-get -y update
-    apt-get -y install fortune cowsay lolcat
-
-%runscript
-    fortune | cowsay | lolcat
-```
 
 ## The `cache` command
 
@@ -214,7 +158,6 @@ geoff.weal@login03:~$ apptainer run-help lolcow.sif
 !!! graduation-cap "What you take away from this lesson"
 
     - Understand the following commands:
-        * `inspect`: To check out features of your container, including the `%runscript` and `def` file.
         * `cache`: To check out and remove files in th eapptainer cache.
         * `test`: Allows the user to test the container as designed by the creator of the container. 
         * `run-help`: Allows the creator to provide notes to help explain how to use the container. 

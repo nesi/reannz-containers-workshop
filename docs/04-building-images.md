@@ -2,7 +2,7 @@
 
 !!! clipboard-list "Lesson Objectives"
 
-    - Know how to write a def file
+    - Know how to write a definition (`def`) file
     - Use the `build` command to build a container
 
 
@@ -321,12 +321,3 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
         - `%runscript` section for write the desired command you would commonly want the user to run when using the container.
     - Understand how to use the `build` command for building a container from the `def` file
     - Know how to include `$1`, `$2`, `$3`, and `$@` symbols in `%runscript` so the user can pass arguments into `apptainer run`
-
-
-
-
-
-
-
-
-
