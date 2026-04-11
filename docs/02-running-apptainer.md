@@ -3,6 +3,7 @@
 !!! clipboard-list "Lesson Objectives"
 
     - Run images using `run`, `exec` and `shell` in Apptainer
+    - Know about the `--writable-tmpfs` function
 
 The first three command that are crucial to know if you want to interact with containers are `run`, `exec` and `shell`. In this section, we will look at how to use all three of these commands and see what they do. 
 
@@ -92,6 +93,13 @@ exit
 ```
 
 Using the `shell` command, we can interactively work inside the container just like we were on a computer/terminal that was built on that container. 
+
+
+## `--writable-tmpfs`: Another way to add files and packages to Containers
+
+In some cases
+
+
 
 ## Exercises
 

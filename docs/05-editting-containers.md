@@ -1,8 +1,8 @@
-# 6. "Editting" Containers
+# 5. "Editting" Containers
 
 !!! clipboard-list "Lesson Objectives"
 
-    - Learn how to use the `inspect`, `cache`, `test`, and `run-help` commands in Apptainer
+    - Learn how to "edit" containers using the `inspect  --deffile` command in Apptainer
 
 Unfortunately the title is a bit of a lie. You can not edit containers once they have been created. However, you can obtain the `def` file from the container. As you can recall from the previous section, the `def` file was used to create the container. From this, you can make some additions, removals, and changes to the container. 
 
@@ -67,7 +67,7 @@ From: ubuntu:24.04
     fortune | cowsay | lolcat
 ```
 
-We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see section XYZ). To do this, we need to replace `lolcat` with `Hello $1!`:
+We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see section XYZ). To do this, we need to replace `fortune` with `Hello $1!`:
 
 ```bash
 geoff.weal@login03:/nesi/project/nesi99999/geoffreyweal/Tutorials/containers$ apptainer inspect --deffile lolcow.sif
@@ -76,10 +76,10 @@ From: ubuntu:24.04
 
 %post
     apt-get -y update
-    apt-get -y install fortune cowsay
+    apt-get -y install cowsay lolcat
 
 %runscript
-    fortune | cowsay | echo Hello $1!
+     cowsay Hello $1! | lolcat
 ```
 
 If we build by typing the following into the terminal (where I have called my modified `def` file `hellocow.def`):
@@ -89,4 +89,16 @@ apptainer build hellocow.sif hellocow.def
 ```
 
 We will get a new container that now will show a cow saying `Hello Argument1!`:
+
+```bash
+geoff.weal@login03:~$ apptainer run hellocow.sif Mars
+ _____________
+< Hello Mars! >
+ -------------
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+```
 
