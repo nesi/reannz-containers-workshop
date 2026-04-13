@@ -2,7 +2,10 @@
 
 !!! clipboard-list "Lesson Objectives"
 
-    - Learn how to use the `cache`, `test`, and `run-help` commands in Apptainer
+    - Learn the concept of sandboxes.
+    - Understand when it is appropriate to use one over a `def` file.
+    - Know how to construct and work with a sandbox.
+    - Understand how to convert a sandbox into a container.
 
 Sometimes you do not know what you want in your container or how you want to construct it, or sometimes you want the option to be able to modify your container later on. You can do this by using a sandbox in Apptainer. In this section, we will learn what a sandbox is, and use it to construct and later modify a container.
 
@@ -56,17 +59,17 @@ INFO:    Build complete: lolcow.sandbox
 **Second**, we need to use `shell` to allow us to work inside our sandbox. We do this by typing into the terminal: 
 
 ```bash
-apptainer shell --writable  --contain --fakeroot sandbox_name.sandbox
+apptainer shell --writable --contain --fakeroot sandbox_name.sandbox
 ```
 
 In our case:
 
 ```bash
-apptainer shell --writable  --contain --fakeroot lolcow.sandbox
+apptainer shell --writable --contain --fakeroot lolcow.sandbox
 ```
 
 ```bash
-geoff.weal@login03:~$ apptainer shell --writable  --contain --fakeroot lolcow.sandbox
+geoff.weal@login03:~$ apptainer shell --writable --contain --fakeroot lolcow.sandbox
 INFO:    User not listed in /etc/subuid, trying root-mapped namespace
 INFO:    Using fakeroot command combined with root-mapped namespace
 WARNING: Skipping mount /etc/localtime [binds]: /etc/localtime doesn't exist in container
@@ -148,6 +151,29 @@ export LANG=C
 export LC_ALL=C
 
 ```
+
+!!! note
+
+    At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the `shell`.
+
+    Try this out by typing into the container's terminal:
+
+    ```bash
+    # Ensure Debian games binaries are visible
+    export PATH="/usr/games:$PATH"
+
+    # Stable, container-safe locale
+    export LANG=C
+    export LC_ALL=C
+    ```
+
+    then:
+
+    ```bash
+    fortune | cowsay | lolcat
+    ```
+
+    Hopefully, you should see something happen!
 
 **Finally**, we are done with constructing our container sandbox. We can now use Apptainer to turn our sandbox into a container. First, exit out of your container:
 
@@ -238,6 +264,32 @@ export LC_ALL=C
 # Ignore python warnings
 export PYTHONWARNINGS=ignore
 ```
+
+!!! note
+
+    At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the `shell`.
+
+    Try this out by typing into the container's terminal:
+
+    ```bash
+    # Ensure Debian games binaries are visible
+    export PATH="/usr/games:$PATH"
+
+    # Stable, container-safe locale
+    export LANG=C
+    export LC_ALL=C
+
+    # Ignore python warnings
+    export PYTHONWARNINGS=ignore
+    ```
+
+    then:
+
+    ```bash
+    fortune | ponysay
+    ```
+
+    Hopefully, you should see something happen!
 
 **Fifth**, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of your container
 
@@ -428,6 +480,25 @@ Therefore, here are some pointer for using sandboxes:
         source /opt/gromacs/bin/GMXRC
         ```
 
+        !!! note
+
+            At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the `shell`.
+
+            Try this out by typing into the container's terminal:
+
+            ```bash
+            # GROMACS environment
+            source /opt/gromacs/bin/GMXRC
+            ```
+
+            then:
+
+            ```bash
+            gmx --version
+            ```
+
+            Hopefully, you should see something happen!
+
         **Fifth**, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of the container
 
         ```bash
@@ -581,6 +652,25 @@ Therefore, here are some pointer for using sandboxes:
 
         **Fifth**, we still want the environment to point source `/opt/gromacs/bin/GMXRC`, so we dont need to change anything in `/.singularity.d/env`
 
+        !!! note
+
+            At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the `shell`.
+
+            Try this out by typing into the container's terminal:
+
+            ```bash
+            # GROMACS environment
+            source /opt/gromacs/bin/GMXRC
+            ```
+
+            then:
+
+            ```bash
+            gmx --version
+            ```
+
+            Hopefully, you should see something happen!
+
         **Sixth**, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of the container
 
         ```bash
@@ -638,7 +728,8 @@ Therefore, here are some pointer for using sandboxes:
 
 !!! graduation-cap "What you take away from this lesson"
 
-    - Understand the following commands:
-        * `cache`: To check out and remove files in th eapptainer cache.
-        * `test`: Allows the user to test the container as designed by the creator of the container. 
-        * `run-help`: Allows the creator to provide notes to help explain how to use the container. 
+    - A sandbox is like a container, but you can make changes to it as you go.
+    - This makes sandboxes good for debugging.
+    - The best way to use sandboxes is for trying things out, then write a `def` file to construct your official container as this container will be easier to `inspect`. 
+    - To create a sandbox, use `apptainer build --sandbox`
+    - Modify a contaienr by using `apptainer --writable --contain --fakeroot`
