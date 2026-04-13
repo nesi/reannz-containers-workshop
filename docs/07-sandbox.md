@@ -306,7 +306,7 @@ Therefore, here are some pointer for using sandboxes:
 
 !!! dumbbell "Question 1"
 
-    A student want to run GROMACS in a container, but doesn't know what version they want to use. They know the protocol for installing GROMACS 2021.6 on Ubuntu 22.04. The protocol is:
+    A student want to run GROMACS in a container, but doesn't know what version they want to use. The student knows the protocol for installing GROMACS 2021.6 on Ubuntu 22.04, which is: 
 
     ```bash
     # Update Ubuntu
