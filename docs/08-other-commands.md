@@ -1,4 +1,4 @@
-# 7. Other Commands in Apptainer
+# 8. Other Commands in Apptainer
 
 !!! clipboard-list "Lesson Objectives"
 

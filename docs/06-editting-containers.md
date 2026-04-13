@@ -1,4 +1,4 @@
-# 5. "Editting" Containers
+# 6. "Editting" Containers
 
 !!! clipboard-list "Lesson Objectives"
 

@@ -16,12 +16,12 @@ nav:
     - 02-running-apptainer.md
     - 03-pulling-and-running-images.md
     - 04-building-images.md
-    - 05-editting-containers.md
-    - 06-running-MPI-containers.md
+    - 05-running-MPI-containers.md
   - Day 2 - Advanced:
     - recap-beginner-class.md
+    - 06-editting-containers.md
     - 07-sandbox.md
-    - 07-other-commands.md
+    - 08-other-commands.md
   - Supplementary:
     - Supplementary/1-supplementary.md
 

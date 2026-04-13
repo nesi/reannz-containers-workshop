@@ -306,7 +306,333 @@ Therefore, here are some pointer for using sandboxes:
 
 !!! dumbbell "Question 1"
 
-    
+    A student want to run GROMACS in a container, but doesn't know what version they want to use. They know the protocol for installing GROMACS 2021.6 on Ubuntu 22.04. The protocol is:
+
+    ```bash
+    # Update Ubuntu
+    apt-get update
+
+    # Set the locate for date
+    echo "Pacific/Auckland" > /etc/timezone
+
+    # Install necessary packages
+    apt-get install -y \
+      build-essential \
+      cmake \
+      wget \
+      python3 \
+      libfftw3-dev \
+      libgsl-dev \
+      ca-certificates 
+
+    # Download and install GROMACS 2021.6
+    cd /opt
+    wget https://ftp.gromacs.org/gromacs/gromacs-2021.6.tar.gz
+    tar -xzf gromacs-2021.6.tar.gz
+    cd gromacs-2021.6
+
+
+    # Configure GROMACS 2021.6
+    mkdir build
+    cd build
+    cmake .. -DCMAKE_INSTALL_PREFIX=/opt/gromacs -DGMX_BUILD_OWN_FFTW=OFF -DGMX_MPI=OFF -DGMX_OPENMP=ON -DGMX_GPU=OFF -DGMX_USE_CUDA=OFF
+
+    # Build and install GROMACS 2021.6
+    make -j8
+    make install
+
+    # Remove unnecessary GROMACS files after installation
+    cd /opt
+    rm -rfv gromacs-2021.6.tar.gz gromacs-2021.6
+    ```
+
+    GROMACS also need the following environment to run:
+
+    ```bash
+    # GROMACS environment
+    source /opt/gromacs/bin/GMXRC
+    ```
+
+    Use a sandbox to create this container as a `sif` file. Show that it works by running `apptainer exec gmx --version`.
+
+    ??? success "Solution"
+
+        **First**, set up your sandbox using Ubuntu 22.04:
+
+        ```bash 
+        apptainer build --sandbox GROMACS.sandbox docker://ubuntu:22.04
+        ```
+
+        **Second**, open the sandbox in the apptainer shell
+
+        ```bash
+        apptainer shell --writable  --contain --fakeroot GROMACS.sandbox
+        ```
+
+        **Third**, type the following commands into the terminal:
+
+        ```bash
+        # Update Ubuntu
+        apt-get update
+
+        # Set the locate for date
+        echo "Pacific/Auckland" > /etc/timezone
+
+        # Install necessary packages
+        apt-get install -y \
+          build-essential \
+          cmake \
+          wget \
+          python3 \
+          libfftw3-dev \
+          libgsl-dev \
+          ca-certificates
+
+        # Download and install GROMACS 2021.6
+        cd /opt
+        wget https://ftp.gromacs.org/gromacs/gromacs-2021.6.tar.gz
+        tar -xzf gromacs-2021.6.tar.gz
+        cd gromacs-2021.6
+
+        # Configure GROMACS 2021.6
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/gromacs -DGMX_BUILD_OWN_FFTW=OFF -DGMX_MPI=OFF -DGMX_OPENMP=ON -DGMX_GPU=OFF -DGMX_USE_CUDA=OFF
+
+        # Build and install GROMACS 2021.6
+        make -j8
+        make install
+
+        # Remove unnecessary GROMACS files after installation
+        cd /opt
+        rm -rfv gromacs-2021.6.tar.gz gromacs-2021.6
+        ```
+
+        This will install GROMACS 2021.6 in your container
+
+        **Fourth**, create an environment for GROMACS to run:
+
+        ```bash
+        mkdir -p /.singularity.d/env
+        rm -rf /.singularity.d/env/90-gromacs.sh
+        touch /.singularity.d/env/90-gromacs.sh
+        chmod 0755 /.singularity.d/env/90-gromacs.sh
+        apt-get install -y nano
+        nano /.singularity.d/env/90-gromacs.sh
+        ```
+
+        inside `90-gromacs.sh`, add the following:
+
+        ```bash
+        # GROMACS environment
+        source /opt/gromacs/bin/GMXRC
+        ```
+
+        **Fifth**, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of the container
+
+        ```bash
+        Apptainer> exit
+        ```
+
+        Then run in the terminal:
+
+        ```bash
+        apptainer build GROMACS.sif GROMACS.sandbox
+        ```
+
+        This will give you a `sif` container file called `GROMACS.sif` that you can now use. Try it out by typing into the terminal:
+
+        ```bash
+        apptainer exec GROMACS.sif gmx --version
+        ```
+
+        This should give something like this:
+
+        ```bash
+        geoff.weal@login03:~$ apptainer exec GROMACS.sif gmx --version
+                                 :-) GROMACS - gmx, 2021.6 (-:
+
+                                    GROMACS is written by:
+             Andrey Alekseenko              Emile Apol              Rossen Apostolov     
+                 Paul Bauer           Herman J.C. Berendsen           Par Bjelkmar       
+               Christian Blau           Viacheslav Bolnykh             Kevin Boyd        
+             Aldert van Buuren           Rudi van Drunen             Anton Feenstra      
+            Gilles Gouaillardet             Alan Gray               Gerrit Groenhof      
+               Anca Hamuraru            Vincent Hindriksen          M. Eric Irrgang      
+              Aleksei Iupinov           Christoph Junghans             Joe Jordan        
+            Dimitrios Karkoulis            Peter Kasson                Jiri Kraus        
+              Carsten Kutzner              Per Larsson              Justin A. Lemkul     
+               Viveca Lindahl            Magnus Lundborg             Erik Marklund       
+                Pascal Merz             Pieter Meulenhoff            Teemu Murtola       
+                Szilard Pall               Sander Pronk              Roland Schulz       
+               Michael Shirts            Alexey Shvetsov             Alfons Sijbers      
+               Peter Tieleman              Jon Vincent              Teemu Virolainen     
+             Christian Wennberg            Maarten Wolf              Artem Zhmurov       
+                                   and the project leaders:
+                Mark Abraham, Berk Hess, Erik Lindahl, and David van der Spoel
+
+        Copyright (c) 1991-2000, University of Groningen, The Netherlands.
+        Copyright (c) 2001-2022, The GROMACS development team at
+        Uppsala University, Stockholm University and
+        the Royal Institute of Technology, Sweden.
+        check out http://www.gromacs.org for more information.
+
+        GROMACS is free software; you can redistribute it and/or modify it
+        under the terms of the GNU Lesser General Public License
+        as published by the Free Software Foundation; either version 2.1
+        of the License, or (at your option) any later version.
+
+        GROMACS:      gmx, version 2021.6
+        Executable:   /opt/gromacs/bin/gmx
+        Data prefix:  /opt/gromacs
+        Working dir:  /nesi/project/nesi99999/geoffreyweal/Tutorials/containers
+        Command line:
+          gmx --version
+
+        GROMACS version:    2021.6
+        Precision:          mixed
+        Memory model:       64 bit
+        MPI library:        thread_mpi
+        OpenMP support:     enabled (GMX_OPENMP_MAX_THREADS = 64)
+        GPU support:        disabled
+        SIMD instructions:  AVX2_256
+        FFT library:        fftw-3.3.8-sse2-avx
+        RDTSCP usage:       enabled
+        TNG support:        enabled
+        Hwloc support:      disabled
+        Tracing support:    disabled
+        C compiler:         /usr/bin/cc GNU 11.4.0
+        C compiler flags:   -mavx2 -mfma -Wno-missing-field-initializers -fexcess-precision=fast -funroll-all-loops -O3 -DNDEBUG
+        C++ compiler:       /usr/bin/c++ GNU 11.4.0
+        C++ compiler flags: -mavx2 -mfma -Wno-missing-field-initializers -fexcess-precision=fast -funroll-all-loops -fopenmp -O3 -DNDEBUG
+        ```
+
+!!! dumbbell "Question 2"
+
+    This student (from question 1) wants to upgrade their version of GROMACS to 2025.4. Make a modification to your sandbox to account for this, and created an updated container using GROMACS 2025.4
+
+    Note: You will want to download GROMACS from `https://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz`
+
+    Hint 1: You will need to remove the originally installed GROMACS folder before installing the new GROMACS version:
+
+    ```bash
+    rm -rvf /opt/gromacs
+    ```
+
+    Hint 2: You can use the same `cmake` and `make` commands as before, but you will need to update `cmake`:
+
+    ```bash
+    apt-get purge --auto-remove -y cmake
+    apt-get update -y && apt-get install -y software-properties-common lsb-release ca-certificates gpg wget
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+    echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+    apt-get update && apt-get install -y cmake=4.3.1-0kitware1ubuntu22.04.1
+    ```
+
+
+    ??? success "Solution"
+
+        **First**, open the sandbox in the apptainer shell
+
+        ```bash
+        apptainer shell --writable  --contain --fakeroot GROMACS.sandbox
+        ```
+
+        **Second**, remove the originally installed version of GROMACS
+
+        ```bash
+        rm -rvf /opt/gromacs
+        ```
+
+        **Third**, update your `cmake`
+
+        ```bash
+        apt-get purge --auto-remove -y cmake
+        apt-get update -y && apt-get install -y software-properties-common lsb-release ca-certificates gpg wget
+        wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+        echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+        apt-get update && apt-get install -y cmake=4.3.1-0kitware1ubuntu22.04.1
+        ```
+
+        **Fourth**, type the following commands into the terminal:
+
+        ```bash
+        # Download and install GROMACS 2021.6
+        cd /opt
+        wget https://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
+        tar -xzf gromacs-2025.4.tar.gz
+        cd gromacs-2025.4
+
+        # Configure GROMACS 2025.4
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_INSTALL_PREFIX=/opt/gromacs -DGMX_BUILD_OWN_FFTW=OFF -DGMX_MPI=OFF -DGMX_OPENMP=ON -DGMX_GPU=OFF -DGMX_USE_CUDA=OFF
+
+        # Build and install GROMACS 2025.4
+        make -j8
+        make install
+
+        # Remove unnecessary GROMACS files after installation
+        cd /opt
+        rm -rfv gromacs-2025.4.tar.gz gromacs-2025.4
+        ```
+
+        This will install GROMACS 2025.4 in your container
+
+        **Fifth**, we still want the environment to point source `/opt/gromacs/bin/GMXRC`, so we dont need to change anything in `/.singularity.d/env`
+
+        **Sixth**, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of the container
+
+        ```bash
+        Apptainer> exit
+        ```
+
+        Then run in the terminal:
+
+        ```bash
+        apptainer build GROMACS.sif GROMACS.sandbox
+        ```
+
+        This will give you a `sif` container file called `GROMACS.sif` that you can now use. Try it out by typing into the terminal:
+
+        ```bash
+        apptainer exec GROMACS.sif gmx --version
+        ```
+
+        This should give something like this. Notice the version of GROMACS has changed from 2021.6 to 2025.4:
+
+        ```bash
+        geoff.weal@login03:/nesi/project/nesi99999/geoffreyweal/Tutorials/containers$ apptainer exec GROMACS.sif gmx --version
+                                 :-) GROMACS - gmx, 2025.4 (-:
+
+        Executable:   /opt/gromacs/bin/gmx
+        Data prefix:  /opt/gromacs
+        Working dir:  /nesi/project/nesi99999/geoffreyweal/Tutorials/containers
+        Command line:
+          gmx --version
+
+        GROMACS version:     2025.4
+        Precision:           mixed
+        Memory model:        64 bit
+        MPI library:         thread_mpi
+        OpenMP support:      enabled (GMX_OPENMP_MAX_THREADS = 128)
+        GPU support:         disabled
+        SIMD instructions:   AVX2_256
+        CPU FFT library:     fftw-3.3.8-sse2-avx
+        GPU FFT library:     none
+        Multi-GPU FFT:       none
+        RDTSCP usage:        enabled
+        TNG support:         enabled
+        Hwloc support:       disabled
+        Tracing support:     disabled
+        C compiler:          /usr/bin/cc GNU 11.4.0
+        C compiler flags:    -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -O3 -DNDEBUG
+        C++ compiler:        /usr/bin/c++ GNU 11.4.0
+        C++ compiler flags:  -fexcess-precision=fast -funroll-all-loops -mavx2 -mfma -Wno-missing-field-initializers -Wno-cast-function-type-strict SHELL:-fopenmp -O3 -DNDEBUG
+        BLAS library:        Internal
+        LAPACK library:      Internal
+        ```
+
 
 ## Takeaway Points
 
