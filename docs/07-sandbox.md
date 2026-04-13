@@ -56,6 +56,20 @@ INFO:    Creating sandbox directory...
 INFO:    Build complete: lolcow.sandbox
 ```
 
+**Side-note**: You will see in your directory a folder appear called `sandbox_name.sandbox` (for us, that is `lolcow.sandbox`):
+
+```bash
+geoff.weal@login03:~$ ls
+lolcow.sandbox
+```
+
+if you look inside of it, it will look a full fat file system containing everything you need to run the sandbox as a container, as well as eventually turn the sandbox into a container (see later).
+
+```bash
+geoff.weal@login03:~$ ls lolcow.sandbox
+bin  boot  dev  environment  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  singularity  srv  sys  tmp  usr  var
+```
+
 **Second**, we need to use `shell` to allow us to work inside our sandbox. We do this by typing into the terminal: 
 
 ```bash
