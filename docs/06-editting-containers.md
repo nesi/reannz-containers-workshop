@@ -102,3 +102,17 @@ geoff.weal@login03:~$ apptainer run hellocow.sif Mars
                 ||     ||
 ```
 
+!!! warning
+
+    From Chris:
+
+    - Should probably also say that this shouldn't be encouraged as it breaks reproducibility?  You could add a section about versioning containers:
+
+    %labels
+        Version 1.0.2
+        Author YourName
+
+## `--writable-tmpfs`: Another way to add files and packages to Containers
+
+In some cases
+

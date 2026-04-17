@@ -13,6 +13,7 @@ In this section, we will introduce what a container is and why you would want to
 A container is a way to package and run software so that it behaves consistently across different machines.
 
 At a high level, a container bundles:
+
 * Your application
 * Its dependencies (libraries, runtimes, tools)
 * Its expected filesystem layout (where binaries/configs live)
@@ -46,6 +47,7 @@ The reasons you would want to use a container are:
 * Portability: You can transfer a container to any computer or HPC and it should generally work without having to go through "dependency hell"
 * Some Isolation: The software contained in the container generally see its own software stack only and will not see software outside the container. 
 * Dependancy Management: Everything you need is installed inside the container.
+* No Installation: It is common that installing software on your machine may not work due missing or different dependancies or for many other reasons. Containers allows the user to just run the software from any (or at least) most machines without hassle. 
 
 ## What is Apptainer?
 

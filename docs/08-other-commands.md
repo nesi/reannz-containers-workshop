@@ -153,6 +153,11 @@ geoff.weal@login03:~$ apptainer run-help lolcow.sif
       apptainer test lolcow.sif
 ```
 
+!!! warning
+
+    from chris. 
+    There are ways of orchestrating multiple containers in docker using docker swarm or docker compose.  You can do something similar in apptainer using apptainer instance start/stop/list.  It might be worth including.
+
 ## Takeaway Points
 
 !!! graduation-cap "What you take away from this lesson"

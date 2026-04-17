@@ -9,7 +9,13 @@
     - How do I run an container in apptainer?
     - How do I perform any command using the container?
 
-## The `run` command
+## Something
+
+!!! warning
+
+    Chris: My advice was always to find a 'good' mpi tool on the platform (e.g. gompi/2023a) and then installing the same version inside the container.  This post was the most helpful:
+
+    https://ciq.com/blog/a-new-approach-to-mpi-in-apptainer/
 
 
 ## Exercises

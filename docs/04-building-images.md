@@ -157,6 +157,23 @@ apptainer exec my_python3.12.sif python3.12 -c 'print("Hello Mars!")'
 Hello Mars!
 ```
 
+## Other useful section in `def` file
+
+
+
+
+
+## Building Docker containers in apptainer
+
+!!! warning
+
+    Perhaps a section on how to get your docker file from a non-cloud source as their are lots of local containers floating around.  Something like:
+
+    > docker save -o mydocker.tar mydocker
+    > scp mydocker.tar $USER@mahuika:$HOME
+    > ssh mahuika
+    > apptainer build mydocker.sif docker-archive://mydocker.tar
+
 ## Other Useful Tips and Tricks
 
 ### Using the `$1`, `$2`, `$3`, and `$@` symbols in `apptainer run`

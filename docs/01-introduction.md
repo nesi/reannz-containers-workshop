@@ -7,7 +7,13 @@
 
 ## How to start using Apptainer on Mahuika
 
-Apptainer is loaded on mahuika by default. If you type in `apptainer --version` into the terminal:
+Apptainer is loaded on mahuika by default. If you type in
+
+```bash
+apptainer --version
+``` 
+
+into the terminal, you will get:
 
 ```bash
 geoff.weal@codeserver-nesi99992-d23vsxxe:~$ apptainer --version
@@ -83,7 +89,7 @@ Examples:
   $ apptainer help instance start
 ```
 
-We will start by looking at the 5 most important commands in apptainer. These are:
+We will start by looking at the 5 most used commands in apptainer. These are:
 
 1. **`run`**: Run a specific command as designed by the creator of the container.
 2. **`exec`**: Execute a custom command that you want to run on the container.
@@ -98,6 +104,10 @@ Some others that we will also look at (but are less essential) are:
 * `test`: Allows the user to test the container as designed by the creator of the container. 
 * `run-help`: Allows the creator to provide notes to help explain how to use the container. 
 
+
+!!! warning: Note from Chris
+
+    Can we say something about if you learn containers you don't have to learn about HPC?
 
 ## Takeaway Points
 
