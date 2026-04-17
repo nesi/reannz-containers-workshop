@@ -3,9 +3,8 @@
 !!! clipboard-list "Lesson Objectives"
 
     - Run images using `run`, `exec` and `shell` in Apptainer
-    - Know about the `--writable-tmpfs` function
 
-The three commands most widely used in apptainer are  `run`, `exec` and `shell`. Very breifly:
+The three commands most widely used in apptainer are  `run`, `exec` and `shell`. Very briefly: 
 
 * `run`: Performs a command as designed by the creator of the container.
 * `exec`: Allows the user to perform a custom command within the container. 
@@ -13,10 +12,10 @@ The three commands most widely used in apptainer are  `run`, `exec` and `shell`.
 
 In this section, we will expand on how to use all three commands and see what they do. 
 
-For these examples, we will use the `hello_world.sif` container, which is based on ubuntu. This container is found in the `../` folder:
+For these examples, we will use the `hello_world.sif` container, which is based on ubuntu. This container is found in the `XYZ` folder:
 
 ```bash 
-cd .. 
+cd XYZ 
 ```
 
 ## The `run` command

@@ -112,6 +112,8 @@ geoff.weal@login03:~$ apptainer run hellocow.sif Mars
         Version 1.0.2
         Author YourName
 
+    so that it shows up in apptainer inspect deffile
+
 ## `--writable-tmpfs`: Another way to add files and packages to Containers
 
 In some cases

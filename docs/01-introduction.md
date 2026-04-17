@@ -105,12 +105,16 @@ Some others that we will also look at (but are less essential) are:
 * `run-help`: Allows the creator to provide notes to help explain how to use the container. 
 
 
-!!! warning: Note from Chris
+!!! warning
+
+    Note from Chris. 
 
     Can we say something about if you learn containers you don't have to learn about HPC?
+
+    Geoff:Dont you still need to learn about hpc?
 
 ## Takeaway Points
 
 !!! graduation-cap "What you take away from this lesson"
 
-    - Know of the 5 most important commands in apptainer: `run`, `exec`, `shell`, `pull`, `build`
+    - Know of the 5 most used commands in apptainer: `run`, `exec`, `shell`, `pull`, `build`

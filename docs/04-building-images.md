@@ -54,47 +54,11 @@ For example, if I wanted to create a container that contained Python 3.12 (as we
 
 ```def
 %post
-    # Prevent any interactive prompts
-    export DEBIAN_FRONTEND=noninteractive
-
-    # Set timezone explicitly
-    ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime
-    echo "Etc/UTC" > /etc/timezone
-
-    # Install build dependencies for Python
-    apt-get update && apt-get install -y \
-        build-essential \
-        wget \
-        libssl-dev \
-        zlib1g-dev \
-        libbz2-dev \
-        libreadline-dev \
-        libsqlite3-dev \
-        libffi-dev \
-        liblzma-dev \
-        tk-dev \
-        ca-certificates \
-        xz-utils \
-        && rm -rf /var/lib/apt/lists/*
-
-    # Download Python 3.12 source
-    cd /tmp
-    wget https://www.python.org/ftp/python/3.12.2/Python-3.12.2.tgz
-    tar -xzf Python-3.12.2.tgz
-    cd Python-3.12.2
-
-    # Configure, build, and install
-    ./configure --enable-optimizations
-    make -j$(nproc)
-    make altinstall
-
-    # Ensure python3 and pip point to 3.12
-    ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
-    ln -sf /usr/local/bin/pip3.12 /usr/local/bin/pip3
-
-    # Clean up build artifacts
-    cd /
-    rm -rf /tmp/Python-3.12.2*
+    apt-get update
+    apt-get install -y software-properties-common
+    add-apt-repository -y ppa:deadsnakes/ppa
+    apt-get update
+    apt-get install -y python3.12
 ```
 
 ### The `%runscript` Section
@@ -128,15 +92,6 @@ INFO:    Inserting Apptainer configuration...
 INFO:    Running post scriptlet
 + apt-get update
 ...
-Looking in links: /tmp/tmppt4k91m6
-Processing /tmp/tmppt4k91m6/pip-24.0-py3-none-any.whl
-Installing collected packages: pip
-Successfully installed pip-24.0
-WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv
-+ ln -sf /usr/local/bin/python3.12 /usr/local/bin/python3
-+ ln -sf /usr/local/bin/pip3.12 /usr/local/bin/pip3
-+ cd /
-+ rm -rf /tmp/Python-3.12.2 /tmp/Python-3.12.2.tgz
 INFO:    Adding runscript
 INFO:    Creating SIF file...
 ```

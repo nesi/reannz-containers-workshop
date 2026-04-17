@@ -5,12 +5,12 @@
     - Pull a container from the cloud
     - Run a container that is on the cloud
 
-Sometimes you might not have a container file sitting in front of you that you want to use. Most of the time, your container might be sitting on the internet somewhere, like in docker.
-
-There are two ways you can interact with these containers that are on the cloud:
+Sometimes you might not have a container file sitting in front of you that you want to use. Most of the time, your container might be sitting on the internet somewhere, like in docker. There are two ways you can interact with containers that are on the cloud:
 
 1. Pull the image from the cloud first using `pull`, then run the container directly from the computer, or 
 2. Run the container directly using the `run`, `exec`, or `shell` command. 
+
+In this lesson, we will look at both of these methods.
 
 ## Pulling containers using the `pull` command
 
