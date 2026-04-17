@@ -74,7 +74,7 @@ From: ghcr.io/nbl-research/nbltools:latest
     From: /<path-to-tar-file>/my_docker_archive_file.tar
     ```
 
-    We will come back to this in Question 3. 
+    We will come back to this in Questions 3a and b3. 
 
 
 ### The `%labels` Section

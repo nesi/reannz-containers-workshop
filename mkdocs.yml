@@ -11,18 +11,17 @@ repo_url: https://github.com/nesi/reannz-containers-workshop
 nav:
   - Home: index.md
   - 00-containers-overview.md
-  - Day 1 - Beginner:
+  - Beginner:
     - 01-introduction.md
     - 02-running-apptainer.md
     - 03-pulling-and-running-images.md
     - 04-building-images.md
-    - 05-running-MPI-containers.md
-  - Day 2 - Advanced:
-    - recap-beginner-class.md
-    - 06-editting-containers.md
+    - 05-editting-containers.md
+  - Advanced:
+    - 06-running-MPI-containers.md
     - 07-sandbox.md
-    - 08-other-commands.md
   - Supplementary:
+    - 08-other-commands.md
     - Supplementary/1-supplementary.md
 
 theme:

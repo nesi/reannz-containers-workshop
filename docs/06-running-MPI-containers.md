@@ -1,4 +1,4 @@
-# 5. Running Containers with MPI
+# 6. Running Containers with MPI
 
 !!! clipboard-list "Lesson Objectives"
 
