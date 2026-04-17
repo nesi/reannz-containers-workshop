@@ -15,12 +15,15 @@ Here, we will learn how to build a container using Apptainer from a script calle
 
 ## 1. Creating a `def` (Definition) File
 
-A `def` file is a simple script that contains information about how to construct a container and what the container should do. A complete skeleton of a `def` file looks as follows:
-
+A `def` file is a simple script that contains information about how to construct a container and what the container should do. A simple skeleton of a `def` file looks as follows: 
 
 ```def
 Bootstrap: 
 From: 
+
+%labels
+
+%environment
 
 %post
 
@@ -34,8 +37,8 @@ In this section, we will write a `def` file containing the most important sectio
 
 To build a container, you need a base to build it on. `Bootstrap` and `From` allow apptainer to pull the base that you desire:
 
-* `Bootstrap` : The cloud that the base of the container comes from.
-* `From` : What is the name of the base you want to pull from the `Bootstrap` cloud.
+* `Bootstrap` : The cloud or local archive that the base of the container comes from.
+* `From` : What is the name of the base you want to pull from the `Bootstrap` cloud or local archive.
 
 If you dont include these, the base will be built on the OS of the computer that you build the container on. 
 
@@ -46,16 +49,70 @@ Bootstrap: docker
 From: ubuntu:22.04
 ```
 
+Another example is from ghcr.io (the Github Container Registry, which is a cloud-based service for storing and managing Docker and OCI-compliant container images):
+
+```
+Bootstrap: docker
+From: ghcr.io/nbl-research/nbltools:latest
+```
+
+!!! note "Bases located on your computer"
+
+    Your base might not come from a cloud. Your base could be set to a local file that is sitting on your computer. 
+
+    If your base is an apptainer `sif` file (we will talk about `sif` files later), include the following at the start of your `def` file:
+
+    ```def
+    Bootstrap: localimage
+    From: /<path-to-sif-file>/my_apptainer_file.sif
+    ```
+
+    If you obtained your base image from docker and have it stored locally (using `docker save -o mydocker.tar mydocker`):
+
+    ```def
+    Bootstrap: docker-archive
+    From: /<path-to-tar-file>/my_docker_archive_file.tar
+    ```
+
+    We will come back to this in Question 3. 
+
+
+### The `%labels` Section
+
+Used to store metadata such as the author or software version within the image. You can define a version label here to track image iterations. For example: 
+
+```def
+%labels
+    Author Your Name
+    Version 1.0.0
+    Description "Example Apptainer container with Python 3.12"
+```
+
+### The `%environment` Section
+
+The `%environment` section defines environment variables that are set every time the container runs. You do not always need to include this, only if you have environment variables you need to set in the container. An example of `%environment` section is:
+
+```def
+%environment
+    export PYTHONNOUSERSITE=1
+    export LANG=C.UTF-8
+    export LC_ALL=C.UTF-8
+```
+
 ### The `%post` Section
 
 This section allows you to build your container the way you want it and install all the programs and packages that you want your container to contain. 
 
-For example, if I wanted to create a container that contained Python 3.12 (as well as all the other packages that Python needs), I could write it like so (Note: there are many ways one could write this `def` file. This is just one of those ways):
+For example, if you wanted to create a container that contained Python 3.12 (as well as all the other packages that Python needs), you could write it like so (Note: there are many ways one could write this `def` file. This is just one of those ways):
 
 ```def
 %post
+    export DEBIAN_FRONTEND=noninteractive
     apt-get update
-    apt-get install -y software-properties-common
+    apt-get install -y tzdata software-properties-common
+    ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+    dpkg-reconfigure -f noninteractive tzdata
+
     add-apt-repository -y ppa:deadsnakes/ppa
     apt-get update
     apt-get install -y python3.12
@@ -72,13 +129,50 @@ This algorithm is responsible for determining what happens when you perform `app
 
 ## 2. Build your Container
 
-Now that we have the basics of our `.def` file, we can now build our container using `apptainer build`:
+Now that we have the basics of our `.def` file (given below):
+
+```def
+Bootstrap: docker
+From: ubuntu:22.04
+
+%labels
+    Author Your Name
+    Version 1.0.0
+    Description "Example Apptainer container with Python 3.12"
+
+%environment
+    export PYTHONNOUSERSITE=1
+    export LANG=C.UTF-8
+    export LC_ALL=C.UTF-8
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y tzdata software-properties-common
+    ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+    dpkg-reconfigure -f noninteractive tzdata
+
+    add-apt-repository -y ppa:deadsnakes/ppa
+    apt-get update
+    apt-get install -y python3.12
+
+%runscript
+    python3.12 -c 'print("hello world")'
+```
+
+We can now build our container. Our container in apptainer is called a `sif` file, which stand for `Singularity Image Format` (Singularity is the predecessor of Apptainer). To build our container, we type into the terminal:
 
 ```bash
 apptainer build <name-of-sif-file> <name-of-def-file>
 ```
 
-Example: 
+where `<name-of-sif-file>` is the name of our `sif` file, and `<name-of-def-file>` is the name of our `def` file. For example, if we set our the name of our `sif` and `def` files as `my_python3.12.sif` and `my_python3.12.def` respectively, we would type into the terminal:
+
+```bash
+apptainer build my_python3.12.sif my_python3.12.def
+```
+
+Giving the output:
 
 ```bash
 geoff.weal@login03:$ apptainer build my_python3.12.sif my_python3.12.def
@@ -111,23 +205,6 @@ We can also use the `exec` command to run python3.12 to say "Hello Sun!"
 apptainer exec my_python3.12.sif python3.12 -c 'print("Hello Mars!")' 
 Hello Mars!
 ```
-
-## Other useful section in `def` file
-
-
-
-
-
-## Building Docker containers in apptainer
-
-!!! warning
-
-    Perhaps a section on how to get your docker file from a non-cloud source as their are lots of local containers floating around.  Something like:
-
-    > docker save -o mydocker.tar mydocker
-    > scp mydocker.tar $USER@mahuika:$HOME
-    > ssh mahuika
-    > apptainer build mydocker.sif docker-archive://mydocker.tar
 
 ## Other Useful Tips and Tricks
 
@@ -191,7 +268,7 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 
 !!! dumbbell "Question 1"
 
-    Write a `def` file that will allows the user build a container that runs `lolcow` from their terminal.
+    Write a `def` file that will allows the user build a container that runs `lolcow` from their terminal. 
 
     Hint: The instructions for building lolcow are:
 
@@ -206,6 +283,8 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
     fortune | cowsay | lolcat
     ```
 
+    There is no environment variables needed.
+
     ??? success "Solution"
 
         The def file for `lolcow` is:
@@ -213,6 +292,11 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
         ```bash
         Bootstrap: docker
         From: ubuntu:24.04
+
+        %labels
+            Author Your Name
+            Version 1.0.0
+            Description "A running image of lolcow"
 
         %post
             apt-get -y update
@@ -279,7 +363,29 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
                         ||     ||
         ```
 
-!!! dumbbell "Question 3"
+!!! dumbbell "Question 3a"
+
+    A user has a container file called `my_base.sif` they would like use to as a base for their `def` file. How would this user include `my_base.sif` as the base image in their `def` file?
+
+    ??? success "Solution"
+
+        ```def
+        Bootstrap: localimage
+        From: my_base.sif
+        ```
+
+!!! dumbbell "Question 3b"
+
+    A second user has a docker archive file called `my_docker_base.tar` they downloaded from docker (using `docker save -o my_docker_base.tar my_docker`). The user would like to use this docker archive file as a basef for their apptainer `def` file. How would this user include `my_docker_base.tar` as the base image in their `def` file?
+
+    ??? success "Solution"
+
+        ```def
+        Bootstrap: docker-archive
+        From: mydocker.tar
+        ```
+
+!!! dumbbell "Question 4"
 
     Using the skills you have learnt in this tutorial, create your own container for running a program that would be useful for you on Mahuika. 
 
