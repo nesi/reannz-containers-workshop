@@ -1,0 +1,1797 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="REANNZ">
+      
+      
+        <link rel="canonical" href="https://github.com/nesi/reannz-containers-workshop/07-sandbox/">
+      
+      
+        <link rel="prev" href="../06-running-MPI-containers/">
+      
+      
+        <link rel="next" href="../summarising-advancing-class/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fig/reannz-favicon.jpeg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>7. Building a Container using Sandbox Mode - Introduction to Containers on High Perforance Clusters (HPC)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#7-building-a-container-using-sandbox-mode" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Introduction to Containers on High Perforance Clusters (HPC)" class="md-header__button md-logo" aria-label="Introduction to Containers on High Perforance Clusters (HPC)" data-md-component="logo">
+      
+  <img src="../fig/reannz-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction to Containers on High Perforance Clusters (HPC)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              7. Building a Container using Sandbox Mode
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nesi/reannz-containers-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    nesi/reannz-containers-workshop
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Introduction to Containers on High Perforance Clusters (HPC)" class="md-nav__button md-logo" aria-label="Introduction to Containers on High Perforance Clusters (HPC)" data-md-component="logo">
+      
+  <img src="../fig/reannz-logo.svg" alt="logo">
+
+    </a>
+    Introduction to Containers on High Perforance Clusters (HPC)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nesi/reannz-containers-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    nesi/reannz-containers-workshop
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-containers-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-introducing-apptainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apptainer: Running Containers on HPCs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beginner
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Beginner
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction to Apptainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-running-apptainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. The Basics of Running Containers on Apptainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pulling-and-running-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Pulling and Running Containers from the Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-building-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Building Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-editting-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Inspecting, "Editting", and Versioning Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summarising-beginner-class/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summarising Beginner Lesson
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recap-beginner-class/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recap Beginner Lesson
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-running-MPI-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Running Containers with MPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Building a Container using Sandbox Mode
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Building a Container using Sandbox Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a Sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advantages-and-disadvantages-of-using-a-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages and Disadvantages of using a Sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constructing-a-container-using-sandbox-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructing a Container using Sandbox Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-changes-to-a-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making changes to a Sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advice-for-using-sandboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advice for using Sandboxes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercises
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#takeaway-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Takeaway Points
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summarising-advancing-class/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summarising Beginner Lesson
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supplementary
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Supplementary
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-other-commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Other Commands in Apptainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Supplementary/1-supplementary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Supplementary - Other Options for Building Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is a Sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advantages-and-disadvantages-of-using-a-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advantages and Disadvantages of using a Sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#constructing-a-container-using-sandbox-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Constructing a Container using Sandbox Mode
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#making-changes-to-a-sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Making changes to a Sandbox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advice-for-using-sandboxes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advice for using Sandboxes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercises
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#takeaway-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Takeaway Points
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="7-building-a-container-using-sandbox-mode">7. Building a Container using Sandbox Mode<a class="headerlink" href="#7-building-a-container-using-sandbox-mode" title="Permanent link">¶</a></h1>
+<div class="admonition clipboard-list">
+<p class="admonition-title">Lesson Objectives</p>
+<ul>
+<li>Learn the concept of sandboxes.</li>
+<li>Understand when it is appropriate to use one over a <code>def</code> file.</li>
+<li>Know how to construct and work with a sandbox.</li>
+<li>Understand how to convert a sandbox into a container.</li>
+</ul>
+</div>
+<p>Sometimes you do not know what you want in your container or how you want to construct it, or sometimes you want the option to be able to modify your container later on. You can do this by using a sandbox in Apptainer. In this section, we will learn what a sandbox is, and use it to construct and later modify a container.</p>
+<h2 id="what-is-a-sandbox">What is a Sandbox<a class="headerlink" href="#what-is-a-sandbox" title="Permanent link">¶</a></h2>
+<p>Apptainer has the option of constructing a sandbox to develop a container rather than writing a <code>def</code> file. Here, you perform all the tasks you would like to construct the container manually, but you can make changes to it as you try things out and learn things about how you want your container to act. </p>
+<h2 id="advantages-and-disadvantages-of-using-a-sandbox">Advantages and Disadvantages of using a Sandbox<a class="headerlink" href="#advantages-and-disadvantages-of-using-a-sandbox" title="Permanent link">¶</a></h2>
+<p>The advantages of using are:</p>
+<ul>
+<li>Sandboxes are writable (mutable).</li>
+<li>Being writable, they are good for debugging. This make changes easier to make</li>
+<li>The filesystem is transparent (because sandboxes are written as files, we will see this later)</li>
+</ul>
+<p>However, there are some disadvantages</p>
+<ul>
+<li>Can be a bit tricky to work with.</li>
+<li>You can't use <code>inspect --deffile</code> to look at your <code>%post</code> instructions on how you created your sandbox.</li>
+</ul>
+<h2 id="constructing-a-container-using-sandbox-mode">Constructing a Container using Sandbox Mode<a class="headerlink" href="#constructing-a-container-using-sandbox-mode" title="Permanent link">¶</a></h2>
+<p>In this section, we will relook at the <code>lolcow</code> container we made earlier and look at how we can create it in sandbox mode.</p>
+<p><strong>First</strong>, you need to build a sandbox that is based on some OS. We do this by typing into the terminal</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>apptainer<span class="w"> </span>build<span class="w"> </span>--sandbox<span class="w"> </span>sandbox_name.sandbox<span class="w"> </span>base_image
+</code></pre></div>
+<p>where <code>sandbox_name.sandbox</code> is the name of your sandbox, and <code>base_image</code> is the base of the container (equivalent to <code>Bootstrap</code> and <code>From</code> in our <code>def</code> file). In this case, we will use <code>docker://ubuntu:24.04</code> as our base image:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>apptainer<span class="w"> </span>build<span class="w"> </span>--sandbox<span class="w"> </span>lolcow.sandbox<span class="w"> </span>docker://ubuntu:24.04
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>geoff.weal@login03:~$<span class="w"> </span>apptainer<span class="w"> </span>build<span class="w"> </span>--sandbox<span class="w"> </span>lolcow.sandbox<span class="w"> </span>docker://ubuntu:24.04
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>INFO:<span class="w">    </span>Starting<span class="w"> </span>build...
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>INFO:<span class="w">    </span>Fetching<span class="w"> </span>OCI<span class="w"> </span>image...
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="m">28</span>.4MiB<span class="w"> </span>/<span class="w"> </span><span class="m">28</span>.4MiB<span class="w"> </span><span class="o">[====================================================================================================================================================================================================================================================]</span><span class="w"> </span><span class="m">100</span><span class="w"> </span>%<span class="w"> </span><span class="m">0</span>.0<span class="w"> </span>b/s<span class="w"> </span>0s
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>INFO:<span class="w">    </span>Extracting<span class="w"> </span>OCI<span class="w"> </span>image...
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>INFO:<span class="w">    </span>Inserting<span class="w"> </span>Apptainer<span class="w"> </span>configuration...
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>INFO:<span class="w">    </span>Creating<span class="w"> </span>sandbox<span class="w"> </span>directory...
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>INFO:<span class="w">    </span>Build<span class="w"> </span>complete:<span class="w"> </span>lolcow.sandbox
+</code></pre></div>
+<p><strong>Side-note</strong>: You will see in your directory a folder appear called <code>sandbox_name.sandbox</code> (for us, that is <code>lolcow.sandbox</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>geoff.weal@login03:~$<span class="w"> </span>ls
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>lolcow.sandbox
+</code></pre></div>
+<p>if you look inside of it, it will look a full fat file system containing everything you need to run the sandbox as a container, as well as eventually turn the sandbox into a container (see later).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>geoff.weal@login03:~$<span class="w"> </span>ls<span class="w"> </span>lolcow.sandbox
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>bin<span class="w">  </span>boot<span class="w">  </span>dev<span class="w">  </span>environment<span class="w">  </span>etc<span class="w">  </span>home<span class="w">  </span>lib<span class="w">  </span>lib64<span class="w">  </span>media<span class="w">  </span>mnt<span class="w">  </span>opt<span class="w">  </span>proc<span class="w">  </span>root<span class="w">  </span>run<span class="w">  </span>sbin<span class="w">  </span>singularity<span class="w">  </span>srv<span class="w">  </span>sys<span class="w">  </span>tmp<span class="w">  </span>usr<span class="w">  </span>var
+</code></pre></div>
+<p><strong>Second</strong>, we need to use <code>shell</code> to allow us to work inside our sandbox. We do this by typing into the terminal: </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>--writable<span class="w"> </span>--contain<span class="w"> </span>--fakeroot<span class="w"> </span>sandbox_name.sandbox
+</code></pre></div>
+<p>In our case:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>--writable<span class="w"> </span>--contain<span class="w"> </span>--fakeroot<span class="w"> </span>lolcow.sandbox
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>geoff.weal@login03:~$<span class="w"> </span>apptainer<span class="w"> </span>shell<span class="w"> </span>--writable<span class="w"> </span>--contain<span class="w"> </span>--fakeroot<span class="w"> </span>lolcow.sandbox
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>INFO:<span class="w">    </span>User<span class="w"> </span>not<span class="w"> </span>listed<span class="w"> </span><span class="k">in</span><span class="w"> </span>/etc/subuid,<span class="w"> </span>trying<span class="w"> </span>root-mapped<span class="w"> </span>namespace
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>INFO:<span class="w">    </span>Using<span class="w"> </span>fakeroot<span class="w"> </span><span class="nb">command</span><span class="w"> </span>combined<span class="w"> </span>with<span class="w"> </span>root-mapped<span class="w"> </span>namespace
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>WARNING:<span class="w"> </span>Skipping<span class="w"> </span>mount<span class="w"> </span>/etc/localtime<span class="w"> </span><span class="o">[</span>binds<span class="o">]</span>:<span class="w"> </span>/etc/localtime<span class="w"> </span>doesn<span class="err">'</span>t<span class="w"> </span>exist<span class="w"> </span><span class="k">in</span><span class="w"> </span>container
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>Apptainer&gt;<span class="w"> </span>
+</code></pre></div>
+<p>We can now install the packages for <code>lolcow</code> we would like using the apptainer shell (we will also install <code>nano</code> for later). </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>apt-get<span class="w"> </span>-y<span class="w"> </span>update
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>fortune<span class="w"> </span>cowsay<span class="w"> </span>lolcat
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>nano<span class="w"> </span>
+</code></pre></div>
+<p>This is equivalent to writing the <code>%post</code> command manually into the sandbox:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>geoff.weal@login03:~$<span class="w"> </span>apptainer<span class="w"> </span>shell<span class="w"> </span>--writable<span class="w"> </span>--contain<span class="w"> </span>--fakeroot<span class="w"> </span>lolcow.sandbox
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Apptainer&gt;<span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>update
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Get:1<span class="w"> </span>http://security.ubuntu.com/ubuntu<span class="w"> </span>noble-security<span class="w"> </span>InRelease<span class="w"> </span><span class="o">[</span><span class="m">126</span><span class="w"> </span>kB<span class="o">]</span><span class="w"> </span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>...
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>Reading<span class="w"> </span>package<span class="w"> </span>lists...<span class="w"> </span>Done
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>Apptainer&gt;<span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>fortune<span class="w"> </span>cowsay<span class="w"> </span>lolcat
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>Reading<span class="w"> </span>package<span class="w"> </span>lists...<span class="w"> </span>Done
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>...
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="k">done</span>.
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>Apptainer&gt;<span class="w"> </span>apt-get<span class="w"> </span>-y<span class="w"> </span>install<span class="w"> </span>nano
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>Reading<span class="w"> </span>package<span class="w"> </span>lists...<span class="w"> </span>Done
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>...
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="k">done</span>.
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>Apptainer&gt;<span class="w"> </span>
+</code></pre></div>
+<p><strong>Third</strong>, while we are still inside the container, we can write files that determine what <code>run</code> does. Inside the container terminal (the terminal should so <code>Apptainer&gt;</code>), do the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>/.singularity.d
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>/.singularity.d/runscript
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>touch<span class="w"> </span>/.singularity.d/runscript
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>chmod<span class="w"> </span><span class="m">0755</span><span class="w"> </span>/.singularity.d/runscript
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>nano<span class="w"> </span>/.singularity.d/runscript
+</code></pre></div>
+<p>Then include what you would like <code>run</code> to do inside this <code>runscript</code> file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="ch">#!/bin/sh -e</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>fortune<span class="w"> </span><span class="p">|</span><span class="w"> </span>cowsay<span class="w"> </span><span class="p">|</span><span class="w"> </span>lolcat
+</code></pre></div>
+<p><strong>Fourth</strong>, due to a small quirk of how ubuntu works, </p>
+<ol>
+<li>The <code>fortune</code>, <code>cowsay</code>, and <code>lolcat</code> programs are found in <code>/usr/games</code>. This folder is not pointed to by default in our sandbox. </li>
+<li>Some of the locale settings are not automatically given.</li>
+</ol>
+<p>These are subtle quirks you would not need to worry about, but are important for getting our <code>lolcow</code> program to work. </p>
+<p>Inside the container terminal (the terminal should so <code>Apptainer&gt;</code>), do the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>/.singularity.d/env
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>/.singularity.d/env/90-runtime.sh
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>touch<span class="w"> </span>/.singularity.d/env/90-runtime.sh
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>chmod<span class="w"> </span><span class="m">0755</span><span class="w"> </span>/.singularity.d/env/90-runtime.sh
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>nano<span class="w"> </span>/.singularity.d/env/90-runtime.sh
+</code></pre></div>
+<p>Then include what you would like <code>run</code> to do inside this file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Runtime environment for sandbox (SIF-equivalent)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1"># Ensure Debian games binaries are visible</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/games:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># Stable, container-safe locale</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LANG</span><span class="o">=</span>C
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LC_ALL</span><span class="o">=</span>C
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the <code>shell</code>.</p>
+<p>Try this out by typing into the container's terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Ensure Debian games binaries are visible</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/games:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Stable, container-safe locale</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LANG</span><span class="o">=</span>C
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LC_ALL</span><span class="o">=</span>C
+</code></pre></div>
+<p>then:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>fortune<span class="w"> </span><span class="p">|</span><span class="w"> </span>cowsay<span class="w"> </span><span class="p">|</span><span class="w"> </span>lolcat
+</code></pre></div>
+<p>Hopefully, you should see something happen!</p>
+</div>
+<p><strong>Finally</strong>, we are done with constructing our container sandbox. We can now use Apptainer to turn our sandbox into a container. First, exit out of your container:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>Apptainer&gt;<span class="w"> </span><span class="nb">exit</span>
+</code></pre></div>
+<p>Then run in the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>apptainer<span class="w"> </span>build<span class="w"> </span>lolcow-from-sandbox.sif<span class="w"> </span>lolcow.sandbox<span class="w"> </span>
+</code></pre></div>
+<p>This will give you a <code>sif</code> container file called <code>lolcow-from-sandbox.sif</code> that you can now use:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>geoff.weal@login03:~$<span class="w"> </span>apptainer<span class="w"> </span>run<span class="w"> </span>lolcow-from-sandbox.sif
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w"> </span>________________________________________
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>/<span class="w"> </span>It<span class="w"> </span>has<span class="w"> </span>long<span class="w"> </span>been<span class="w"> </span>an<span class="w"> </span>axiom<span class="w"> </span>of<span class="w"> </span>mine<span class="w"> </span>that<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="p">|</span><span class="w"> </span>the<span class="w"> </span>little<span class="w"> </span>things<span class="w"> </span>are<span class="w"> </span>infinitely<span class="w"> </span>the<span class="w">   </span><span class="p">|</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="p">|</span><span class="w"> </span>most<span class="w"> </span>important.<span class="w">                        </span><span class="p">|</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="p">|</span><span class="w">                                        </span><span class="p">|</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="p">|</span><span class="w"> </span>--<span class="w"> </span>Sir<span class="w"> </span>Arthur<span class="w"> </span>Conan<span class="w"> </span>Doyle,<span class="w"> </span><span class="s2">"A Case of  |</span>
+<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="s2">\ Identity"</span><span class="w">                              </span>/
+<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="w"> </span>----------------------------------------
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">        </span><span class="se">\ </span><span class="w">  </span>^__^
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">         </span><span class="se">\ </span><span class="w"> </span><span class="o">(</span>oo<span class="o">)</span><span class="se">\_</span>______
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="w">            </span><span class="o">(</span>__<span class="o">)</span><span class="se">\ </span><span class="w">      </span><span class="o">)</span><span class="se">\/\</span>
+<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">                </span><span class="o">||</span>----w<span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="w">                </span><span class="o">||</span><span class="w">     </span><span class="o">||</span>
+</code></pre></div>
+<h2 id="making-changes-to-a-sandbox">Making changes to a Sandbox<a class="headerlink" href="#making-changes-to-a-sandbox" title="Permanent link">¶</a></h2>
+<p>Sandboxes allow you to make modifications to your container on the fly, such as adding packages or removing packages. Lets consider we want to create a container that gets My Little Ponies to say quotes. We can do this with sandboxes because they are mutable.</p>
+<p><strong>First</strong>, open up our original sandbox in a shell by typing into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>--writable<span class="w">  </span>--contain<span class="w"> </span>--fakeroot<span class="w"> </span>lolcow.sandbox
+</code></pre></div>
+<p><strong>Second</strong>, we need to install ponysay on our sandbox. You can do this by typing into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Pacific/Auckland"</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/timezone
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>apt-get<span class="w"> </span>update
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>git<span class="w"> </span>python3
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>texinfo
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="nb">cd</span><span class="w"> </span>/opt
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/erkin/ponysay.git
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="nb">cd</span><span class="w"> </span>ponysay
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>python3<span class="w"> </span>setup.py<span class="w"> </span>install<span class="w"> </span>--freedom<span class="o">=</span>partial
+</code></pre></div>
+<p><strong>Third</strong>, we will need to rewrite our <code>runscript</code> so that it allows for My Little Ponies to give quotes. To do this, open up <code>runscript</code> in the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>nano<span class="w"> </span>/.singularity.d/runscript
+</code></pre></div>
+<p>And make sure your <code>runscript</code> looks like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="ch">#!/bin/sh -e</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>fortune<span class="w"> </span><span class="p">|</span><span class="w"> </span>ponysay
+</code></pre></div>
+<p><strong>Forth</strong> (Optional), unfortunately there will be a slightly annoying warning from python when you run <code>ponysay</code>. You can prevent it from arising by adding a line to your environment file. In the terminal open <code>/.singularity.d/env/90-runtime.sh</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>nano<span class="w"> </span>/.singularity.d/env/90-runtime.sh
+</code></pre></div>
+<p>Then include what you would like <code>export PYTHONWARNINGS=ignore</code> at the bottom of this file: </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Runtime environment for sandbox (SIF-equivalent)</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="c1"># Ensure Debian games binaries are visible</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/games:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="c1"># Stable, container-safe locale</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LANG</span><span class="o">=</span>C
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LC_ALL</span><span class="o">=</span>C
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="c1"># Ignore python warnings</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONWARNINGS</span><span class="o">=</span>ignore
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the <code>shell</code>.</p>
+<p>Try this out by typing into the container's terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Ensure Debian games binaries are visible</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="s2">"/usr/games:</span><span class="nv">$PATH</span><span class="s2">"</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Stable, container-safe locale</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LANG</span><span class="o">=</span>C
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">LC_ALL</span><span class="o">=</span>C
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1"># Ignore python warnings</span>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONWARNINGS</span><span class="o">=</span>ignore
+</code></pre></div>
+<p>then:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>fortune<span class="w"> </span><span class="p">|</span><span class="w"> </span>ponysay
+</code></pre></div>
+<p>Hopefully, you should see something happen!</p>
+</div>
+<p><strong>Fifth</strong>, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of your container</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Apptainer&gt;<span class="w"> </span><span class="nb">exit</span>
+</code></pre></div>
+<p>Then run in the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>apptainer<span class="w"> </span>build<span class="w"> </span>lolpony-from-sandbox.sif<span class="w"> </span>lolcow.sandbox<span class="w"> </span>
+</code></pre></div>
+<p>This will give you a <code>sif</code> container file called <code>lolpony-from-sandbox.sif</code> that you can now use. Try it out by typing into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>apptainer<span class="w"> </span>run<span class="w"> </span>lolpony-from-sandbox.sif
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>geoff.weal@login03:~$<span class="w"> </span>apptainer<span class="w"> </span>run<span class="w"> </span>lolpony-from-sandbox.sif
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="w"> </span>_______________________________________________________________<span class="w"> </span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>/<span class="w"> </span>Grief<span class="w"> </span>can<span class="w"> </span>take<span class="w"> </span>care<span class="w"> </span>of<span class="w"> </span>itself<span class="p">;</span><span class="w"> </span>but<span class="w"> </span>to<span class="w"> </span>get<span class="w"> </span>the<span class="w"> </span>full<span class="w"> </span>value<span class="w"> </span>of<span class="w"> </span>a<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="p">|</span><span class="w"> </span>joy<span class="w"> </span>you<span class="w"> </span>must<span class="w">                                                  </span><span class="p">|</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="p">|</span><span class="w"> </span>have<span class="w"> </span>somebody<span class="w"> </span>to<span class="w"> </span>divide<span class="w"> </span>it<span class="w"> </span>with.<span class="w">                              </span><span class="p">|</span>
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="se">\ </span><span class="w">                </span>--<span class="w"> </span>Mark<span class="w"> </span>Twain<span class="w">                                 </span>/
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="w"> </span>---------------------------------------------------------------<span class="w"> </span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="w">                               </span><span class="se">\</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="w">                                </span><span class="se">\</span>
+<a id="__codelineno-30-10" name="__codelineno-30-10" href="#__codelineno-30-10"></a><span class="w">                                 </span><span class="se">\</span>
+<a id="__codelineno-30-11" name="__codelineno-30-11" href="#__codelineno-30-11"></a><span class="w">                              </span>▄<span class="w"> </span>▄▄▄▄▄▄▄▄▄▄▄▄▄<span class="w">   </span>
+<a id="__codelineno-30-12" name="__codelineno-30-12" href="#__codelineno-30-12"></a><span class="w">                             </span>██▄▄██████████▄█▄▄<span class="w"> </span>
+<a id="__codelineno-30-13" name="__codelineno-30-13" href="#__codelineno-30-13"></a><span class="w">                            </span>██▄█████▄▄▄█████▄█▀█
+<a id="__codelineno-30-14" name="__codelineno-30-14" href="#__codelineno-30-14"></a><span class="w">                           </span>██████▄▄▄▄█▄▄▄▄▄▄███<span class="w"> </span>
+<a id="__codelineno-30-15" name="__codelineno-30-15" href="#__codelineno-30-15"></a><span class="w">                           </span>█▄███▄▄▄▄▄████▄▄<span class="w"> </span>▀▄██
+<a id="__codelineno-30-16" name="__codelineno-30-16" href="#__codelineno-30-16"></a><span class="w">                           </span>███▄▄█▄▄██▄██▄█▄<span class="w">   </span>██
+<a id="__codelineno-30-17" name="__codelineno-30-17" href="#__codelineno-30-17"></a><span class="w">                           </span>██▄▄█████▄████▄█<span class="w">    </span>▀
+<a id="__codelineno-30-18" name="__codelineno-30-18" href="#__codelineno-30-18"></a><span class="w">             </span>▄▄▄▄▄▄<span class="w">         </span>██▄▄█▄▄██▄█▄█▄█<span class="w">     </span>
+<a id="__codelineno-30-19" name="__codelineno-30-19" href="#__codelineno-30-19"></a><span class="w">          </span>▄▄▄██████▄▄▄<span class="w">      </span>███▄▄███████▄▄▀<span class="w">     </span>
+<a id="__codelineno-30-20" name="__codelineno-30-20" href="#__codelineno-30-20"></a><span class="w">         </span>▄▄███████▄▄▄▄▄▄▄▄▄▄▄█▄▄▄▄██▀▀▀▀<span class="w">        </span>
+<a id="__codelineno-30-21" name="__codelineno-30-21" href="#__codelineno-30-21"></a><span class="w">       </span>▄▄█▄███████<span class="w"> </span>▄▄▄█▄▄▄▄██▄██▄███<span class="w">            </span>
+<a id="__codelineno-30-22" name="__codelineno-30-22" href="#__codelineno-30-22"></a><span class="w">       </span>█▀█████████<span class="w"> </span>██▄█▄█▄▄█▄▄█▄██▄▀<span class="w">            </span>
+<a id="__codelineno-30-23" name="__codelineno-30-23" href="#__codelineno-30-23"></a><span class="w">        </span>▄▄████████<span class="w"> </span>▀▄▄▄███▄▄▄▄▄▄█▄▀<span class="w">             </span>
+<a id="__codelineno-30-24" name="__codelineno-30-24" href="#__codelineno-30-24"></a><span class="w">      </span>▄▄██████▄▀█<span class="w">  </span>▄███▄█▄▄▄▄██▄▄█<span class="w">              </span>
+<a id="__codelineno-30-25" name="__codelineno-30-25" href="#__codelineno-30-25"></a><span class="w">   </span>▄▄▄████▄███<span class="w">    </span>█████▄▄▀<span class="w">  </span>██████<span class="w">              </span>
+<a id="__codelineno-30-26" name="__codelineno-30-26" href="#__codelineno-30-26"></a><span class="w"> </span>▀▀▄▄▄▄▄▄▄█▄▀<span class="w">     </span>███████<span class="w">   </span>███▄▄▄▄<span class="w">             </span>
+<a id="__codelineno-30-27" name="__codelineno-30-27" href="#__codelineno-30-27"></a><span class="w">      </span>▄█▄▀▀<span class="w">      </span>████████<span class="w">   </span>███████<span class="w">             </span>
+<a id="__codelineno-30-28" name="__codelineno-30-28" href="#__codelineno-30-28"></a><span class="w">                 </span>████████<span class="w">   </span>████▄▄██▄<span class="w">           </span>
+<a id="__codelineno-30-29" name="__codelineno-30-29" href="#__codelineno-30-29"></a><span class="w">                </span>██████▄▄█<span class="w">   </span>██████▄▄█<span class="w">           </span>
+<a id="__codelineno-30-30" name="__codelineno-30-30" href="#__codelineno-30-30"></a><span class="w">                </span>█▄▄▄▄█<span class="w">       </span>█▄▄▄▄█<span class="w">             </span>
+</code></pre></div>
+<h2 id="advice-for-using-sandboxes">Advice for using Sandboxes<a class="headerlink" href="#advice-for-using-sandboxes" title="Permanent link">¶</a></h2>
+<p>Sandboxes are great when you want to muck around and play with your container without having to rewrite and build several <code>def</code> files over and over. However, it is worth noting that <code>def</code> files are very useful as they provide all the infromation needed to write a container from scratch (particularly due to their <code>%post</code> section):</p>
+<p>Therefore, here are some pointer for using sandboxes:</p>
+<ul>
+<li>As you are using sandboxes, write down what worked in the <code>%post</code> section of the <code>def</code> file. Once you have something working, use the <code>def</code> file to build your production-grade container.</li>
+<li>If you need to modify your container further, you can always use the information from the <code>def</code> file to create a new sandbox from which you can make further modifications to. <ul>
+<li>Again, write your successful steps in the <code>%post</code> section of the <code>def</code> file.</li>
+</ul>
+</li>
+</ul>
+<h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">¶</a></h2>
+<div class="admonition dumbbell">
+<p class="admonition-title">Question 1</p>
+<p>A student want to run GROMACS in a container, but doesn't know what version they want to use. The student knows the protocol for installing GROMACS 2021.6 on Ubuntu 22.04, which is: </p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Update Ubuntu</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>apt-get<span class="w"> </span>update
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+<a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1"># Set the locate for date</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Pacific/Auckland"</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/timezone
+<a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>
+<a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="c1"># Install necessary packages</span>
+<a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="w">  </span>build-essential<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="w">  </span>cmake<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a><span class="w">  </span>wget<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a><span class="w">  </span>python3<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a><span class="w">  </span>libfftw3-dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-14" name="__codelineno-31-14" href="#__codelineno-31-14"></a><span class="w">  </span>libgsl-dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-31-15" name="__codelineno-31-15" href="#__codelineno-31-15"></a><span class="w">  </span>ca-certificates<span class="w"> </span>
+<a id="__codelineno-31-16" name="__codelineno-31-16" href="#__codelineno-31-16"></a>
+<a id="__codelineno-31-17" name="__codelineno-31-17" href="#__codelineno-31-17"></a><span class="c1"># Download and install GROMACS 2021.6</span>
+<a id="__codelineno-31-18" name="__codelineno-31-18" href="#__codelineno-31-18"></a><span class="nb">cd</span><span class="w"> </span>/opt
+<a id="__codelineno-31-19" name="__codelineno-31-19" href="#__codelineno-31-19"></a>wget<span class="w"> </span>https://ftp.gromacs.org/gromacs/gromacs-2021.6.tar.gz
+<a id="__codelineno-31-20" name="__codelineno-31-20" href="#__codelineno-31-20"></a>tar<span class="w"> </span>-xzf<span class="w"> </span>gromacs-2021.6.tar.gz
+<a id="__codelineno-31-21" name="__codelineno-31-21" href="#__codelineno-31-21"></a><span class="nb">cd</span><span class="w"> </span>gromacs-2021.6
+<a id="__codelineno-31-22" name="__codelineno-31-22" href="#__codelineno-31-22"></a>
+<a id="__codelineno-31-23" name="__codelineno-31-23" href="#__codelineno-31-23"></a>
+<a id="__codelineno-31-24" name="__codelineno-31-24" href="#__codelineno-31-24"></a><span class="c1"># Configure GROMACS 2021.6</span>
+<a id="__codelineno-31-25" name="__codelineno-31-25" href="#__codelineno-31-25"></a>mkdir<span class="w"> </span>build
+<a id="__codelineno-31-26" name="__codelineno-31-26" href="#__codelineno-31-26"></a><span class="nb">cd</span><span class="w"> </span>build
+<a id="__codelineno-31-27" name="__codelineno-31-27" href="#__codelineno-31-27"></a>cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/opt/gromacs<span class="w"> </span>-DGMX_BUILD_OWN_FFTW<span class="o">=</span>OFF<span class="w"> </span>-DGMX_MPI<span class="o">=</span>OFF<span class="w"> </span>-DGMX_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DGMX_GPU<span class="o">=</span>OFF<span class="w"> </span>-DGMX_USE_CUDA<span class="o">=</span>OFF
+<a id="__codelineno-31-28" name="__codelineno-31-28" href="#__codelineno-31-28"></a>
+<a id="__codelineno-31-29" name="__codelineno-31-29" href="#__codelineno-31-29"></a><span class="c1"># Build and install GROMACS 2021.6</span>
+<a id="__codelineno-31-30" name="__codelineno-31-30" href="#__codelineno-31-30"></a>make<span class="w"> </span>-j8
+<a id="__codelineno-31-31" name="__codelineno-31-31" href="#__codelineno-31-31"></a>make<span class="w"> </span>install
+<a id="__codelineno-31-32" name="__codelineno-31-32" href="#__codelineno-31-32"></a>
+<a id="__codelineno-31-33" name="__codelineno-31-33" href="#__codelineno-31-33"></a><span class="c1"># Remove unnecessary GROMACS files after installation</span>
+<a id="__codelineno-31-34" name="__codelineno-31-34" href="#__codelineno-31-34"></a><span class="nb">cd</span><span class="w"> </span>/opt
+<a id="__codelineno-31-35" name="__codelineno-31-35" href="#__codelineno-31-35"></a>rm<span class="w"> </span>-rfv<span class="w"> </span>gromacs-2021.6.tar.gz<span class="w"> </span>gromacs-2021.6
+</code></pre></div>
+<p>GROMACS also need the following environment to run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># GROMACS environment</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nb">source</span><span class="w"> </span>/opt/gromacs/bin/GMXRC
+</code></pre></div>
+<p>Use a sandbox to create this container as a <code>sif</code> file. Show that it works by running <code>apptainer exec gmx --version</code>.</p>
+<details class="success">
+<summary>Solution</summary>
+<p><strong>First</strong>, set up your sandbox using Ubuntu 22.04:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>apptainer<span class="w"> </span>build<span class="w"> </span>--sandbox<span class="w"> </span>GROMACS.sandbox<span class="w"> </span>docker://ubuntu:22.04
+</code></pre></div>
+<p><strong>Second</strong>, open the sandbox in the apptainer shell</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>--writable<span class="w">  </span>--contain<span class="w"> </span>--fakeroot<span class="w"> </span>GROMACS.sandbox
+</code></pre></div>
+<p><strong>Third</strong>, type the following commands into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Update Ubuntu</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>apt-get<span class="w"> </span>update
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+<a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Set the locate for date</span>
+<a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"Pacific/Auckland"</span><span class="w"> </span>&gt;<span class="w"> </span>/etc/timezone
+<a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
+<a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="c1"># Install necessary packages</span>
+<a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a><span class="w">  </span>build-essential<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="w">  </span>cmake<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="w">  </span>wget<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a><span class="w">  </span>python3<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="w">  </span>libfftw3-dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a><span class="w">  </span>libgsl-dev<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="w">  </span>ca-certificates
+<a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>
+<a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a><span class="c1"># Download and install GROMACS 2021.6</span>
+<a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a><span class="nb">cd</span><span class="w"> </span>/opt
+<a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a>wget<span class="w"> </span>https://ftp.gromacs.org/gromacs/gromacs-2021.6.tar.gz
+<a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a>tar<span class="w"> </span>-xzf<span class="w"> </span>gromacs-2021.6.tar.gz
+<a id="__codelineno-35-21" name="__codelineno-35-21" href="#__codelineno-35-21"></a><span class="nb">cd</span><span class="w"> </span>gromacs-2021.6
+<a id="__codelineno-35-22" name="__codelineno-35-22" href="#__codelineno-35-22"></a>
+<a id="__codelineno-35-23" name="__codelineno-35-23" href="#__codelineno-35-23"></a><span class="c1"># Configure GROMACS 2021.6</span>
+<a id="__codelineno-35-24" name="__codelineno-35-24" href="#__codelineno-35-24"></a>mkdir<span class="w"> </span>build
+<a id="__codelineno-35-25" name="__codelineno-35-25" href="#__codelineno-35-25"></a><span class="nb">cd</span><span class="w"> </span>build
+<a id="__codelineno-35-26" name="__codelineno-35-26" href="#__codelineno-35-26"></a>cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/opt/gromacs<span class="w"> </span>-DGMX_BUILD_OWN_FFTW<span class="o">=</span>OFF<span class="w"> </span>-DGMX_MPI<span class="o">=</span>OFF<span class="w"> </span>-DGMX_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DGMX_GPU<span class="o">=</span>OFF<span class="w"> </span>-DGMX_USE_CUDA<span class="o">=</span>OFF
+<a id="__codelineno-35-27" name="__codelineno-35-27" href="#__codelineno-35-27"></a>
+<a id="__codelineno-35-28" name="__codelineno-35-28" href="#__codelineno-35-28"></a><span class="c1"># Build and install GROMACS 2021.6</span>
+<a id="__codelineno-35-29" name="__codelineno-35-29" href="#__codelineno-35-29"></a>make<span class="w"> </span>-j8
+<a id="__codelineno-35-30" name="__codelineno-35-30" href="#__codelineno-35-30"></a>make<span class="w"> </span>install
+<a id="__codelineno-35-31" name="__codelineno-35-31" href="#__codelineno-35-31"></a>
+<a id="__codelineno-35-32" name="__codelineno-35-32" href="#__codelineno-35-32"></a><span class="c1"># Remove unnecessary GROMACS files after installation</span>
+<a id="__codelineno-35-33" name="__codelineno-35-33" href="#__codelineno-35-33"></a><span class="nb">cd</span><span class="w"> </span>/opt
+<a id="__codelineno-35-34" name="__codelineno-35-34" href="#__codelineno-35-34"></a>rm<span class="w"> </span>-rfv<span class="w"> </span>gromacs-2021.6.tar.gz<span class="w"> </span>gromacs-2021.6
+</code></pre></div>
+<p>This will install GROMACS 2021.6 in your container</p>
+<p><strong>Fourth</strong>, create an environment for GROMACS to run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>/.singularity.d/env
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>rm<span class="w"> </span>-rf<span class="w"> </span>/.singularity.d/env/90-gromacs.sh
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>touch<span class="w"> </span>/.singularity.d/env/90-gromacs.sh
+<a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>chmod<span class="w"> </span><span class="m">0755</span><span class="w"> </span>/.singularity.d/env/90-gromacs.sh
+<a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>nano
+<a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>nano<span class="w"> </span>/.singularity.d/env/90-gromacs.sh
+</code></pre></div>
+<p>inside <code>90-gromacs.sh</code>, add the following:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># GROMACS environment</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="nb">source</span><span class="w"> </span>/opt/gromacs/bin/GMXRC
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the <code>shell</code>.</p>
+<p>Try this out by typing into the container's terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># GROMACS environment</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="nb">source</span><span class="w"> </span>/opt/gromacs/bin/GMXRC
+</code></pre></div>
+<p>then:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>gmx<span class="w"> </span>--version
+</code></pre></div>
+<p>Hopefully, you should see something happen!</p>
+</div>
+<p><strong>Fifth</strong>, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of the container</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>Apptainer&gt;<span class="w"> </span><span class="nb">exit</span>
+</code></pre></div>
+<p>Then run in the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>apptainer<span class="w"> </span>build<span class="w"> </span>GROMACS.sif<span class="w"> </span>GROMACS.sandbox
+</code></pre></div>
+<p>This will give you a <code>sif</code> container file called <code>GROMACS.sif</code> that you can now use. Try it out by typing into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>GROMACS.sif<span class="w"> </span>gmx<span class="w"> </span>--version
+</code></pre></div>
+<p>This should give something like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>geoff.weal@login03:~$<span class="w"> </span>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>GROMACS.sif<span class="w"> </span>gmx<span class="w"> </span>--version
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="w">                         </span>:-<span class="o">)</span><span class="w"> </span>GROMACS<span class="w"> </span>-<span class="w"> </span>gmx,<span class="w"> </span><span class="m">2021</span>.6<span class="w"> </span><span class="o">(</span>-:
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="w">                            </span>GROMACS<span class="w"> </span>is<span class="w"> </span>written<span class="w"> </span>by:
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="w">     </span>Andrey<span class="w"> </span>Alekseenko<span class="w">              </span>Emile<span class="w"> </span>Apol<span class="w">              </span>Rossen<span class="w"> </span>Apostolov<span class="w">     </span>
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="w">         </span>Paul<span class="w"> </span>Bauer<span class="w">           </span>Herman<span class="w"> </span>J.C.<span class="w"> </span>Berendsen<span class="w">           </span>Par<span class="w"> </span>Bjelkmar<span class="w">       </span>
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="w">       </span>Christian<span class="w"> </span>Blau<span class="w">           </span>Viacheslav<span class="w"> </span>Bolnykh<span class="w">             </span>Kevin<span class="w"> </span>Boyd<span class="w">        </span>
+<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a><span class="w">     </span>Aldert<span class="w"> </span>van<span class="w"> </span>Buuren<span class="w">           </span>Rudi<span class="w"> </span>van<span class="w"> </span>Drunen<span class="w">             </span>Anton<span class="w"> </span>Feenstra<span class="w">      </span>
+<a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a><span class="w">    </span>Gilles<span class="w"> </span>Gouaillardet<span class="w">             </span>Alan<span class="w"> </span>Gray<span class="w">               </span>Gerrit<span class="w"> </span>Groenhof<span class="w">      </span>
+<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a><span class="w">       </span>Anca<span class="w"> </span>Hamuraru<span class="w">            </span>Vincent<span class="w"> </span>Hindriksen<span class="w">          </span>M.<span class="w"> </span>Eric<span class="w"> </span>Irrgang<span class="w">      </span>
+<a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a><span class="w">      </span>Aleksei<span class="w"> </span>Iupinov<span class="w">           </span>Christoph<span class="w"> </span>Junghans<span class="w">             </span>Joe<span class="w"> </span>Jordan<span class="w">        </span>
+<a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a><span class="w">    </span>Dimitrios<span class="w"> </span>Karkoulis<span class="w">            </span>Peter<span class="w"> </span>Kasson<span class="w">                </span>Jiri<span class="w"> </span>Kraus<span class="w">        </span>
+<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a><span class="w">      </span>Carsten<span class="w"> </span>Kutzner<span class="w">              </span>Per<span class="w"> </span>Larsson<span class="w">              </span>Justin<span class="w"> </span>A.<span class="w"> </span>Lemkul<span class="w">     </span>
+<a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a><span class="w">       </span>Viveca<span class="w"> </span>Lindahl<span class="w">            </span>Magnus<span class="w"> </span>Lundborg<span class="w">             </span>Erik<span class="w"> </span>Marklund<span class="w">       </span>
+<a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a><span class="w">        </span>Pascal<span class="w"> </span>Merz<span class="w">             </span>Pieter<span class="w"> </span>Meulenhoff<span class="w">            </span>Teemu<span class="w"> </span>Murtola<span class="w">       </span>
+<a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a><span class="w">        </span>Szilard<span class="w"> </span>Pall<span class="w">               </span>Sander<span class="w"> </span>Pronk<span class="w">              </span>Roland<span class="w"> </span>Schulz<span class="w">       </span>
+<a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a><span class="w">       </span>Michael<span class="w"> </span>Shirts<span class="w">            </span>Alexey<span class="w"> </span>Shvetsov<span class="w">             </span>Alfons<span class="w"> </span>Sijbers<span class="w">      </span>
+<a id="__codelineno-43-18" name="__codelineno-43-18" href="#__codelineno-43-18"></a><span class="w">       </span>Peter<span class="w"> </span>Tieleman<span class="w">              </span>Jon<span class="w"> </span>Vincent<span class="w">              </span>Teemu<span class="w"> </span>Virolainen<span class="w">     </span>
+<a id="__codelineno-43-19" name="__codelineno-43-19" href="#__codelineno-43-19"></a><span class="w">     </span>Christian<span class="w"> </span>Wennberg<span class="w">            </span>Maarten<span class="w"> </span>Wolf<span class="w">              </span>Artem<span class="w"> </span>Zhmurov<span class="w">       </span>
+<a id="__codelineno-43-20" name="__codelineno-43-20" href="#__codelineno-43-20"></a><span class="w">                           </span>and<span class="w"> </span>the<span class="w"> </span>project<span class="w"> </span>leaders:
+<a id="__codelineno-43-21" name="__codelineno-43-21" href="#__codelineno-43-21"></a><span class="w">        </span>Mark<span class="w"> </span>Abraham,<span class="w"> </span>Berk<span class="w"> </span>Hess,<span class="w"> </span>Erik<span class="w"> </span>Lindahl,<span class="w"> </span>and<span class="w"> </span>David<span class="w"> </span>van<span class="w"> </span>der<span class="w"> </span>Spoel
+<a id="__codelineno-43-22" name="__codelineno-43-22" href="#__codelineno-43-22"></a>
+<a id="__codelineno-43-23" name="__codelineno-43-23" href="#__codelineno-43-23"></a>Copyright<span class="w"> </span><span class="o">(</span>c<span class="o">)</span><span class="w"> </span><span class="m">1991</span>-2000,<span class="w"> </span>University<span class="w"> </span>of<span class="w"> </span>Groningen,<span class="w"> </span>The<span class="w"> </span>Netherlands.
+<a id="__codelineno-43-24" name="__codelineno-43-24" href="#__codelineno-43-24"></a>Copyright<span class="w"> </span><span class="o">(</span>c<span class="o">)</span><span class="w"> </span><span class="m">2001</span>-2022,<span class="w"> </span>The<span class="w"> </span>GROMACS<span class="w"> </span>development<span class="w"> </span>team<span class="w"> </span>at
+<a id="__codelineno-43-25" name="__codelineno-43-25" href="#__codelineno-43-25"></a>Uppsala<span class="w"> </span>University,<span class="w"> </span>Stockholm<span class="w"> </span>University<span class="w"> </span>and
+<a id="__codelineno-43-26" name="__codelineno-43-26" href="#__codelineno-43-26"></a>the<span class="w"> </span>Royal<span class="w"> </span>Institute<span class="w"> </span>of<span class="w"> </span>Technology,<span class="w"> </span>Sweden.
+<a id="__codelineno-43-27" name="__codelineno-43-27" href="#__codelineno-43-27"></a>check<span class="w"> </span>out<span class="w"> </span>http://www.gromacs.org<span class="w"> </span><span class="k">for</span><span class="w"> </span>more<span class="w"> </span>information.
+<a id="__codelineno-43-28" name="__codelineno-43-28" href="#__codelineno-43-28"></a>
+<a id="__codelineno-43-29" name="__codelineno-43-29" href="#__codelineno-43-29"></a>GROMACS<span class="w"> </span>is<span class="w"> </span>free<span class="w"> </span>software<span class="p">;</span><span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>redistribute<span class="w"> </span>it<span class="w"> </span>and/or<span class="w"> </span>modify<span class="w"> </span>it
+<a id="__codelineno-43-30" name="__codelineno-43-30" href="#__codelineno-43-30"></a>under<span class="w"> </span>the<span class="w"> </span>terms<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>GNU<span class="w"> </span>Lesser<span class="w"> </span>General<span class="w"> </span>Public<span class="w"> </span>License
+<a id="__codelineno-43-31" name="__codelineno-43-31" href="#__codelineno-43-31"></a>as<span class="w"> </span>published<span class="w"> </span>by<span class="w"> </span>the<span class="w"> </span>Free<span class="w"> </span>Software<span class="w"> </span>Foundation<span class="p">;</span><span class="w"> </span>either<span class="w"> </span>version<span class="w"> </span><span class="m">2</span>.1
+<a id="__codelineno-43-32" name="__codelineno-43-32" href="#__codelineno-43-32"></a>of<span class="w"> </span>the<span class="w"> </span>License,<span class="w"> </span>or<span class="w"> </span><span class="o">(</span>at<span class="w"> </span>your<span class="w"> </span>option<span class="o">)</span><span class="w"> </span>any<span class="w"> </span>later<span class="w"> </span>version.
+<a id="__codelineno-43-33" name="__codelineno-43-33" href="#__codelineno-43-33"></a>
+<a id="__codelineno-43-34" name="__codelineno-43-34" href="#__codelineno-43-34"></a>GROMACS:<span class="w">      </span>gmx,<span class="w"> </span>version<span class="w"> </span><span class="m">2021</span>.6
+<a id="__codelineno-43-35" name="__codelineno-43-35" href="#__codelineno-43-35"></a>Executable:<span class="w">   </span>/opt/gromacs/bin/gmx
+<a id="__codelineno-43-36" name="__codelineno-43-36" href="#__codelineno-43-36"></a>Data<span class="w"> </span>prefix:<span class="w">  </span>/opt/gromacs
+<a id="__codelineno-43-37" name="__codelineno-43-37" href="#__codelineno-43-37"></a>Working<span class="w"> </span>dir:<span class="w">  </span>/nesi/project/nesi99999/geoffreyweal/Tutorials/containers
+<a id="__codelineno-43-38" name="__codelineno-43-38" href="#__codelineno-43-38"></a>Command<span class="w"> </span>line:
+<a id="__codelineno-43-39" name="__codelineno-43-39" href="#__codelineno-43-39"></a><span class="w">  </span>gmx<span class="w"> </span>--version
+<a id="__codelineno-43-40" name="__codelineno-43-40" href="#__codelineno-43-40"></a>
+<a id="__codelineno-43-41" name="__codelineno-43-41" href="#__codelineno-43-41"></a>GROMACS<span class="w"> </span>version:<span class="w">    </span><span class="m">2021</span>.6
+<a id="__codelineno-43-42" name="__codelineno-43-42" href="#__codelineno-43-42"></a>Precision:<span class="w">          </span>mixed
+<a id="__codelineno-43-43" name="__codelineno-43-43" href="#__codelineno-43-43"></a>Memory<span class="w"> </span>model:<span class="w">       </span><span class="m">64</span><span class="w"> </span>bit
+<a id="__codelineno-43-44" name="__codelineno-43-44" href="#__codelineno-43-44"></a>MPI<span class="w"> </span>library:<span class="w">        </span>thread_mpi
+<a id="__codelineno-43-45" name="__codelineno-43-45" href="#__codelineno-43-45"></a>OpenMP<span class="w"> </span>support:<span class="w">     </span>enabled<span class="w"> </span><span class="o">(</span><span class="nv">GMX_OPENMP_MAX_THREADS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">64</span><span class="o">)</span>
+<a id="__codelineno-43-46" name="__codelineno-43-46" href="#__codelineno-43-46"></a>GPU<span class="w"> </span>support:<span class="w">        </span>disabled
+<a id="__codelineno-43-47" name="__codelineno-43-47" href="#__codelineno-43-47"></a>SIMD<span class="w"> </span>instructions:<span class="w">  </span>AVX2_256
+<a id="__codelineno-43-48" name="__codelineno-43-48" href="#__codelineno-43-48"></a>FFT<span class="w"> </span>library:<span class="w">        </span>fftw-3.3.8-sse2-avx
+<a id="__codelineno-43-49" name="__codelineno-43-49" href="#__codelineno-43-49"></a>RDTSCP<span class="w"> </span>usage:<span class="w">       </span>enabled
+<a id="__codelineno-43-50" name="__codelineno-43-50" href="#__codelineno-43-50"></a>TNG<span class="w"> </span>support:<span class="w">        </span>enabled
+<a id="__codelineno-43-51" name="__codelineno-43-51" href="#__codelineno-43-51"></a>Hwloc<span class="w"> </span>support:<span class="w">      </span>disabled
+<a id="__codelineno-43-52" name="__codelineno-43-52" href="#__codelineno-43-52"></a>Tracing<span class="w"> </span>support:<span class="w">    </span>disabled
+<a id="__codelineno-43-53" name="__codelineno-43-53" href="#__codelineno-43-53"></a>C<span class="w"> </span>compiler:<span class="w">         </span>/usr/bin/cc<span class="w"> </span>GNU<span class="w"> </span><span class="m">11</span>.4.0
+<a id="__codelineno-43-54" name="__codelineno-43-54" href="#__codelineno-43-54"></a>C<span class="w"> </span>compiler<span class="w"> </span>flags:<span class="w">   </span>-mavx2<span class="w"> </span>-mfma<span class="w"> </span>-Wno-missing-field-initializers<span class="w"> </span>-fexcess-precision<span class="o">=</span>fast<span class="w"> </span>-funroll-all-loops<span class="w"> </span>-O3<span class="w"> </span>-DNDEBUG
+<a id="__codelineno-43-55" name="__codelineno-43-55" href="#__codelineno-43-55"></a>C++<span class="w"> </span>compiler:<span class="w">       </span>/usr/bin/c++<span class="w"> </span>GNU<span class="w"> </span><span class="m">11</span>.4.0
+<a id="__codelineno-43-56" name="__codelineno-43-56" href="#__codelineno-43-56"></a>C++<span class="w"> </span>compiler<span class="w"> </span>flags:<span class="w"> </span>-mavx2<span class="w"> </span>-mfma<span class="w"> </span>-Wno-missing-field-initializers<span class="w"> </span>-fexcess-precision<span class="o">=</span>fast<span class="w"> </span>-funroll-all-loops<span class="w"> </span>-fopenmp<span class="w"> </span>-O3<span class="w"> </span>-DNDEBUG
+</code></pre></div>
+</details>
+</div>
+<div class="admonition dumbbell">
+<p class="admonition-title">Question 2</p>
+<p>This student (from question 1) wants to upgrade their version of GROMACS to 2025.4. Make a modification to your sandbox to account for this, and created an updated container using GROMACS 2025.4</p>
+<p>Note: You will want to download GROMACS from <code>https://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz</code></p>
+<p>Hint 1: You will need to remove the originally installed GROMACS folder before installing the new GROMACS version:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>rm<span class="w"> </span>-rvf<span class="w"> </span>/opt/gromacs
+</code></pre></div>
+<p>Hint 2: You can use the same <code>cmake</code> and <code>make</code> commands as before, but you will need to update <code>cmake</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>apt-get<span class="w"> </span>purge<span class="w"> </span>--auto-remove<span class="w"> </span>-y<span class="w"> </span>cmake
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>apt-get<span class="w"> </span>update<span class="w"> </span>-y<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>software-properties-common<span class="w"> </span>lsb-release<span class="w"> </span>ca-certificates<span class="w"> </span>gpg<span class="w"> </span>wget
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>wget<span class="w"> </span>-O<span class="w"> </span>-<span class="w"> </span>https://apt.kitware.com/keys/kitware-archive-latest.asc<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>/usr/share/keyrings/kitware-archive-keyring.gpg<span class="w"> </span>&gt;/dev/null
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> main"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/kitware.list<span class="w"> </span>&gt;/dev/null
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">cmake</span><span class="o">=</span><span class="m">4</span>.3.1-0kitware1ubuntu22.04.1
+</code></pre></div>
+<details class="success">
+<summary>Solution</summary>
+<p><strong>First</strong>, open the sandbox in the apptainer shell</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>--writable<span class="w">  </span>--contain<span class="w"> </span>--fakeroot<span class="w"> </span>GROMACS.sandbox
+</code></pre></div>
+<p><strong>Second</strong>, remove the originally installed version of GROMACS</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>rm<span class="w"> </span>-rvf<span class="w"> </span>/opt/gromacs
+</code></pre></div>
+<p><strong>Third</strong>, update your <code>cmake</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>apt-get<span class="w"> </span>purge<span class="w"> </span>--auto-remove<span class="w"> </span>-y<span class="w"> </span>cmake
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>apt-get<span class="w"> </span>update<span class="w"> </span>-y<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>software-properties-common<span class="w"> </span>lsb-release<span class="w"> </span>ca-certificates<span class="w"> </span>gpg<span class="w"> </span>wget
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>wget<span class="w"> </span>-O<span class="w"> </span>-<span class="w"> </span>https://apt.kitware.com/keys/kitware-archive-latest.asc<span class="w"> </span><span class="m">2</span>&gt;/dev/null<span class="w"> </span><span class="p">|</span><span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>/usr/share/keyrings/kitware-archive-keyring.gpg<span class="w"> </span>&gt;/dev/null
+<a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">"deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> main"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/kitware.list<span class="w"> </span>&gt;/dev/null
+<a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a>apt-get<span class="w"> </span>update<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="nv">cmake</span><span class="o">=</span><span class="m">4</span>.3.1-0kitware1ubuntu22.04.1
+</code></pre></div>
+<p><strong>Fourth</strong>, type the following commands into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="c1"># Download and install GROMACS 2021.6</span>
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="nb">cd</span><span class="w"> </span>/opt
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>wget<span class="w"> </span>https://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>tar<span class="w"> </span>-xzf<span class="w"> </span>gromacs-2025.4.tar.gz
+<a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="nb">cd</span><span class="w"> </span>gromacs-2025.4
+<a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>
+<a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="c1"># Configure GROMACS 2025.4</span>
+<a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a>mkdir<span class="w"> </span>build
+<a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a><span class="nb">cd</span><span class="w"> </span>build
+<a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a>cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/opt/gromacs<span class="w"> </span>-DGMX_BUILD_OWN_FFTW<span class="o">=</span>OFF<span class="w"> </span>-DGMX_MPI<span class="o">=</span>OFF<span class="w"> </span>-DGMX_OPENMP<span class="o">=</span>ON<span class="w"> </span>-DGMX_GPU<span class="o">=</span>OFF<span class="w"> </span>-DGMX_USE_CUDA<span class="o">=</span>OFF
+<a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a>
+<a id="__codelineno-49-12" name="__codelineno-49-12" href="#__codelineno-49-12"></a><span class="c1"># Build and install GROMACS 2025.4</span>
+<a id="__codelineno-49-13" name="__codelineno-49-13" href="#__codelineno-49-13"></a>make<span class="w"> </span>-j8
+<a id="__codelineno-49-14" name="__codelineno-49-14" href="#__codelineno-49-14"></a>make<span class="w"> </span>install
+<a id="__codelineno-49-15" name="__codelineno-49-15" href="#__codelineno-49-15"></a>
+<a id="__codelineno-49-16" name="__codelineno-49-16" href="#__codelineno-49-16"></a><span class="c1"># Remove unnecessary GROMACS files after installation</span>
+<a id="__codelineno-49-17" name="__codelineno-49-17" href="#__codelineno-49-17"></a><span class="nb">cd</span><span class="w"> </span>/opt
+<a id="__codelineno-49-18" name="__codelineno-49-18" href="#__codelineno-49-18"></a>rm<span class="w"> </span>-rfv<span class="w"> </span>gromacs-2025.4.tar.gz<span class="w"> </span>gromacs-2025.4
+</code></pre></div>
+<p>This will install GROMACS 2025.4 in your container</p>
+<p><strong>Fifth</strong>, we still want the environment to point source <code>/opt/gromacs/bin/GMXRC</code>, so we dont need to change anything in <code>/.singularity.d/env</code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At this point, it is a good idea to see if your container will work by typing in the environment and runscript you gave to the container into the <code>shell</code>.</p>
+<p>Try this out by typing into the container's terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="c1"># GROMACS environment</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="nb">source</span><span class="w"> </span>/opt/gromacs/bin/GMXRC
+</code></pre></div>
+<p>then:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>gmx<span class="w"> </span>--version
+</code></pre></div>
+<p>Hopefully, you should see something happen!</p>
+</div>
+<p><strong>Sixth</strong>, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of the container</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>Apptainer&gt;<span class="w"> </span><span class="nb">exit</span>
+</code></pre></div>
+<p>Then run in the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>apptainer<span class="w"> </span>build<span class="w"> </span>GROMACS.sif<span class="w"> </span>GROMACS.sandbox
+</code></pre></div>
+<p>This will give you a <code>sif</code> container file called <code>GROMACS.sif</code> that you can now use. Try it out by typing into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>GROMACS.sif<span class="w"> </span>gmx<span class="w"> </span>--version
+</code></pre></div>
+<p>This should give something like this. Notice the version of GROMACS has changed from 2021.6 to 2025.4:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>geoff.weal@login03:/nesi/project/nesi99999/geoffreyweal/Tutorials/containers$<span class="w"> </span>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>GROMACS.sif<span class="w"> </span>gmx<span class="w"> </span>--version
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a><span class="w">                         </span>:-<span class="o">)</span><span class="w"> </span>GROMACS<span class="w"> </span>-<span class="w"> </span>gmx,<span class="w"> </span><span class="m">2025</span>.4<span class="w"> </span><span class="o">(</span>-:
+<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>
+<a id="__codelineno-55-4" name="__codelineno-55-4" href="#__codelineno-55-4"></a>Executable:<span class="w">   </span>/opt/gromacs/bin/gmx
+<a id="__codelineno-55-5" name="__codelineno-55-5" href="#__codelineno-55-5"></a>Data<span class="w"> </span>prefix:<span class="w">  </span>/opt/gromacs
+<a id="__codelineno-55-6" name="__codelineno-55-6" href="#__codelineno-55-6"></a>Working<span class="w"> </span>dir:<span class="w">  </span>/nesi/project/nesi99999/geoffreyweal/Tutorials/containers
+<a id="__codelineno-55-7" name="__codelineno-55-7" href="#__codelineno-55-7"></a>Command<span class="w"> </span>line:
+<a id="__codelineno-55-8" name="__codelineno-55-8" href="#__codelineno-55-8"></a><span class="w">  </span>gmx<span class="w"> </span>--version
+<a id="__codelineno-55-9" name="__codelineno-55-9" href="#__codelineno-55-9"></a>
+<a id="__codelineno-55-10" name="__codelineno-55-10" href="#__codelineno-55-10"></a>GROMACS<span class="w"> </span>version:<span class="w">     </span><span class="m">2025</span>.4
+<a id="__codelineno-55-11" name="__codelineno-55-11" href="#__codelineno-55-11"></a>Precision:<span class="w">           </span>mixed
+<a id="__codelineno-55-12" name="__codelineno-55-12" href="#__codelineno-55-12"></a>Memory<span class="w"> </span>model:<span class="w">        </span><span class="m">64</span><span class="w"> </span>bit
+<a id="__codelineno-55-13" name="__codelineno-55-13" href="#__codelineno-55-13"></a>MPI<span class="w"> </span>library:<span class="w">         </span>thread_mpi
+<a id="__codelineno-55-14" name="__codelineno-55-14" href="#__codelineno-55-14"></a>OpenMP<span class="w"> </span>support:<span class="w">      </span>enabled<span class="w"> </span><span class="o">(</span><span class="nv">GMX_OPENMP_MAX_THREADS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">128</span><span class="o">)</span>
+<a id="__codelineno-55-15" name="__codelineno-55-15" href="#__codelineno-55-15"></a>GPU<span class="w"> </span>support:<span class="w">         </span>disabled
+<a id="__codelineno-55-16" name="__codelineno-55-16" href="#__codelineno-55-16"></a>SIMD<span class="w"> </span>instructions:<span class="w">   </span>AVX2_256
+<a id="__codelineno-55-17" name="__codelineno-55-17" href="#__codelineno-55-17"></a>CPU<span class="w"> </span>FFT<span class="w"> </span>library:<span class="w">     </span>fftw-3.3.8-sse2-avx
+<a id="__codelineno-55-18" name="__codelineno-55-18" href="#__codelineno-55-18"></a>GPU<span class="w"> </span>FFT<span class="w"> </span>library:<span class="w">     </span>none
+<a id="__codelineno-55-19" name="__codelineno-55-19" href="#__codelineno-55-19"></a>Multi-GPU<span class="w"> </span>FFT:<span class="w">       </span>none
+<a id="__codelineno-55-20" name="__codelineno-55-20" href="#__codelineno-55-20"></a>RDTSCP<span class="w"> </span>usage:<span class="w">        </span>enabled
+<a id="__codelineno-55-21" name="__codelineno-55-21" href="#__codelineno-55-21"></a>TNG<span class="w"> </span>support:<span class="w">         </span>enabled
+<a id="__codelineno-55-22" name="__codelineno-55-22" href="#__codelineno-55-22"></a>Hwloc<span class="w"> </span>support:<span class="w">       </span>disabled
+<a id="__codelineno-55-23" name="__codelineno-55-23" href="#__codelineno-55-23"></a>Tracing<span class="w"> </span>support:<span class="w">     </span>disabled
+<a id="__codelineno-55-24" name="__codelineno-55-24" href="#__codelineno-55-24"></a>C<span class="w"> </span>compiler:<span class="w">          </span>/usr/bin/cc<span class="w"> </span>GNU<span class="w"> </span><span class="m">11</span>.4.0
+<a id="__codelineno-55-25" name="__codelineno-55-25" href="#__codelineno-55-25"></a>C<span class="w"> </span>compiler<span class="w"> </span>flags:<span class="w">    </span>-fexcess-precision<span class="o">=</span>fast<span class="w"> </span>-funroll-all-loops<span class="w"> </span>-mavx2<span class="w"> </span>-mfma<span class="w"> </span>-Wno-missing-field-initializers<span class="w"> </span>-O3<span class="w"> </span>-DNDEBUG
+<a id="__codelineno-55-26" name="__codelineno-55-26" href="#__codelineno-55-26"></a>C++<span class="w"> </span>compiler:<span class="w">        </span>/usr/bin/c++<span class="w"> </span>GNU<span class="w"> </span><span class="m">11</span>.4.0
+<a id="__codelineno-55-27" name="__codelineno-55-27" href="#__codelineno-55-27"></a>C++<span class="w"> </span>compiler<span class="w"> </span>flags:<span class="w">  </span>-fexcess-precision<span class="o">=</span>fast<span class="w"> </span>-funroll-all-loops<span class="w"> </span>-mavx2<span class="w"> </span>-mfma<span class="w"> </span>-Wno-missing-field-initializers<span class="w"> </span>-Wno-cast-function-type-strict<span class="w"> </span>SHELL:-fopenmp<span class="w"> </span>-O3<span class="w"> </span>-DNDEBUG
+<a id="__codelineno-55-28" name="__codelineno-55-28" href="#__codelineno-55-28"></a>BLAS<span class="w"> </span>library:<span class="w">        </span>Internal
+<a id="__codelineno-55-29" name="__codelineno-55-29" href="#__codelineno-55-29"></a>LAPACK<span class="w"> </span>library:<span class="w">      </span>Internal
+</code></pre></div>
+</details>
+</div>
+<h2 id="takeaway-points">Takeaway Points<a class="headerlink" href="#takeaway-points" title="Permanent link">¶</a></h2>
+<div class="admonition graduation-cap">
+<p class="admonition-title">What you take away from this lesson</p>
+<ul>
+<li>A sandbox is like a container, but you can make changes to it as you go.</li>
+<li>This makes sandboxes good for debugging.</li>
+<li>The best way to use sandboxes is for trying things out, then write a <code>def</code> file to construct your official container as this container will be easier to <code>inspect</code>. </li>
+<li>To create a sandbox, use <code>apptainer build --sandbox</code></li>
+<li>Modify a contaienr by using <code>apptainer --writable --contain --fakeroot</code></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../06-running-MPI-containers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 6. Running Containers with MPI">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                6. Running Containers with MPI
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../summarising-advancing-class/" class="md-footer__link md-footer__link--next" aria-label="Next: Summarising Beginner Lesson">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Summarising Beginner Lesson
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Introduction to Containers workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
