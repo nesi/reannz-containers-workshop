@@ -80,13 +80,19 @@ geoff.weal@login03:~$ apptainer inspect --runscript lolcow.sif
 
 ## Obtain the `def` file using the `inspect  --deffile` command
 
-**Most importantly for us**, we can also read the `def` file that was used to build this container by typing 
+**Most importantly for us**, we can also read the `def` file that was used to build this container by using the command:  
 
 ```bash
 apptainer inspect --deffile
 ``` 
 
-into the terminal:
+For example, if you do this in the terminal:
+
+```bash
+apptainer inspect --deffile lolcow.sif
+```
+
+You should see this:
 
 ```bash
 geoff.weal@login03:~$ apptainer inspect --deffile lolcow.sif
@@ -106,7 +112,11 @@ From: ubuntu:24.04
     fortune | cowsay | lolcat
 ```
 
-We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see section XYZ). To do this, we need to replace `fortune` with `Hello $1!` (we can also remove installing `fortune` in the `%post` section):
+We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see section XYZ). 
+
+* To do this, we need to replace `fortune` with `Hello $1!` (we can also remove installing `fortune` in the `%post` section):
+* Since we are making changes to the lolcow container, we should record this in the `%labels` section by making a note of this in the `Description` section. 
+    * We can also change the version of the container if we want. This is generally a good idea so we can distinguish it from previous versions of `lolcow` or `hellocow`. 
 
 ```def
 Bootstrap: docker
@@ -124,12 +134,6 @@ From: ubuntu:24.04
 %runscript
      cowsay Hello $1! | lolcat
 ```
-
-!!! note
-
-    Since we are making changes to the lolcow container, we should record this in the `%labels` section by making a note of this in the `Description` section. 
-
-    * We can also change the version of the container if we want. This is generally a good idea so we can distinguish it from previous versions of `lolcow` or `hellocow`. 
 
 If we build by typing the following into the terminal (where I have called my modified `def` file `hellocow.def`):
 
@@ -150,4 +154,39 @@ geoff.weal@login03:~$ apptainer run hellocow.sif Mars
                 ||----w |
                 ||     ||
 ```
+
+If we `inspect` this container, we will see that we have also updated it's labels. Typing into the terminal:
+
+```bash
+apptainer inspect hellocow.sif 
+```
+
+We will get:
+
+```bash
+geoff.weal@login03:~$ apptainer inspect hellocow.sif 
+Author: Your Name
+Description: "An apptainer container to run hellocow. Note: This is a modification of lolcow"
+Version: 1.0.1
+org.label-schema.build-arch: amd64
+org.label-schema.build-date: Saturday_18_April_2026_13:16:40_NZST
+org.label-schema.schema-version: 1.0
+org.label-schema.usage.apptainer.version: 1.4.5-3.el9
+org.label-schema.usage.singularity.deffile.bootstrap: docker
+org.label-schema.usage.singularity.deffile.from: ubuntu:24.04
+org.opencontainers.image.version: 24.04
+```
+
+## Exercises
+
+!!! dumbbell "Question 1"
+
+    Example
+
+
+## Takeaway Points
+
+!!! graduation-cap "What you take away from this lesson"
+
+    - Point 1
 
