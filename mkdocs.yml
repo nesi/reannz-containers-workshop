@@ -18,6 +18,7 @@ nav:
     - 04-building-images.md
     - 05-editting-containers.md
   - Advanced:
+    - recap-beginner-class.md
     - 06-running-MPI-containers.md
     - 07-sandbox.md
   - Supplementary:
