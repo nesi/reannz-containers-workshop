@@ -1,4 +1,4 @@
-site_name: Introduction to Containers
+site_name: Introduction to Containers on High Perforance Clusters (HPC)
 site_author: REANNZ
 site_dir: public
 site_url: "https://github.com/nesi/reannz-containers-workshop"
@@ -11,16 +11,19 @@ repo_url: https://github.com/nesi/reannz-containers-workshop
 nav:
   - Home: index.md
   - 00-containers-overview.md
+  - 00-introducing-apptainer.md
   - Beginner:
     - 01-introduction.md
     - 02-running-apptainer.md
     - 03-pulling-and-running-images.md
     - 04-building-images.md
     - 05-editting-containers.md
+    - summarising-beginner-class.md
   - Advanced:
     - recap-beginner-class.md
     - 06-running-MPI-containers.md
     - 07-sandbox.md
+    - summarising-advancing-class.md
   - Supplementary:
     - 08-other-commands.md
     - Supplementary/1-supplementary.md

@@ -4,7 +4,6 @@
 
     - Know what a container is
     - Understand why you would want to use a container
-    - Know about Apptainer, which we will be using for this workshop
 
 In this section, we will introduce what a container is and why you would want to use a container.
 
@@ -49,29 +48,9 @@ The reasons you would want to use a container are:
 * Dependancy Management: Everything you need is installed inside the container.
 * No Installation: It is common that installing software on your machine may not work due missing or different dependancies or for many other reasons. Containers allows the user to just run the software from any (or at least) most machines without hassle. 
 
-## What is Apptainer?
-
-Apptainer (formerly Singularity) is a container platform heavily used in HPC. Its design goals differ from Docker in ways that matter on shared clusters. 
-
-The key characteristics of Apptainer are:
-
-* Runs as the calling user:
-    * You typically do not need root to run containers.
-    * There’s no always-running privileged service like Docker’s daemon model.
-* Integrates with HPC environments. Designed to play nicely with:
-    * shared filesystems
-    * SLURM job launches
-    * MPI stacks (host MPI + container environment)
-    * GPU passthrough (e.g., NVIDIA)
-* “Bring your own environment, use the host resources”
-    * You can ship user-space dependencies (life software)
-    * While still using host drivers and hardware capabilities.
-
 ## Takeaway points
 
 !!! graduation-cap "What you take away from this overview"
 
     - Containers are a way to package and run software such that it behaves consistently across different machines
     - Containers allows for reproducibility, portability, isolation between software stacks, and dependancy management. 
-    - Apptainer is a program that allows you to run and build containers
-
