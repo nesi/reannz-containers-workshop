@@ -38,7 +38,7 @@ apptainer pull my_alpine.sif docker://alpine
 If you do this in the terminal, you will see the following:
 
 ```bash
-geoff.weal@login03:$ apptainer pull my_alpine.sif docker://alpine
+user.name@computer-name:$ apptainer pull my_alpine.sif docker://alpine
 INFO:    Converting OCI blobs to SIF format
 INFO:    Starting build...
 INFO:    Fetching OCI image...
@@ -52,7 +52,7 @@ INFO:    Creating SIF file...
 What you can see is apptainer is downloading and contructing the container on your computer. We can now see that we have made a file called `my_alpine.sif`:
 
 ```bash
-geoff.weal@login03:$ ls
+user.name@computer-name:$ ls
 my_alpine.sif
 ```
 
@@ -69,7 +69,7 @@ Performing the `shell` in the `my_alpine.sif` container, we see:
 
 
 ```bash
-geoff.weal@login03:$ apptainer shell my_alpine.sif
+user.name@computer-name:$ apptainer shell my_alpine.sif
 Apptainer> echo Hello Mercury!
 Hello Mercury!
 Apptainer> echo Hello Venus!
@@ -101,7 +101,7 @@ apptainer exec docker://alpine echo Hello World!
 See that we have replaced `my_alpine.sif` from the previous section with `docker://alpine`. Doing this will give the following:
 
 ```bash
-geoff.weal@login03:~$ apptainer exec docker://alpine echo Hello World!
+user.name@computer-name:~$ apptainer exec docker://alpine echo Hello World!
 INFO:    Converting OCI blobs to SIF format
 INFO:    Starting build...
 INFO:    Fetching OCI image...
@@ -116,7 +116,7 @@ Hello World!
 or if you have already download alpine once before, you may get the image straight from the cache:
 
 ```bash
-geoff.weal@login03:~$ apptainer exec docker://alpine echo Hello World!
+user.name@computer-name:~$ apptainer exec docker://alpine echo Hello World!
 INFO:    Using cached SIF image
 Hello World!
 ```
@@ -124,7 +124,7 @@ Hello World!
 Following this, if you want to `shell` in the `docker://alpine` container, we see:
 
 ```bash
-geoff.weal@login03:~$ apptainer shell docker://alpine
+user.name@computer-name:~$ apptainer shell docker://alpine
 INFO:    Using cached SIF image
 Apptainer> echo Hello Mercury!
 Hello Mercury!
@@ -163,7 +163,7 @@ In this case, I am using the version of alpine that is currently stored in the a
         where I have chosen to call this container `my_python3.14.sif`:
 
         ```bash
-        geoff.weal@login03:~$ apptainer pull my_python3.14.sif docker://python:3.14-alpine
+        user.name@computer-name:~$ apptainer pull my_python3.14.sif docker://python:3.14-alpine
         INFO:    Converting OCI blobs to SIF format
         INFO:    Starting build...
         INFO:    Fetching OCI image...
@@ -192,7 +192,7 @@ In this case, I am using the version of alpine that is currently stored in the a
         where I have chosen to call this container `my_python3.14.sif`:
 
         ```bash
-        geoff.weal@login03:~$ apptainer run docker://python:3.14-alpine
+        user.name@computer-name:~$ apptainer run docker://python:3.14-alpine
         INFO:    Using cached SIF image
         Python 3.14.4 (main, Apr  8 2026, 17:40:50) [GCC 15.2.0] on linux
         Type "help", "copyright", "credits" or "license" for more information.

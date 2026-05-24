@@ -18,7 +18,7 @@ apptainer cache list
 into the terminal:
 
 ```bash
-geoff.weal@login03:~$ apptainer cache list
+user.name@computer-name:~$ apptainer cache list
 There are 3 container file(s) using 60.62 MiB and 17 oci blob file(s) using 89.48 MiB of space
 Total space used: 150.11 MiB
 ```
@@ -26,20 +26,20 @@ Total space used: 150.11 MiB
 Most of the time, these files are unnecessary after you have finished pulling or building your container. You can use the `apptainer cache clean` command to remove the files in your cache
 
 ```bash
-eoff.weal@login03:~$ apptainer cache clean
+user.name@computer-name:~$ apptainer cache clean
 This will delete everything in your cache (containers from all sources and OCI blobs).
 Hint: You can see exactly what would be deleted by canceling and using the --dry-run option.
 Do you want to continue? [y/N] y
 INFO:    Removing blob cache entry: blobs
 INFO:    Removing blob cache entry: index.json
 INFO:    Removing blob cache entry: oci-layout
-INFO:    No cached files to remove at /nesi/nobackup/nesi99999/geoffreyweal/apptainer-cache/cache/library
+INFO:    No cached files to remove at /nesi/nobackup/nesi99999/username/apptainer-cache/cache/library
 INFO:    Removing oci-tmp cache entry: 5d4e76cf4d780da01cc24a25a7fc4512ae92f728b21cd4b9d06083513476856f
 INFO:    Removing oci-tmp cache entry: 6fc11bd6e061e33d59330d0a1a5a73c2aa532c649e0d3514894812deb405b059
 INFO:    Removing oci-tmp cache entry: db771bd41359a94a5b9a215e7eca12f67d238327961b99189f8c92c0087d4665
-INFO:    No cached files to remove at /nesi/nobackup/nesi99999/geoffreyweal/apptainer-cache/cache/shub
-INFO:    No cached files to remove at /nesi/nobackup/nesi99999/geoffreyweal/apptainer-cache/cache/oras
-INFO:    No cached files to remove at /nesi/nobackup/nesi99999/geoffreyweal/apptainer-cache/cache/net
+INFO:    No cached files to remove at /nesi/nobackup/nesi99999/username/apptainer-cache/cache/shub
+INFO:    No cached files to remove at /nesi/nobackup/nesi99999/username/apptainer-cache/cache/oras
+INFO:    No cached files to remove at /nesi/nobackup/nesi99999/username/apptainer-cache/cache/net
 ```
 
 ## The `test` command
@@ -85,7 +85,7 @@ apptainer test lolcow.sif
 into the terminal:
 
 ```bash
-geoff.weal@login03:~$ apptainer test lolcow.sif 
+user.name@computer-name:~$ apptainer test lolcow.sif 
 Running container self-tests...
 fortune was found
 cowsay was found
@@ -143,7 +143,7 @@ apptainer run-help lolcow.sif
 into the terminal:
 
 ```bash
-geoff.weal@login03:~$ apptainer run-help lolcow.sif
+user.name@computer-name:~$ apptainer run-help lolcow.sif
     This container prints a random fortune using cowsay and colors it with lolcat.
 
     USAGE:

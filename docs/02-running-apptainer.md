@@ -29,14 +29,14 @@ apptainer run hello-world.sif
 This container has been designed to print out `Hello World!` when run:
 
 ```bash 
-geoff.weal@login03:$ apptainer run hello-world.sif
+user.name@computer-name:$ apptainer run hello-world.sif
 Hello World!
 ```
 
 We can look inside the container to see what the `run` command is meant to do for this container by using the `inspect --runscript` feature of Apptainer
 
 ```bash
-geoff.weal@login03:$ apptainer inspect --runscript hello-world.sif
+user.name@computer-name:$ apptainer inspect --runscript hello-world.sif
 #!/bin/sh
 
     echo "Hello World!"
@@ -51,7 +51,7 @@ Next, lets consider we want to use the container, but we want to use it slightly
 For example, lets say that I want the container to actually print the text `Hello Mars!`. We could do this by typing the following into the terminal:
 
 ```bash
-geoff.weal@login03:$ apptainer exec hello-world.sif echo Hello Mars!
+user.name@computer-name:$ apptainer exec hello-world.sif echo Hello Mars!
 Hello Mars!
 ```
 
@@ -65,7 +65,7 @@ What happened here
 We could keep doing this for the other planets in the solar system
 
 ```bash
-geoff.weal@login03:$ apptainer exec hello-world.sif echo Hello Venus!
+user.name@computer-name:$ apptainer exec hello-world.sif echo Hello Venus!
 Hello Venus!
 ```
 
@@ -76,7 +76,7 @@ Now lets consider that we actually want to work with the container interactively
 For example, lets say we want to interactively say hello to all the planets in the solar system (and bye to Pluto). 
 
 ```bash
-geoff.weal@login03:$ apptainer shell hello-world.sif
+user.name@computer-name:$ apptainer shell hello-world.sif
 Apptainer> echo Hello Mercury!
 Hello Mercury!
 Apptainer> echo Hello Venus!
@@ -120,7 +120,7 @@ cd ..
         Use the `run` command by typing in `apptainer run lolcow.sif`
 
         ```bash
-            geoff.weal@login03:$ apptainer run lolcow.sif 
+            user.name@computer-name:$ apptainer run lolcow.sif 
              _________________________________________
             / He that breaks a thing to find out what \
             | it is has left the path of wisdom.      |
@@ -147,7 +147,7 @@ cd ..
         1. Use the 'exec' command by typing in in `apptainer exec lolcow.sif cowsay Hello Mars!`
 
         ```bash
-            geoff.weal@login03:$ apptainer exec lolcow.sif cowsay Hello Mars!
+            user.name@computer:$ apptainer exec lolcow.sif cowsay Hello Mars!
              _____________
             < Hello Mars! >
              -------------
@@ -161,7 +161,7 @@ cd ..
         2. Or, use the `shell` command by doing the following:
 
         ```bash
-        geoff.weal@login03:$ apptainer shell lolcow.sif
+        user.name@computer-name:$ apptainer shell lolcow.sif
         Apptainer> cowsay Hello Mars!
          _____________
         < Hello Mars! >

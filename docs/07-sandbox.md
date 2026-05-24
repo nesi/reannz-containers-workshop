@@ -46,7 +46,7 @@ apptainer build --sandbox lolcow.sandbox docker://ubuntu:24.04
 ```
 
 ```bash
-geoff.weal@login03:~$ apptainer build --sandbox lolcow.sandbox docker://ubuntu:24.04
+user.name@computer-name:~$ apptainer build --sandbox lolcow.sandbox docker://ubuntu:24.04
 INFO:    Starting build...
 INFO:    Fetching OCI image...
 28.4MiB / 28.4MiB [====================================================================================================================================================================================================================================================] 100 % 0.0 b/s 0s
@@ -59,14 +59,14 @@ INFO:    Build complete: lolcow.sandbox
 **Side-note**: You will see in your directory a folder appear called `sandbox_name.sandbox` (for us, that is `lolcow.sandbox`):
 
 ```bash
-geoff.weal@login03:~$ ls
+user.name@computer-name:~$ ls
 lolcow.sandbox
 ```
 
 if you look inside of it, it will look a full fat file system containing everything you need to run the sandbox as a container, as well as eventually turn the sandbox into a container (see later).
 
 ```bash
-geoff.weal@login03:~$ ls lolcow.sandbox
+user.name@computer-name:~$ ls lolcow.sandbox
 bin  boot  dev  environment  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  singularity  srv  sys  tmp  usr  var
 ```
 
@@ -83,7 +83,7 @@ apptainer shell --writable --contain --fakeroot lolcow.sandbox
 ```
 
 ```bash
-geoff.weal@login03:~$ apptainer shell --writable --contain --fakeroot lolcow.sandbox
+user.name@computer-name:~$ apptainer shell --writable --contain --fakeroot lolcow.sandbox
 INFO:    User not listed in /etc/subuid, trying root-mapped namespace
 INFO:    Using fakeroot command combined with root-mapped namespace
 WARNING: Skipping mount /etc/localtime [binds]: /etc/localtime doesn't exist in container
@@ -101,7 +101,7 @@ apt-get -y install nano
 This is equivalent to writing the `%post` command manually into the sandbox:
 
 ```bash
-geoff.weal@login03:~$ apptainer shell --writable --contain --fakeroot lolcow.sandbox
+user.name@computer-name:~$ apptainer shell --writable --contain --fakeroot lolcow.sandbox
 Apptainer> apt-get -y update
 Get:1 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB] 
 ...
@@ -204,7 +204,7 @@ apptainer build lolcow-from-sandbox.sif lolcow.sandbox
 This will give you a `sif` container file called `lolcow-from-sandbox.sif` that you can now use:
 
 ```bash
-geoff.weal@login03:~$ apptainer run lolcow-from-sandbox.sif
+user.name@computer-name:~$ apptainer run lolcow-from-sandbox.sif
  ________________________________________
 / It has long been an axiom of mine that \
 | the little things are infinitely the   |
@@ -324,7 +324,7 @@ apptainer run lolpony-from-sandbox.sif
 ```
 
 ```bash
-geoff.weal@login03:~$ apptainer run lolpony-from-sandbox.sif
+user.name@computer-name:~$ apptainer run lolpony-from-sandbox.sif
  _______________________________________________________________ 
 / Grief can take care of itself; but to get the full value of a \
 | joy you must                                                  |
@@ -534,7 +534,7 @@ Therefore, here are some pointer for using sandboxes:
         This should give something like this:
 
         ```bash
-        geoff.weal@login03:~$ apptainer exec GROMACS.sif gmx --version
+        user.name@computer-name:~$ apptainer exec GROMACS.sif gmx --version
                                  :-) GROMACS - gmx, 2021.6 (-:
 
                                     GROMACS is written by:
@@ -706,7 +706,7 @@ Therefore, here are some pointer for using sandboxes:
         This should give something like this. Notice the version of GROMACS has changed from 2021.6 to 2025.4:
 
         ```bash
-        geoff.weal@login03:/nesi/project/nesi99999/geoffreyweal/Tutorials/containers$ apptainer exec GROMACS.sif gmx --version
+        user.name@computer-name:/nesi/project/nesi99999/geoffreyweal/Tutorials/containers$ apptainer exec GROMACS.sif gmx --version
                                  :-) GROMACS - gmx, 2025.4 (-:
 
         Executable:   /opt/gromacs/bin/gmx

@@ -175,7 +175,7 @@ apptainer build my_python3.12.sif my_python3.12.def
 Giving the output:
 
 ```bash
-geoff.weal@login03:$ apptainer build my_python3.12.sif my_python3.12.def
+user.name@computer-name:$ apptainer build my_python3.12.sif my_python3.12.def
 INFO:    User not listed in /etc/subuid, trying root-mapped namespace
 INFO:    The %post section will be run under the fakeroot command
 INFO:    Starting build...
@@ -195,7 +195,7 @@ INFO:    Creating SIF file...
 You can now run your container using `apptainer run <name-of-your-sif-file>`. For example: 
 
 ```bash
-geoff.weal@login03:$ apptainer run my_python3.12.sif
+user.name@computer-name:$ apptainer run my_python3.12.sif
 hello world
 ```
 
@@ -321,7 +321,7 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
         You will see something like this as the `lolcow` container is being built:
 
         ```bash
-        geoff.weal@login03:~$ apptainer build lolcow.sif lolcow.def
+        user.name@computer-name:~$ apptainer build lolcow.sif lolcow.def
         INFO:    User not listed in /etc/subuid, trying root-mapped namespace
         INFO:    The %post section will be run under the fakeroot command
         INFO:    Starting build...
@@ -349,7 +349,7 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
         This will give an output like this:
 
         ```bash
-        geoff.weal@login03:~$ apptainer run lolcow.sif
+        user.name@computer-name:~$ apptainer run lolcow.sif
          ________________________________________
         / No violence, gentlemen -- no violence, \
         | I beg of you! Consider the furniture!  |

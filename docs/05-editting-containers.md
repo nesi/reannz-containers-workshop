@@ -33,7 +33,7 @@ apptainer inspect lolcow.sif
 into the terminal, you will get the following output:
 
 ```bash
-geoff.weal@login03:~$ apptainer inspect lolcow.sif
+user.name@computer-name:~$ apptainer inspect lolcow.sif
 Author: Your Name
 Description: "An apptainer container to run lolcow"
 Version: 1.0.0
@@ -72,7 +72,7 @@ apptainer inspect --runscript lolcow.sif
 into the terminal, you will get: 
 
 ```bash
-geoff.weal@login03:~$ apptainer inspect --runscript lolcow.sif
+user.name@computer-name:~$ apptainer inspect --runscript lolcow.sif
 #!/bin/sh
 
     fortune | cowsay | lolcat
@@ -95,7 +95,7 @@ apptainer inspect --deffile lolcow.sif
 You should see this:
 
 ```bash
-geoff.weal@login03:~$ apptainer inspect --deffile lolcow.sif
+user.name@computer-name:~$ apptainer inspect --deffile lolcow.sif
 Bootstrap: docker
 From: ubuntu:24.04
 
@@ -144,7 +144,7 @@ apptainer build hellocow.sif hellocow.def
 We will get a new container that now will show a cow saying `Hello Argument1!`:
 
 ```bash
-geoff.weal@login03:~$ apptainer run hellocow.sif Mars
+user.name@computer-name:~$ apptainer run hellocow.sif Mars
  _____________
 < Hello Mars! >
  -------------
@@ -164,7 +164,7 @@ apptainer inspect hellocow.sif
 We will get:
 
 ```bash
-geoff.weal@login03:~$ apptainer inspect hellocow.sif 
+user.name@computer-name:~$ apptainer inspect hellocow.sif 
 Author: Your Name
 Description: "An apptainer container to run hellocow. Note: This is a modification of lolcow"
 Version: 1.0.1

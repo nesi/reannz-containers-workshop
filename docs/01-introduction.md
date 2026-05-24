@@ -16,7 +16,7 @@ apptainer --version
 into the terminal, you will get:
 
 ```bash
-geoff.weal@codeserver-nesi99992-d23vsxxe:~$ apptainer --version
+user.name@computer-name:~$ apptainer --version
 apptainer version 1.4.2-1.el9
 ```
 
@@ -25,7 +25,7 @@ You will see the version of Apptainer available to you on Mahuika.
 If you type in `apptainer --help` into the terminal, you will see all the options available to you:
 
 ```bash
-geoff.weal@codeserver-nesi99992-d23vsxxe:~$ apptainer --help
+user.name@computer-name:~$ apptainer --help
 
 Linux container platform optimized for High Performance Computing (HPC) and
 Enterprise Performance Computing (EPC)
