@@ -104,15 +104,6 @@ Some others that we will also look at (but are less essential) are:
 * `test`: Allows the user to test the container as designed by the creator of the container. 
 * `run-help`: Allows the creator to provide notes to help explain how to use the container. 
 
-
-!!! warning
-
-    Note from Chris. 
-
-    Can we say something about if you learn containers you don't have to learn about HPC?
-
-    Geoff:Dont you still need to learn about hpc?
-
 ## Takeaway Points
 
 !!! graduation-cap "What you take away from this lesson"
