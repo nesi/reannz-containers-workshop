@@ -1,12 +1,12 @@
-# Summarising Beginner Lesson
+# Summarising Day 1: The Basics of Containers
 
-Well done — you have now covered the essentials of using and building containers with Apptainer on an HPC! This page pulls together everything from the beginner class so you have it all in one place.
+Well done — you have now covered the essentials of using and building containers with Apptainer on an HPC! This page pulls together everything from Day 1 so you have it all in one place.
 
 ## What we covered today
 
 * **Introduction to Apptainer** — what Apptainer is, checking it is available on Mahuika, and the commands you will use most.
 * **Running containers** — using `run`, `exec`, and `shell` to work with an existing container.
-* **Pulling containers from the cloud** — downloading containers with `pull`, or running them directly from a registry such as Docker.
+* **Pulling containers from the cloud** — downloading containers with `pull`, or running them directly from a registry such as Docker Hub.
 * **Building containers** — writing a `def` file and turning it into a `sif` container with `build`.
 
 ## The commands you now know
@@ -19,7 +19,7 @@ Well done — you have now covered the essentials of using and building containe
 | `pull` | Downloads a container from the cloud as a `sif` file. |
 | `build` | Builds a `sif` container from a `def` file. |
 
-You also met some helper commands — `inspect`, `cache`, `test`, and `run-help` — which you will see more of in the advanced class.
+You also met some helper commands — `inspect`, `cache`, `test`, and `run-help` — which you will see more of on Day 2.
 
 ## Building containers with a `def` file
 
@@ -39,7 +39,7 @@ apptainer build my_container.sif my_container.def
 
 ## Where to from here?
 
-In the advanced class we build on these foundations to:
+On Day 2 (Beyond the Basics) we build on these foundations to:
 
 * inspect, "edit", and version containers,
 * test containers so you can be confident they work (`%test`),

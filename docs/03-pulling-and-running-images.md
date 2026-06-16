@@ -7,10 +7,10 @@
 
 !!! clipboard-question "Questions"
 
-    - How do I get a container that lives online, such as on Docker?
+    - How do I get a container that lives online, such as on Docker Hub?
     - Do I always have to download a container before I can use it?
 
-Sometimes you might not have a container file sitting in front of you that you want to use. Most of the time, your container might be sitting on the internet somewhere, like in Docker. There are two ways you can interact with containers that are on the cloud:
+Sometimes you might not have a container file sitting in front of you that you want to use. Most of the time, your container might be sitting on the internet somewhere, like on Docker Hub. There are two ways you can interact with containers that are on the cloud:
 
 1. Pull the image from the cloud first using `pull`, then run the container directly from the computer, or 
 2. Run the container directly using the `run`, `exec`, or `shell` command. 

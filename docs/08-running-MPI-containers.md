@@ -89,7 +89,7 @@ We can now run a slurm script for this container. Notice that we load the same v
 #!/bin/bash -e
 #SBATCH --job-name=apptainer-hybrid-mpi
 #SBATCH --nodes=2
-#SBATCH --tasks-per-node=2
+#SBATCH --ntasks-per-node=2
 #SBATCH --time=00:05:00
 
 module -q purge
@@ -105,12 +105,11 @@ mpirun -n $SLURM_NTASKS apptainer exec mpi_hybrid_container.sif /opt/mpi_hello_w
 
 The highlighted lines in the above slurm script load the **external** OpenMPI — the version on Mahuika that runs _outside_ the container. In the hybrid model it must match the version of OpenMPI installed _inside_ the container (here, both are OpenMPI 5.0.10).
 
-We launch the program with `mpirun -n $SLURM_NTASKS`. `$SLURM_NTASKS` is an environment variable that slurm sets automatically to the total number of tasks you requested (here `--nodes=2` × `--tasks-per-node=2` = 4). Using it means the number of MPI processes always matches the resources you asked slurm for, so you only have to change it in one place.
+We launch the program with `mpirun -n $SLURM_NTASKS`. `$SLURM_NTASKS` is an environment variable that slurm sets automatically to the total number of tasks you requested (here `--nodes=2` × `--ntasks-per-node=2` = 4). Using it means the number of MPI processes always matches the resources you asked slurm for, so you only have to change it in one place.
 
 Once you have submitted this to slurm (`sbatch submit.sl`) and the job has run, you should obtain an output file that shows something similar to this:
 
 ```bash
-user.name@computer-name:~$ sbatch submit.sl 
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 1 of 4, CPU 167, NUMA node 1, Namespace mnt:[4026536546]
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 0 of 4, CPU 166, NUMA node 1, Namespace mnt:[4026536545]
 Hello world! Processor c010.hpc.nesi.org.nz, Rank 3 of 4, CPU 33, NUMA node 0, Namespace mnt:[4026536577]
@@ -161,7 +160,7 @@ We can now run a slurm script for this container. Notice that we load OpenMPI 5.
 #!/bin/bash -e
 #SBATCH --job-name=apptainer-bind-mpi
 #SBATCH --nodes=2
-#SBATCH --tasks-per-node=2
+#SBATCH --ntasks-per-node=2
 #SBATCH --time=00:05:00
 
 module -q purge
@@ -215,7 +214,6 @@ In short: the `for` loop gathers the host's MPI library directories, `APPTAINER_
 Once you have submitted this to slurm (`sbatch submit.sl`) and the job has run, you should obtain an output file that shows something similar to this:
 
 ```bash
-user.name@computer-name:~$ sbatch submit.sl 
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 1 of 4, CPU 167, NUMA node 1, Namespace mnt:[4026536546]
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 0 of 4, CPU 166, NUMA node 1, Namespace mnt:[4026536545]
 Hello world! Processor c010.hpc.nesi.org.nz, Rank 3 of 4, CPU 33, NUMA node 0, Namespace mnt:[4026536577]
@@ -264,7 +262,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
         #!/bin/bash -e
         #SBATCH --job-name=osu-gather-hybrid
         #SBATCH --nodes=2
-        #SBATCH --tasks-per-node=2
+        #SBATCH --ntasks-per-node=2
         #SBATCH --time=00:05:00
 
         module -q purge
@@ -277,7 +275,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
         mpirun -n $SLURM_NTASKS apptainer run osu_benchmarks.sif collective/osu_gather
         ```
 
-        With `--nodes=2` and `--tasks-per-node=2`, `$SLURM_NTASKS` is 4. The host's `mpirun` launches the four containerised processes, and the matching OpenMPI inside the container performs the MPI communication between them.
+        With `--nodes=2` and `--ntasks-per-node=2`, `$SLURM_NTASKS` is 4. The host's `mpirun` launches the four containerised processes, and the matching OpenMPI inside the container performs the MPI communication between them.
 
 !!! dumbbell "Question 4"
 
@@ -291,7 +289,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
         #!/bin/bash -e
         #SBATCH --job-name=osu-gather-bind
         #SBATCH --nodes=2
-        #SBATCH --tasks-per-node=2
+        #SBATCH --ntasks-per-node=2
         #SBATCH --time=00:05:00
 
         module -q purge

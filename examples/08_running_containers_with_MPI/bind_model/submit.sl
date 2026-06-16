@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #SBATCH --job-name=apptainer-bind-mpi
 #SBATCH --nodes=2
-#SBATCH --tasks-per-node=2
+#SBATCH --ntasks-per-node=2
 #SBATCH --time=00:05:00
 
 module -q purge

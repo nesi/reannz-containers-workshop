@@ -12,7 +12,7 @@
 
 ## How to start using Apptainer on Mahuika
 
-Apptainer is loaded on mahuika by default. If you type in
+Apptainer is loaded on Mahuika by default. If you type in
 
 ```bash
 apptainer --version

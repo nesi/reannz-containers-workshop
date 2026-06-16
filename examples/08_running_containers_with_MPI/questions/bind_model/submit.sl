@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #SBATCH --job-name=osu-gather-bind
 #SBATCH --nodes=2
-#SBATCH --tasks-per-node=2
+#SBATCH --ntasks-per-node=2
 #SBATCH --time=00:05:00
 
 # Bind model: the container has no MPI of its own, so we load Mahuika's OpenMPI
@@ -23,5 +23,5 @@ export APPTAINERENV_UCX_POSIX_USE_PROC_LINK=n
 
 # The container's %runscript takes the benchmark path as an argument, so we
 # launch it with `apptainer run <benchmark>`. $SLURM_NTASKS is set automatically
-# from --nodes x --tasks-per-node (here 4).
+# from --nodes x --ntasks-per-node (here 4).
 mpirun -n $SLURM_NTASKS apptainer run osu_benchmarks.sif collective/osu_gather

@@ -113,6 +113,10 @@ From: ubuntu:24.04
     apt-get -y update
     apt-get -y install fortune cowsay lolcat
 
+%environment
+    export LC_ALL=C
+    export PATH=/usr/games:$PATH
+
 %runscript
     fortune | cowsay | lolcat
 ```
@@ -135,6 +139,10 @@ From: ubuntu:24.04
 %post
     apt-get -y update
     apt-get -y install cowsay lolcat
+
+%environment
+    export LC_ALL=C
+    export PATH=/usr/games:$PATH
 
 %runscript
     cowsay Hello $1! | lolcat

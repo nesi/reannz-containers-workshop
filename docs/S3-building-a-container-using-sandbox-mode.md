@@ -14,7 +14,7 @@
 
 Sometimes you do not know what you want in your container or how you want to construct it, or sometimes you want the option to be able to modify your container later on. You can do this by using a sandbox in Apptainer. In this section, we will learn what a sandbox is, and use it to construct and later modify a container.
 
-## What is a Sandbox
+## What is a Sandbox?
 
 Apptainer has the option of constructing a sandbox to develop a container rather than writing a `def` file. Here, you perform all the tasks you would like to construct the container manually, but you can make changes to it as you try things out and learn things about how you want your container to act. 
 
@@ -30,7 +30,7 @@ The advantages of using a sandbox are:
 However, there are some disadvantages:
 
 * They can be a bit tricky to work with.
-* You can't use `inspect --deffile` (see [Chapter 5](05-editing-containers.md)) to recover a record of how you built the sandbox, because there is no `%post` section.
+* You can't use `inspect --deffile` (see [Chapter 5](05-editing-containers.md)) to recover a record of how you built it, because the sandbox was not built from a `def` file — there is no recorded recipe to recover.
 
 
 ## Constructing a Container using Sandbox Mode

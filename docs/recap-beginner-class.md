@@ -1,6 +1,6 @@
-# Recap Beginner Lesson
+# Recap of Day 1
 
-Welcome back! Before we move on to the more advanced topics, let's quickly remind ourselves of what we covered in the beginner class. Don't worry if you didn't attend the beginner class — this page gives you everything you need to follow along today.
+Welcome back! Before we move on to the more advanced topics, let's quickly remind ourselves of what we covered on Day 1 (The Basics of Containers). Don't worry if you didn't attend Day 1 — this page gives you everything you need to follow along today.
 
 ## What is a container?
 
@@ -54,7 +54,7 @@ apptainer build my_container.sif my_container.def
 
 ## What's coming up today
 
-Now that we are back up to speed, the advanced class builds on these foundations to:
+Now that we are back up to speed, Day 2 (Beyond the Basics) builds on these foundations to:
 
 * **inspect, "edit", and version** containers,
 * **test** containers so you can be confident they work,
@@ -69,4 +69,4 @@ Now that we are back up to speed, the advanced class builds on these foundations
     - What does the `%post` section of a `def` file do?
     - How would you build a `sif` container from a `def` file?
 
-    If any of these are fuzzy, the beginner chapters are a good place to refresh.
+    If any of these are fuzzy, the Day 1 chapters are a good place to refresh.

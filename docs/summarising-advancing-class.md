@@ -1,6 +1,6 @@
-# Summarising Advanced Lesson
+# Summarising Day 2: Beyond the Basics
 
-Well done — you have now gone well beyond the basics and can inspect, modify, test, secure, and run containers in parallel on an HPC! This page pulls together everything from the advanced class so you have it all in one place.
+Well done — you have now gone well beyond the basics and can inspect, modify, test, secure, and run containers in parallel on an HPC! This page pulls together everything from Day 2 so you have it all in one place.
 
 ## What we covered today
 

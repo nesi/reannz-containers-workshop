@@ -117,18 +117,18 @@ OK, let's consider we have been given a container called `lolcow.sif` (found in 
         Use the `run` command by typing in `apptainer run lolcow.sif`
 
         ```bash
-            user.name@computer-name:~$ apptainer run lolcow.sif 
-             _________________________________________
-            / He that breaks a thing to find out what \
-            | it is has left the path of wisdom.      |
-            |                                         |
-            \ -- J.R.R. Tolkien                       /
-             -----------------------------------------
-                    \   ^__^
-                     \  (oo)\_______
-                        (__)\       )\/\
-                            ||----w |
-                            ||     ||
+        user.name@computer-name:~$ apptainer run lolcow.sif 
+         _________________________________________
+        / He that breaks a thing to find out what \
+        | it is has left the path of wisdom.      |
+        |                                         |
+        \ -- J.R.R. Tolkien                       /
+         -----------------------------------------
+                \   ^__^
+                 \  (oo)\_______
+                    (__)\       )\/\
+                        ||----w |
+                        ||     ||
         ```
 
 !!! dumbbell "Question 2"
@@ -144,15 +144,15 @@ OK, let's consider we have been given a container called `lolcow.sif` (found in 
         1. Use the `exec` command by typing in `apptainer exec lolcow.sif cowsay Hello Mars!`
 
         ```bash
-            user.name@computer-name:~$ apptainer exec lolcow.sif cowsay Hello Mars!
-             _____________
-            < Hello Mars! >
-             -------------
-                    \   ^__^
-                     \  (oo)\_______
-                        (__)\       )\/\
-                            ||----w |
-                            ||     ||
+        user.name@computer-name:~$ apptainer exec lolcow.sif cowsay Hello Mars!
+         _____________
+        < Hello Mars! >
+         -------------
+                \   ^__^
+                 \  (oo)\_______
+                    (__)\       )\/\
+                        ||----w |
+                        ||     ||
         ```
 
         2. Or, use the `shell` command by doing the following:

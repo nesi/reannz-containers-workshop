@@ -25,7 +25,7 @@ The key characteristics of Apptainer are:
 
 Apptainer and Docker both run containers, but Apptainer is designed for shared HPC systems like Mahuika, whereas Docker is designed for systems you have full control over. The main differences are:
 
-* **Privileges**: Docker normally runs through a privileged background service (the Docker daemon) that runs as `root`. Apptainer has no such daemon — containers run as *you*, the calling user, so you cannot gain root access to the host. This is why HPC centres allow Apptainer but generally not Docker.
+* **Privileges**: Docker normally runs through a privileged background service (the Docker daemon) that runs as `root`. Apptainer has no such daemon — containers run as *you*, the calling user, so you cannot gain root access to the host. This is why HPC centres allow Apptainer but generally not Docker (i.e. HPC administrators do not want users to have root/admin privileges).
 * **Image format**: Apptainer packages a container as a single `sif` file that you can copy, share, and run like any other file. Docker stores images as layers managed by the daemon.
 * **HPC integration**: Apptainer is built to work with shared filesystems, the SLURM scheduler, host MPI, and GPUs out of the box.
 

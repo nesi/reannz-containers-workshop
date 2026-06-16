@@ -15,7 +15,7 @@ The material is split across two days: **Day 1: The Basics of Containers** (runn
 | **Day 1: The Basics of Containers** | |
 | [1. Introduction to Apptainer](01-introduction.md) | Check Apptainer is available and meet the core commands |
 | [2. The Basics of Running Containers on Apptainer](02-running-apptainer.md) | Use `run`, `exec`, and `shell` to work with a container |
-| [3. Pulling and Running Containers from the Cloud](03-pulling-and-running-images.md) | Download and run containers from registries such as Docker |
+| [3. Pulling and Running Containers from the Cloud](03-pulling-and-running-images.md) | Download and run containers from registries such as Docker Hub |
 | [4. Building Containers](04-building-images.md) | Write a `def` file and build it into a `sif` container |
 | **Day 2: Beyond the Basics** | |
 | [5. Inspecting, "Editing", and Versioning Containers](05-editing-containers.md) | Inspect a container, recover its `def` file, and re-version it |
