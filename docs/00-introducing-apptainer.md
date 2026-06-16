@@ -13,17 +13,13 @@ Apptainer (formerly Singularity) is a container platform heavily used in HPC. It
 
 The key characteristics of Apptainer are:
 
-* Runs as the calling user:
-    * You typically do not need root to run containers.
-    * There’s no always-running privileged service like Docker’s daemon model.
-* Integrates with HPC environments. Designed to play nicely with:
-    * shared filesystems
-    * SLURM job launches
-    * MPI stacks (host MPI + container environment)
-    * GPU passthrough (e.g., NVIDIA)
-* “Bring your own environment, use the host resources”
-    * You can ship your own user-space software and dependencies,
-    * while still using the host's drivers and hardware capabilities.
+* **Runs as the calling user**: you typically do not need root to run containers, and there is no always-running privileged service like Docker's daemon.
+* **Integrates with HPC environments** — it is designed to play nicely with:
+    * shared filesystems,
+    * SLURM job launches,
+    * MPI stacks (host MPI + container environment),
+    * GPU passthrough (e.g. NVIDIA).
+* **Bring your own environment, use the host resources**: you can ship your own user-space software and dependencies, while still using the host's drivers and hardware capabilities.
 
 ## Difference between Apptainer and Docker
 

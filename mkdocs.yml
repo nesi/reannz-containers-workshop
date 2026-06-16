@@ -12,13 +12,13 @@ nav:
   - Home: index.md
   - 00-containers-overview.md
   - 00-introducing-apptainer.md
-  - Beginner:
+  - "Day 1: Basics":
     - 01-introduction.md
     - 02-running-apptainer.md
     - 03-pulling-and-running-images.md
     - 04-building-images.md
     - summarising-beginner-class.md
-  - Advanced:
+  - "Day 2: Beyond the Basics":
     - recap-beginner-class.md
     - 05-editing-containers.md
     - 06-testing-containers.md

@@ -16,7 +16,7 @@ At a high level, a container bundles:
 * Your application
 * Its dependencies (libraries, runtimes, tools)
 * Its expected filesystem layout (where binaries/configs live)
-* Sometimes: environment variables and default execution behavior
+* Sometimes: environment variables and default execution behaviour
 
 If you’ve ever had “it works on my laptop” problems, containers are designed to reduce that by shipping a self-contained runtime environment.
 

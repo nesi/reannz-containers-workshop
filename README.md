@@ -1,24 +1,68 @@
-# Introduction to shell for bioinformatics
+# Introduction to Containers on High Performance Clusters (HPC)
 
-## Workshop timings
-**Start time: 10:00am**  
-**Finish time: 4:00pm**  
+Workshop material for **REANNZ's "Introduction to Containers on High Performance Clusters"**. It teaches how to use [Apptainer](https://apptainer.org/) to find, run, build, inspect, test, secure, and run parallel (MPI) containers on an HPC such as [Mahuika](https://docs.nesi.org.nz/).
 
-## Workshop Schedule 
+The material is published as an [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) site (the pages live in [`docs/`](docs/)) and is delivered over two days.
 
-| Episode                                      | Duration | Approx time          |
-|---------------------------------------------|----------|-----------------------|
-| Welcome and opening                         | 25mins   | 10:00 - 10:25 am     |
-| Environment log in                          | 10 mins  | 10:25 - 10:35 am     |
-| Overview                                    | 5 mins   | 10:35 - 10:40 am     |
-| First steps - say goodbye to mouse          | 30 mins  | 10:40 - 11:10 am     |
-| BREAK                                       | 10 mins  | 11:10 - 11:20 am      |
-| Navigating files and dirs                   | 40 mins  | 11:20 - 12:00 pm      |
-| Working with files and dirs                 | 55 mins  | 12:00 pm -12:20 pm    |
-| LUNCH                                       | 50 mins  | 12:20 - 1:10 pm       |
-| Working with files and dirs                 | ...      | 1:10 - 1:45 pm        |
-| Redirection                                 | 50 mins  | 1:45 - 2:20 pm        |
-| BREAK                                       | 10 mins  | 2:20 - 2:30 pm        |
-| Redirection                                 | ...      | 2:30 - 2:45 pm        |
-| Writing with scripts and working with data  | 45 mins  | 2:45 - 3:30 pm        |
-| Project organisation                        | ~5 mins  | 3:30 - 3:35 pm        |
+## Workshop structure
+
+### Day 1 — Basics
+
+Running and building containers.
+
+- Overview of Containers
+- Apptainer: Running Containers on HPCs
+- Introduction to Apptainer
+- The Basics of Running Containers on Apptainer
+- Pulling and Running Containers from the Cloud
+- Building Containers
+- Summarising the Basics
+
+### Day 2 — Beyond the Basics
+
+Inspecting, testing, securing, and running MPI containers.
+
+- Recap of Day 1
+- Inspecting, "Editing", and Versioning Containers
+- Making Tests in Containers
+- Securing Containers with Encryption
+- Running Containers with MPI
+- Summarising Beyond the Basics
+
+### Supplementary
+
+Optional extra material:
+
+- S1: Other Options for Building Containers
+- S2: Other Commands in Apptainer
+- S3: Building a Container using Sandbox Mode
+
+## Repository layout
+
+| Path | Contents |
+|------|----------|
+| [`docs/`](docs/) | The lesson pages (Markdown), images, and stylesheets |
+| [`examples/`](examples/) | The `def` files, slurm scripts, and build helpers used in the lessons, grouped by chapter |
+| [`mkdocs.yml`](mkdocs.yml) | The MkDocs site configuration and navigation |
+| [`overrides/`](overrides/) | Theme overrides |
+
+## Building the site locally
+
+The site is built with MkDocs and the Material theme. To preview it locally:
+
+```bash
+pip install mkdocs-material mkdocs-glightbox
+mkdocs serve
+```
+
+Then open <http://127.0.0.1:8000> in your browser. To produce the static site, run `mkdocs build` (the output goes to the `public/` directory).
+
+## Building the example containers
+
+Each chapter's containers are built from the `def` files in [`examples/`](examples/). The **Setup Containers** page in the documentation lists the exact build command for every container, including the MPI/OSU containers, which build OpenMPI from source and are best built through slurm.
+
+## License
+
+This workshop material is licensed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
+It draws on the official [Apptainer documentation](https://apptainer.org/docs/) and, for the MPI chapter, the [CIQ blog post on MPI in Apptainer](https://ciq.com/blog/a-new-approach-to-mpi-in-apptainer/).
