@@ -111,7 +111,7 @@ Some others that we will also look at (but are less essential) are:
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - Apptainer is available on Mahuika by default — you can check this with `apptainer --version`.
     - Use `apptainer --help` to list all the commands and options available to you.

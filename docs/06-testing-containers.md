@@ -172,7 +172,7 @@ For these exercises, we will use the `my_python3.12.def` file from Chapter 4, wh
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - Use the `%test` section of a `def` file to embed self-tests in a container.
     - The test **passes on exit code `0`** and **fails on any non-zero exit code** — use `exit 1` to flag problems.

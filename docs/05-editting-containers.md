@@ -259,7 +259,7 @@ For these exercises, assume you have been given the `lolcow.sif` container.
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - Use `apptainer inspect` to view a container's metadata and labels (author, version, description).
     - Use `apptainer inspect --runscript` to see what the container does when you `run` it.

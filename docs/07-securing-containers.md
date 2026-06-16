@@ -152,7 +152,7 @@ For these exercises, assume you have a definition file called `secret.def` that 
 
 !!! dumbbell "Question 3"
 
-    You would rather use an RSA key pair. Write the commands to (a) generate the key pair, (b) build `secret.sif` from `secret.def`, and (c) run it. Which key is used to build, and which is used to run?
+    You would rather use an RSA key pair. Write the commands to generate the key pair, build `secret.sif` from `secret.def`, and run it. Which key is used to build, and which is used to run?
 
     ??? success "Solution"
 
@@ -188,7 +188,7 @@ For these exercises, assume you have a definition file called `secret.def` that 
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - Apptainer can encrypt a container's file system; it stays encrypted at rest, in transit, and while running.
     - You can encrypt with a **passphrase** (`--passphrase` / `APPTAINER_ENCRYPTION_PASSPHRASE`) or, preferably, an **RSA key pair** (`--pem-path` / `APPTAINER_ENCRYPTION_PEM_PATH`).

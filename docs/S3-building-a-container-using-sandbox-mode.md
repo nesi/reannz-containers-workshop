@@ -1,4 +1,4 @@
-# Building a Container using Sandbox Mode
+# S3: Building a Container using Sandbox Mode
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -7,8 +7,12 @@
     - Know how to construct and work with a sandbox.
     - Understand how to convert a sandbox into a container.
 
-Sometimes you do not know what you want in your container or how you want to construct it, or sometimes you want the option to be able to modify your container later on. You can do this by using a sandbox in Apptainer. In this section, we will learn what a sandbox is, and use it to construct and later modify a container.
+!!! clipboard-question "Questions"
 
+    - What is a sandbox, and when would I use one instead of a `def` file?
+    - How do I build, modify, and then convert a sandbox into a `sif` container?
+
+Sometimes you do not know what you want in your container or how you want to construct it, or sometimes you want the option to be able to modify your container later on. You can do this by using a sandbox in Apptainer. In this section, we will learn what a sandbox is, and use it to construct and later modify a container.
 
 ## What is a Sandbox
 
@@ -17,16 +21,16 @@ Apptainer has the option of constructing a sandbox to develop a container rather
 
 ## Advantages and Disadvantages of using a Sandbox
 
-The advantages of using are:
+The advantages of using a sandbox are:
 
 * Sandboxes are writable (mutable).
-* Being writable, they are good for debugging. This make changes easier to make
-* The filesystem is transparent (because sandboxes are written as files, we will see this later)
+* Being writable, they are good for debugging, as changes are easier to make.
+* The filesystem is transparent (because a sandbox is written out as a normal folder of files, as we will see later).
 
-However, there are some disadvantages
+However, there are some disadvantages:
 
-* Can be a bit tricky to work with.
-* You can't use `inspect --deffile` to look at your `%post` instructions on how you created your sandbox.
+* They can be a bit tricky to work with.
+* You can't use `inspect --deffile` (see [Chapter 5](05-editting-containers.md)) to recover a record of how you built the sandbox, because there is no `%post` section.
 
 
 ## Constructing a Container using Sandbox Mode
@@ -63,7 +67,7 @@ user.name@computer-name:~$ ls
 lolcow.sandbox
 ```
 
-if you look inside of it, it will look a full fat file system containing everything you need to run the sandbox as a container, as well as eventually turn the sandbox into a container (see later).
+if you look inside of it, it will look like a full file system containing everything you need to run the sandbox as a container, as well as to eventually turn the sandbox into a container (see later).
 
 ```bash
 user.name@computer-name:~$ ls lolcow.sandbox
@@ -117,7 +121,7 @@ done.
 Apptainer> 
 ```
 
-**Third**, while we are still inside the container, we can write files that determine what `run` does. Inside the container terminal (the terminal should so `Apptainer>`), do the following:
+**Third**, while we are still inside the container, we can write files that determine what `run` does. Inside the container terminal (the terminal should show `Apptainer>`), do the following:
 
 ```bash
 mkdir -p /.singularity.d
@@ -135,14 +139,14 @@ Then include what you would like `run` to do inside this `runscript` file:
 fortune | cowsay | lolcat
 ```
 
-**Fourth**, due to a small quirk of how ubuntu works, 
+**Fourth**, due to a small quirk of how Ubuntu works, 
 
 1. The `fortune`, `cowsay`, and `lolcat` programs are found in `/usr/games`. This folder is not pointed to by default in our sandbox. 
 2. Some of the locale settings are not automatically given.
 
 These are subtle quirks you would not need to worry about, but are important for getting our `lolcow` program to work. 
 
-Inside the container terminal (the terminal should so `Apptainer>`), do the following:
+Inside the container terminal (the terminal should show `Apptainer>`), do the following:
 
 ```bash
 mkdir -p /.singularity.d/env
@@ -152,7 +156,7 @@ chmod 0755 /.singularity.d/env/90-runtime.sh
 nano /.singularity.d/env/90-runtime.sh
 ```
 
-Then include what you would like `run` to do inside this file:
+Then add the following to this file:
 
 ```bash
 # Runtime environment for sandbox (SIF-equivalent)
@@ -257,13 +261,13 @@ And make sure your `runscript` looks like this:
 fortune | ponysay
 ```
 
-**Forth** (Optional), unfortunately there will be a slightly annoying warning from python when you run `ponysay`. You can prevent it from arising by adding a line to your environment file. In the terminal open `/.singularity.d/env/90-runtime.sh`
+**Fourth** (Optional), unfortunately there will be a slightly annoying warning from python when you run `ponysay`. You can prevent it from arising by adding a line to your environment file. In the terminal open `/.singularity.d/env/90-runtime.sh`
 
 ```bash
 nano /.singularity.d/env/90-runtime.sh
 ```
 
-Then include what you would like `export PYTHONWARNINGS=ignore` at the bottom of this file: 
+Then add `export PYTHONWARNINGS=ignore` at the bottom of this file: 
 
 ```bash
 # Runtime environment for sandbox (SIF-equivalent)
@@ -360,9 +364,9 @@ user.name@computer-name:~$ apptainer run lolpony-from-sandbox.sif
 
 ## Advice for using Sandboxes
 
-Sandboxes are great when you want to muck around and play with your container without having to rewrite and build several `def` files over and over. However, it is worth noting that `def` files are very useful as they provide all the infromation needed to write a container from scratch (particularly due to their `%post` section):
+Sandboxes are great when you want to muck around and play with your container without having to rewrite and build several `def` files over and over. However, it is worth noting that `def` files are very useful as they provide all the information needed to write a container from scratch (particularly due to their `%post` section):
 
-Therefore, here are some pointer for using sandboxes:
+Therefore, here are some pointers for using sandboxes:
 
 * As you are using sandboxes, write down what worked in the `%post` section of the `def` file. Once you have something working, use the `def` file to build your production-grade container.
 * If you need to modify your container further, you can always use the information from the `def` file to create a new sandbox from which you can make further modifications to. 
@@ -419,7 +423,7 @@ Therefore, here are some pointer for using sandboxes:
     source /opt/gromacs/bin/GMXRC
     ```
 
-    Use a sandbox to create this container as a `sif` file. Show that it works by running `apptainer exec gmx --version`.
+    Use a sandbox to create this container as a `sif` file. Show that it works by running `apptainer exec GROMACS.sif gmx --version`.
 
     ??? success "Solution"
 
@@ -642,7 +646,7 @@ Therefore, here are some pointer for using sandboxes:
         **Fourth**, type the following commands into the terminal:
 
         ```bash
-        # Download and install GROMACS 2021.6
+        # Download and install GROMACS 2025.4
         cd /opt
         wget https://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz
         tar -xzf gromacs-2025.4.tar.gz
@@ -740,10 +744,11 @@ Therefore, here are some pointer for using sandboxes:
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - A sandbox is like a container, but you can make changes to it as you go.
     - This makes sandboxes good for debugging.
     - The best way to use sandboxes is for trying things out, then write a `def` file to construct your official container as this container will be easier to `inspect`. 
-    - To create a sandbox, use `apptainer build --sandbox`
-    - Modify a contaienr by using `apptainer --writable --contain --fakeroot`
+    - To create a sandbox, use `apptainer build --sandbox`.
+    - Modify a sandbox by opening it with `apptainer shell --writable --contain --fakeroot`.
+    - Convert a finished sandbox into a `sif` container with `apptainer build <name>.sif <name>.sandbox`.

@@ -26,9 +26,9 @@ nav:
     - 08-running-MPI-containers.md
     - summarising-advancing-class.md
   - Supplementary:
-    - sandbox.md
-    - other-commands.md
-    - Supplementary/supplementary.md
+    - "S1: Other Options for Building Containers": S1-other_options_for_building_containers.md
+    - "S2: Other Commands in Apptainer": S2-other-commands-in-apptainer.md
+    - "S3: Building a Container using Sandbox Mode": S3-building-a-container-using-sandbox-mode.md
 
 theme:
   name: material

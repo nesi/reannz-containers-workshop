@@ -211,7 +211,7 @@ In this case, I am using the version of alpine that is currently stored in the a
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - Can pull a container from the cloud using the `pull` command
     - Can run a container directly from the cloud using `run`, `exec`, or `shell`

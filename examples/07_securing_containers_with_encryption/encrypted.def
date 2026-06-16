@@ -1,0 +1,20 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%labels
+    Author Geoffrey Weal
+    Version 1.0.0
+    Description "Simple container used to demonstrate Apptainer encryption"
+
+%runscript
+    echo "Hello World!"
+
+%help
+    This is a simple container used in the encryption lesson.
+
+    Usage:
+        apptainer run --passphrase encrypted.sif
+
+    What it does:
+        Prints "Hello World!" to stdout. The point of this example is the
+        encryption of the container, not what the container itself does.

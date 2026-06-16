@@ -399,7 +399,7 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - Can write a `def` file that apptainer can use to build a container, including the:
         - `Bootstrap` and `From` sections for downloading the base of the container.

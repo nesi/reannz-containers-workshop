@@ -182,7 +182,7 @@ cd examples/02_basics_of_containers
 
 ## Takeaway Points
 
-!!! graduation-cap "What you take away from this lesson"
+!!! graduation-cap "Keypoints"
 
     - Understand how to use the `run` command to perform a specific command as designed by the creator of the container.
     - Know how to use `exec` to perform custom tasks in the container.
