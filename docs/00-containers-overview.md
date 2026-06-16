@@ -39,18 +39,17 @@ For this reason, containers are usually:
 
 The reasons you would want to use a container are:
 
-* Reproducibility: You can define an environment once and run the same stack elsewhere and get same results. This is particularly valuable for:
+* Reproducibility: You can define an environment once and run the same stack elsewhere and get the same results. This is particularly valuable for:
     * Scientific workflows
     * Published results
     * Long-running projects where the “right” environment changes over time
 * Portability: You can transfer a container to any computer or HPC and it should generally work without having to go through "dependency hell"
-* Some Isolation: The software contained in the container generally see its own software stack only and will not see software outside the container. 
-* Dependancy Management: Everything you need is installed inside the container.
-* No Installation: It is common that installing software on your machine may not work due missing or different dependancies or for many other reasons. Containers allows the user to just run the software from any (or at least) most machines without hassle. 
+* Some Isolation: The software contained in the container generally sees its own software stack only and will not see software outside the container. 
+* Dependency Management: Everything you need is installed inside the container.
+* No Installation: It is common that installing software on your machine may not work due to missing or different dependencies or for many other reasons. Containers allow the user to just run the software from any (or at least most) machines without hassle. 
 
-## Takeaway points
 
-!!! graduation-cap "What you take away from this overview"
+!!! graduation-cap "Keypoints"
 
     - Containers are a way to package and run software such that it behaves consistently across different machines
-    - Containers allows for reproducibility, portability, isolation between software stacks, and dependancy management. 
+    - Containers allow for reproducibility, portability, isolation between software stacks, and dependency management. 

@@ -1,4 +1,4 @@
-site_name: Introduction to Containers on High Perforance Clusters (HPC)
+site_name: Introduction to Containers on High Performance Clusters (HPC)
 site_author: REANNZ
 site_dir: public
 site_url: "https://github.com/nesi/reannz-containers-workshop"
@@ -20,7 +20,7 @@ nav:
     - summarising-beginner-class.md
   - Advanced:
     - recap-beginner-class.md
-    - 05-editting-containers.md
+    - 05-editing-containers.md
     - 06-testing-containers.md
     - 07-securing-containers.md
     - 08-running-MPI-containers.md

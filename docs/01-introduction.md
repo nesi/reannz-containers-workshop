@@ -94,7 +94,7 @@ Examples:
   $ apptainer help instance start
 ```
 
-We will start by looking at the 5 most used commands in apptainer. These are:
+We will start by looking at the 5 most used commands in Apptainer. These are:
 
 1. **`run`**: Run a specific command as designed by the creator of the container.
 2. **`exec`**: Execute a custom command that you want to run on the container.
@@ -105,15 +105,14 @@ We will start by looking at the 5 most used commands in apptainer. These are:
 Some others that we will also look at (but are less essential) are:
 
 * `inspect`: To check out features of your container, including the `%runscript` and `def` file.
-* `cache`: To check out and remove files in th eapptainer cache.
+* `cache`: To check out and remove files in the Apptainer cache.
 * `test`: Allows the user to test the container as designed by the creator of the container. 
 * `run-help`: Allows the creator to provide notes to help explain how to use the container. 
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 
     - Apptainer is available on Mahuika by default — you can check this with `apptainer --version`.
     - Use `apptainer --help` to list all the commands and options available to you.
-    - Know the 5 most used commands in apptainer: `run`, `exec`, `shell`, `pull`, and `build`.
+    - Know the 5 most used commands in Apptainer: `run`, `exec`, `shell`, `pull`, and `build`.
     - Be aware of some other useful commands you will meet later: `inspect`, `cache`, `test`, and `run-help`.

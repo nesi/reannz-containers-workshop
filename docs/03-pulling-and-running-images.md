@@ -10,7 +10,7 @@
     - How do I get a container that lives online, such as on Docker?
     - Do I always have to download a container before I can use it?
 
-Sometimes you might not have a container file sitting in front of you that you want to use. Most of the time, your container might be sitting on the internet somewhere, like in docker. There are two ways you can interact with containers that are on the cloud:
+Sometimes you might not have a container file sitting in front of you that you want to use. Most of the time, your container might be sitting on the internet somewhere, like in Docker. There are two ways you can interact with containers that are on the cloud:
 
 1. Pull the image from the cloud first using `pull`, then run the container directly from the computer, or 
 2. Run the container directly using the `run`, `exec`, or `shell` command. 
@@ -34,7 +34,7 @@ where:
     
     Pulling a container just means downloading a container from the internet.
 
-For example, consider that we want to pull a container that contains Alpine, which is a very light-weight OS system. To do this, we can type into the terminal: 
+For example, consider that we want to pull a container that contains Alpine, which is a very lightweight operating system. To do this, we can type into the terminal: 
 
 ```bash
 apptainer pull my_alpine.sif docker://alpine
@@ -43,7 +43,7 @@ apptainer pull my_alpine.sif docker://alpine
 If you do this in the terminal, you will see the following:
 
 ```bash
-user.name@computer-name:$ apptainer pull my_alpine.sif docker://alpine
+user.name@computer-name:~$ apptainer pull my_alpine.sif docker://alpine
 INFO:    Converting OCI blobs to SIF format
 INFO:    Starting build...
 INFO:    Fetching OCI image...
@@ -54,10 +54,10 @@ INFO:    Creating SIF file...
 [=========================================================================================================] 100 % 0s
 ```
 
-What you can see is apptainer is downloading and constructing the container on your computer. We can now see that we have made a file called `my_alpine.sif`:
+What you can see is Apptainer is downloading and constructing the container on your computer. We can now see that we have made a file called `my_alpine.sif`:
 
 ```bash
-user.name@computer-name:$ ls
+user.name@computer-name:~$ ls
 my_alpine.sif
 ```
 
@@ -66,7 +66,7 @@ We can now use `exec` or `shell` to run Unix commands on the container:
 Performing the `exec` in the `my_alpine.sif` container, we see:
 
 ```bash
-user.name@computer-name:$ apptainer exec my_alpine.sif echo Hello World!
+user.name@computer-name:~$ apptainer exec my_alpine.sif echo Hello World!
 Hello World!
 ```
 
@@ -74,7 +74,7 @@ Performing the `shell` in the `my_alpine.sif` container, we see:
 
 
 ```bash
-user.name@computer-name:$ apptainer shell my_alpine.sif
+user.name@computer-name:~$ apptainer shell my_alpine.sif
 Apptainer> echo Hello Mercury!
 Hello Mercury!
 Apptainer> echo Hello Venus!
@@ -97,7 +97,7 @@ exit
 
 You can also skip the pull step entirely if you do not want to directly download the container onto your computer. You can do this by using the `run`, `exec` or `shell` command, where you call the address of the container on the cloud rather than the `sif` file.
 
-For example, consider that we want to perform `Hello World!` on the alpine container directly, rather than pulling it first then running it. To do this, we would do the following in the terminal:
+For example, consider that we want to perform `Hello World!` on the Alpine container directly, rather than pulling it first then running it. To do this, we would do the following in the terminal:
 
 ```bash
 apptainer exec docker://alpine echo Hello World!
@@ -118,7 +118,7 @@ INFO:    Creating SIF file...
 Hello World!
 ```
 
-or if you have already downloaded alpine once before, you may get the image straight from the cache:
+or if you have already downloaded Alpine once before, you may get the image straight from the cache:
 
 ```bash
 user.name@computer-name:~$ apptainer exec docker://alpine echo Hello World!
@@ -149,13 +149,13 @@ Apptainer> exit
 exit
 ```
 
-In this case, I am using the version of alpine that is currently stored in the apptainer cache.
+In this case, I am using the version of Alpine that is currently stored in the Apptainer cache.
 
 ## Exercises
 
 !!! dumbbell "Question 1"
 
-    How would you pull the image `docker://python:3.14-alpine` from docker?
+    How would you pull the image `docker://python:3.14-alpine` from Docker?
 
     ??? success "Solution"
 
@@ -206,10 +206,9 @@ In this case, I am using the version of alpine that is currently stored in the a
         >>> exit()
         ```
 
-        In this case, because I have already downloaded the `docker://python:3.14-alpine` image once before, apptainer is using the cached version of `docker://python:3.14-alpine`.
+        In this case, because I have already downloaded the `docker://python:3.14-alpine` image once before, Apptainer is using the cached version of `docker://python:3.14-alpine`.
 
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 

@@ -41,10 +41,11 @@ apptainer build my_container.sif my_container.def
 
 In the advanced class we build on these foundations to:
 
+* inspect, "edit", and version containers,
 * test containers so you can be confident they work (`%test`),
 * secure and encrypt containers,
 * and run containers in parallel across an HPC using MPI.
 
-!!! graduation-cap "The big picture"
+!!! graduation-cap "Keypoints"
 
     Containers let you package software and all its dependencies into a single, portable file that runs the same way on your computer and on Mahuika. With `pull`, `build`, and `run`/`exec`/`shell`, you can now find, create, and use containers for your own work.

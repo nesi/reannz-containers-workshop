@@ -15,7 +15,7 @@ From: ubuntu:24.04
     export PATH=/usr/games:$PATH
 
 %runscript
-     cowsay Hello $1! | lolcat
+    cowsay Hello $1! | lolcat
 
 %test
     set -e

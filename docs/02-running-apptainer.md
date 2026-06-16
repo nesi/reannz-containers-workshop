@@ -9,7 +9,7 @@
     - How do I run a container the way its creator intended?
     - How do I run my own commands inside a container, or work in it interactively?
 
-The three commands most widely used in apptainer are `run`, `exec` and `shell`. Very briefly: 
+The three commands most widely used in Apptainer are `run`, `exec` and `shell`. Very briefly: 
 
 * `run`: Performs a command as designed by the creator of the container.
 * `exec`: Allows the user to perform a custom command within the container. 
@@ -17,15 +17,15 @@ The three commands most widely used in apptainer are `run`, `exec` and `shell`. 
 
 In this section, we will expand on how to use all three commands and see what they do. 
 
-For these examples, we will use the `hello-world.sif` container, which is based on ubuntu. This container is found in the `XYZ` folder:
+For these examples, we will use the `hello-world.sif` container, which is based on Ubuntu. This container is found in the `examples/02_basics_of_containers` folder:
 
 ```bash 
-cd XYZ 
+cd examples/02_basics_of_containers
 ```
 
 ## The `run` command
 
-Consider that we want to run a container as intended by its creator. We would do this by using the `run` command in apptainer:
+Consider that we want to run a container as intended by its creator. We would do this by using the `run` command in Apptainer:
 
 ```bash 
 apptainer run hello-world.sif
@@ -34,14 +34,14 @@ apptainer run hello-world.sif
 This container has been designed to print out `Hello World!` when run:
 
 ```bash 
-user.name@computer-name:$ apptainer run hello-world.sif
+user.name@computer-name:~$ apptainer run hello-world.sif
 Hello World!
 ```
 
 We can look inside the container to see what the `run` command is meant to do for this container by using the `inspect --runscript` feature of Apptainer
 
 ```bash
-user.name@computer-name:$ apptainer inspect --runscript hello-world.sif
+user.name@computer-name:~$ apptainer inspect --runscript hello-world.sif
 #!/bin/sh
 
     echo "Hello World!"
@@ -51,37 +51,37 @@ We will come back to the `inspect` feature later on.
 
 ## The `exec` command
 
-Next, lets consider we want to use the container, but we want to use it slightly differently to how the creator intended the container to be run. In this case, we want to use the `exec` command. 
+Next, let's consider we want to use the container, but we want to use it slightly differently to how the creator intended the container to be run. In this case, we want to use the `exec` command. 
 
-For example, lets say that I want the container to actually print the text `Hello Mars!`. We could do this by typing the following into the terminal:
+For example, let's say that I want the container to actually print the text `Hello Mars!`. We could do this by typing the following into the terminal:
 
 ```bash
-user.name@computer-name:$ apptainer exec hello-world.sif echo Hello Mars!
+user.name@computer-name:~$ apptainer exec hello-world.sif echo Hello Mars!
 Hello Mars!
 ```
 
 What does everything mean:
 
 * `apptainer`: We called the Apptainer program
-* `exec`: This is the execution command for apptainer
+* `exec`: This is the execution command for Apptainer
 * `hello-world.sif`: This is the container we would like to perform a command using. 
 * `echo Hello Mars!`: This is the command we would like to perform with our container. 
 
 We could keep doing this for the other planets in the solar system
 
 ```bash
-user.name@computer-name:$ apptainer exec hello-world.sif echo Hello Venus!
+user.name@computer-name:~$ apptainer exec hello-world.sif echo Hello Venus!
 Hello Venus!
 ```
 
 ## The `shell` command
 
-Now lets consider that we actually want to work with the container interactively. To do this, we use the `shell` command. 
+Now let's consider that we actually want to work with the container interactively. To do this, we use the `shell` command. 
 
-For example, lets say we want to interactively say hello to all the planets in the solar system (and bye to Pluto). 
+For example, let's say we want to interactively say hello to all the planets in the solar system (and bye to Pluto). 
 
 ```bash
-user.name@computer-name:$ apptainer shell hello-world.sif
+user.name@computer-name:~$ apptainer shell hello-world.sif
 Apptainer> echo Hello Mercury!
 Hello Mercury!
 Apptainer> echo Hello Venus!
@@ -104,17 +104,9 @@ exit
 
 Using the `shell` command, we can interactively work inside the container just like we were on a computer/terminal that was built on that container. 
 
-
-
-
-
 ## Exercises
 
-OK, lets consider we have been given a container called `lolcow.sif` (found in `examples/02_basics_of_containers`):
-
-```bash 
-cd examples/02_basics_of_containers
-```
+OK, let's consider we have been given a container called `lolcow.sif` (found in `examples/02_basics_of_containers`):
 
 !!! dumbbell "Question 1"
 
@@ -125,7 +117,7 @@ cd examples/02_basics_of_containers
         Use the `run` command by typing in `apptainer run lolcow.sif`
 
         ```bash
-            user.name@computer-name:$ apptainer run lolcow.sif 
+            user.name@computer-name:~$ apptainer run lolcow.sif 
              _________________________________________
             / He that breaks a thing to find out what \
             | it is has left the path of wisdom.      |
@@ -152,7 +144,7 @@ cd examples/02_basics_of_containers
         1. Use the `exec` command by typing in `apptainer exec lolcow.sif cowsay Hello Mars!`
 
         ```bash
-            user.name@computer-name:$ apptainer exec lolcow.sif cowsay Hello Mars!
+            user.name@computer-name:~$ apptainer exec lolcow.sif cowsay Hello Mars!
              _____________
             < Hello Mars! >
              -------------
@@ -166,7 +158,7 @@ cd examples/02_basics_of_containers
         2. Or, use the `shell` command by doing the following:
 
         ```bash
-        user.name@computer-name:$ apptainer shell lolcow.sif
+        user.name@computer-name:~$ apptainer shell lolcow.sif
         Apptainer> cowsay Hello Mars!
          _____________
         < Hello Mars! >
@@ -180,7 +172,6 @@ cd examples/02_basics_of_containers
         exit
         ```
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 

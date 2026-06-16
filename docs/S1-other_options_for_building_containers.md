@@ -32,7 +32,7 @@ The remaining sections each begin with a `%` keyword:
 * `%runscript`: the commands run when you `apptainer run` the container (see [Chapter 4](04-building-images.md)).
 * `%startscript`: the commands run when you start the container as a background service with `apptainer instance start`.
 * `%test`: commands run at the end of the build (and whenever you run `apptainer test`) to check that the container was built correctly (see [Chapter 6](06-testing-containers.md)).
-* `%labels`: metadata such as the author and version, which you can read back with `apptainer inspect` (see [Chapter 4](04-building-images.md) and [Chapter 5](05-editting-containers.md)).
+* `%labels`: metadata such as the author and version, which you can read back with `apptainer inspect` (see [Chapter 4](04-building-images.md) and [Chapter 5](05-editing-containers.md)).
 * `%help`: free text describing the container, shown when a user runs `apptainer run-help` (see [S2: Other Commands in Apptainer](S2-other-commands-in-apptainer.md)).
 
 ## A Note on `%setup` vs `%post`
@@ -105,7 +105,6 @@ Stage: build
 
 Note that this is a very complete `def` file, which makes it look overwhelming. In general you do not need to include all these features — most containers use only `Bootstrap`, `From`, `%post`, and `%runscript`. We show it here just to illustrate everything a `def` file *can* contain.
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 

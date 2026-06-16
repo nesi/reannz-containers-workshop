@@ -1,35 +1,41 @@
-# Introduction to Containers on High Perforance Clusters (HPC)
+# Introduction to Containers on High Performance Clusters (HPC)
 
 
 ![image](./fig/Title_Containers.png){: width="500px" .center}
 
 
-| **Lesson**                                         | **Overview** | 
-|:---------------------------------------------------|:-------------|
-|Pre . [Unix, Linux and UNIX Shell](./0-unixl-linux-overview.md)|Quick overview on UNIX operating system and it's importance|
-|1. [Introducing the shell](./01-introduction.md)| Introduce `cd` `ls`  |
-|2. [Navigating files and directories](./02-the-filesystem.md)| moving around the filesystem. Introduce absolute vs relative path |
-|3. [Working with files and directories](./03-working-with-files.md)| View, search within, copy, move, and rename files. Create new directories |
-|4. [Redirection](./04-redirection.md)| Employ the grep command to search for information within files | 
-|5. [Writing scripts and working with data](./05-writing-scripts.md)| How to use a terminal based text editor | 
-|6. [Project Organisation](./06-organization.md)| Create a file system for a bioinformatics project | 
+This workshop introduces **containers** and how to use them on a High Performance Cluster (HPC) such as [Mahuika](https://docs.nesi.org.nz/). Containers let you package software, along with all of its dependencies, into a single portable file that runs the same way on your own computer and on an HPC. By the end of the workshop you will be able to find, run, build, inspect, test, secure, and run parallel (MPI) containers using [Apptainer](https://apptainer.org/).
+
+The material is split into a **beginner** day (running and building containers) and an **advanced** day (inspecting, testing, securing, and running MPI containers), with optional **supplementary** material.
+
+| **Lesson** | **Overview** |
+|:-----------|:-------------|
+| [Overview of Containers](00-containers-overview.md) | What a container is, and why you would use one |
+| [Apptainer: Running Containers on HPCs](00-introducing-apptainer.md) | What Apptainer is, and how it differs from Docker |
+| **Beginner** | |
+| [1. Introduction to Apptainer](01-introduction.md) | Check Apptainer is available and meet the core commands |
+| [2. The Basics of Running Containers on Apptainer](02-running-apptainer.md) | Use `run`, `exec`, and `shell` to work with a container |
+| [3. Pulling and Running Containers from the Cloud](03-pulling-and-running-images.md) | Download and run containers from registries such as Docker |
+| [4. Building Containers](04-building-images.md) | Write a `def` file and build it into a `sif` container |
+| **Advanced** | |
+| [5. Inspecting, "Editing", and Versioning Containers](05-editing-containers.md) | Inspect a container, recover its `def` file, and re-version it |
+| [6. Making Tests in Containers](06-testing-containers.md) | Add a `%test` section and run `apptainer test` |
+| [7. Securing Containers with Encryption](07-securing-containers.md) | Encrypt a container with a passphrase or an RSA key pair |
+| [8. Running Containers with MPI](08-running-MPI-containers.md) | Run containers in parallel with the hybrid and bind models |
 
 
-!!! plane-depart "Getting Started"
+!!! clipboard-list "Getting Started"
 
 
-    This lesson assumes no prior experience with the tools covered in the workshop.
-    However, learners are expected to have some familiarity with biological concepts,
-    including the
-    concept of genomic variation within a population. Participants should bring their laptops and plan to participate actively.
+    This workshop assumes no prior experience with containers. You should, however, be comfortable working in a Unix shell (`cd`, `ls`, editing files) and have access to an HPC such as Mahuika to run the examples. Participants should bring their laptops and plan to take part actively.
 
-- - - 
+- - -
 
 !!! copyright "Attribution Notice"
 
-    * This workshop material is adapted  and inspired by The Carpentries [Data Carpentry - Shell Genomics](https://datacarpentry.org/shell-genomics/)
- 
+    * This workshop material draws on the official [Apptainer documentation](https://apptainer.org/docs/) and, for the MPI chapter, the [CIQ blog post on MPI in Apptainer](https://ciq.com/blog/a-new-approach-to-mpi-in-apptainer/).
 
-!!! key "License" 
 
-    Genomics Aotearoa / REANNZ "Introduction to Shell for Bioinformatics" is licensed under the **GNU General Public License v3.0, 29 June 2007** . ([Follow this link for more information](https://github.com/GenomicsAotearoa/introduction-to-shell/blob/main/LICENSE))
+!!! key "License"
+
+    REANNZ "Introduction to Containers on High Performance Clusters" is licensed under the **GNU General Public License v3.0, 29 June 2007**. ([Follow this link for more information](https://www.gnu.org/licenses/gpl-3.0.en.html))

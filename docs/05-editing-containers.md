@@ -1,4 +1,4 @@
-# 5. Inspecting, "Editting", and Versioning Containers
+# 5. Inspecting, "Editing", and Versioning Containers
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -60,7 +60,7 @@ You will notice that the first three lines of the output stand out from the rest
     Description "An apptainer container to run lolcow"
 ```
 
-The other `org` labels are recorded by apptainer when it creates the `sif` file. 
+The other `org` labels are recorded by Apptainer when it creates the `sif` file. 
 
 And, as we saw in [Chapter 2](02-running-apptainer.md#the-run-command), you can also use this command to learn what the `run` command will do by typing 
 
@@ -119,7 +119,7 @@ From: ubuntu:24.04
 
 We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see the `$1`, `$2`, `$3`, and `$@` section of Chapter 4). 
 
-* In the `%runscript`, we change `fortune | cowsay` to `cowsay Hello $1!` so the cow greets our argument instead of telling a fortune. Since `fortune` is no longer used, we can also remove it from the `%post` install line.
+* In the `%runscript`, we change `fortune | cowsay | lolcat` to `cowsay Hello $1! | lolcat` so the cow greets our argument instead of telling a fortune. Since `fortune` is no longer used, we can also remove it from the `%post` install line.
 * Since we are making changes to the container, we record this in the `%labels` section by updating the `Description`.
     * We also bump the `Version`. This is a good idea so we can distinguish the modified container from the original `lolcow`. 
 
@@ -137,10 +137,10 @@ From: ubuntu:24.04
     apt-get -y install cowsay lolcat
 
 %runscript
-     cowsay Hello $1! | lolcat
+    cowsay Hello $1! | lolcat
 ```
 
-If we build by typing the following into the terminal (where I have called my modified `def` file `hellocow.def`):
+If we build by typing the following into the terminal (where I have called my modified `def` file [`hellocow.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/05_editing_containers/hellocow.def)):
 
 ```bash
 apptainer build hellocow.sif hellocow.def
@@ -257,7 +257,6 @@ For these exercises, assume you have been given the `lolcow.sif` container.
         apptainer inspect lolcow.sif
         ```
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 

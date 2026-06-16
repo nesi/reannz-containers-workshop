@@ -30,7 +30,7 @@ The advantages of using a sandbox are:
 However, there are some disadvantages:
 
 * They can be a bit tricky to work with.
-* You can't use `inspect --deffile` (see [Chapter 5](05-editting-containers.md)) to recover a record of how you built the sandbox, because there is no `%post` section.
+* You can't use `inspect --deffile` (see [Chapter 5](05-editing-containers.md)) to recover a record of how you built the sandbox, because there is no `%post` section.
 
 
 ## Constructing a Container using Sandbox Mode
@@ -67,7 +67,7 @@ user.name@computer-name:~$ ls
 lolcow.sandbox
 ```
 
-if you look inside of it, it will look like a full file system containing everything you need to run the sandbox as a container, as well as to eventually turn the sandbox into a container (see later).
+If you look inside of it, it will look like a full file system containing everything you need to run the sandbox as a container, as well as to eventually turn the sandbox into a container (see later).
 
 ```bash
 user.name@computer-name:~$ ls lolcow.sandbox
@@ -94,7 +94,7 @@ WARNING: Skipping mount /etc/localtime [binds]: /etc/localtime doesn't exist in 
 Apptainer> 
 ```
 
-We can now install the packages for `lolcow` we would like using the apptainer shell (we will also install `nano` for later). 
+We can now install the packages for `lolcow` we would like using the Apptainer shell (we will also install `nano` for later). 
 
 ```bash
 apt-get -y update
@@ -226,7 +226,7 @@ user.name@computer-name:~$ apptainer run lolcow-from-sandbox.sif
 
 ## Making changes to a Sandbox
 
-Sandboxes allow you to make modifications to your container on the fly, such as adding packages or removing packages. Lets consider we want to create a container that gets My Little Ponies to say quotes. We can do this with sandboxes because they are mutable.
+Sandboxes allow you to make modifications to your container on the fly, such as adding packages or removing packages. Let's consider we want to create a container that gets My Little Ponies to say quotes. We can do this with sandboxes because they are mutable.
 
 **First**, open up our original sandbox in a shell by typing into the terminal:
 
@@ -369,20 +369,20 @@ Sandboxes are great when you want to muck around and play with your container wi
 Therefore, here are some pointers for using sandboxes:
 
 * As you are using sandboxes, write down what worked in the `%post` section of the `def` file. Once you have something working, use the `def` file to build your production-grade container.
-* If you need to modify your container further, you can always use the information from the `def` file to create a new sandbox from which you can make further modifications to. 
+* If you need to modify your container further, you can always use the information from the `def` file to create a new sandbox from which you can make further modifications. 
     * Again, write your successful steps in the `%post` section of the `def` file.
 
 ## Exercises
 
 !!! dumbbell "Question 1"
 
-    A student want to run GROMACS in a container, but doesn't know what version they want to use. The student knows the protocol for installing GROMACS 2021.6 on Ubuntu 24.04, which is: 
+    A student wants to run GROMACS in a container, but doesn't know what version they want to use. The student knows the protocol for installing GROMACS 2021.6 on Ubuntu 24.04, which is: 
 
     ```bash
     # Update Ubuntu
     apt-get update
 
-    # Set the locate for date
+    # Set the locale for date
     echo "Pacific/Auckland" > /etc/timezone
 
     # Install necessary packages
@@ -416,7 +416,7 @@ Therefore, here are some pointers for using sandboxes:
     rm -rfv gromacs-2021.6.tar.gz gromacs-2021.6
     ```
 
-    GROMACS also need the following environment to run:
+    GROMACS also needs the following environment to run:
 
     ```bash
     # GROMACS environment
@@ -433,7 +433,7 @@ Therefore, here are some pointers for using sandboxes:
         apptainer build --sandbox GROMACS.sandbox docker://ubuntu:24.04
         ```
 
-        **Second**, open the sandbox in the apptainer shell
+        **Second**, open the sandbox in the Apptainer shell
 
         ```bash
         apptainer shell --writable  --contain --fakeroot GROMACS.sandbox
@@ -445,7 +445,7 @@ Therefore, here are some pointers for using sandboxes:
         # Update Ubuntu
         apt-get update
 
-        # Set the locate for date
+        # Set the locale for date
         echo "Pacific/Auckland" > /etc/timezone
 
         # Install necessary packages
@@ -598,7 +598,7 @@ Therefore, here are some pointers for using sandboxes:
 
 !!! dumbbell "Question 2"
 
-    This student (from question 1) wants to upgrade their version of GROMACS to 2025.4. Make a modification to your sandbox to account for this, and created an updated container using GROMACS 2025.4
+    This student (from question 1) wants to upgrade their version of GROMACS to 2025.4. Make a modification to your sandbox to account for this, and create an updated container using GROMACS 2025.4
 
     Note: You will want to download GROMACS from `https://ftp.gromacs.org/gromacs/gromacs-2025.4.tar.gz`
 
@@ -621,7 +621,7 @@ Therefore, here are some pointers for using sandboxes:
 
     ??? success "Solution"
 
-        **First**, open the sandbox in the apptainer shell
+        **First**, open the sandbox in the Apptainer shell
 
         ```bash
         apptainer shell --writable  --contain --fakeroot GROMACS.sandbox
@@ -668,7 +668,7 @@ Therefore, here are some pointers for using sandboxes:
 
         This will install GROMACS 2025.4 in your container
 
-        **Fifth**, we still want the environment to point source `/opt/gromacs/bin/GMXRC`, so we dont need to change anything in `/.singularity.d/env`
+        **Fifth**, we still want the environment to point source `/opt/gromacs/bin/GMXRC`, so we don't need to change anything in `/.singularity.d/env`
 
         !!! note
 
@@ -742,7 +742,6 @@ Therefore, here are some pointers for using sandboxes:
         ```
 
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 

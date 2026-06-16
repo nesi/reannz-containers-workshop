@@ -13,7 +13,7 @@ In this section we look at a couple of subtle but helpful commands that Apptaine
 
 ## The `cache` command
 
-When you pull or build containers, files will be created and placed in the apptainer cache (defined by `APPTAINER_CACHEDIR` in your `~/.bashrc`). You can see what containers are in your cache by typing 
+When you pull or build containers, files will be created and placed in the Apptainer cache (defined by `APPTAINER_CACHEDIR` in your `~/.bashrc`). You can see what containers are in your cache by typing 
 
 ```bash
 apptainer cache list
@@ -88,10 +88,9 @@ user.name@computer-name:~$ apptainer run-help lolcow.sif
 
     Just as Docker can orchestrate long-running containers (for example with Docker Compose or Docker Swarm), Apptainer can run containers as background services called *instances*, using `apptainer instance start`, `apptainer instance list`, and `apptainer instance stop`. The commands an instance runs on start-up come from the `%startscript` section of the `def` file (see [S1: Other Options for Building Containers](S1-other_options_for_building_containers.md)).
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 
     - Understand the following commands:
-        * `cache`: to list and remove files in the apptainer cache.
+        * `cache`: to list and remove files in the Apptainer cache.
         * `run-help`: lets the creator provide notes explaining how to use the container.

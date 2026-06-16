@@ -28,7 +28,7 @@ Both these methods have their advantages and disadvantages, and there is no one 
 
 ### The Hybrid Model
 
-In the hybrid model, we install the same version of MPI on the container as we have on our computer/HPC. In most cases you will have been provided a container and it may have OpenMPI installed on it. In this case, we will use a container that was built using the following definition file, which installs OpenMPI 5.0.10:
+In the hybrid model, we install the same version of MPI on the container as we have on our computer/HPC. In most cases you will have been provided a container and it may have OpenMPI installed on it. In this case, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/08_running_containers_with_MPI/hybrid_model) folder), which installs OpenMPI 5.0.10:
 
 ```def hl_lines="15-31"
 Bootstrap: docker
@@ -77,7 +77,7 @@ apptainer exec mpi_hybrid_container.sif /opt/ompi/bin/mpiexec --version
 You should get:
 
 ```bash
-user.name@computer-name:$ apptainer exec mpi_hybrid_container.sif /opt/ompi/bin/mpiexec --version
+user.name@computer-name:~$ apptainer exec mpi_hybrid_container.sif /opt/ompi/bin/mpiexec --version
 mpiexec (Open MPI) 5.0.10
 
 Report bugs to https://www.open-mpi.org/community/help/
@@ -103,14 +103,14 @@ export APPTAINERENV_UCX_POSIX_USE_PROC_LINK=n
 mpirun -n $SLURM_NTASKS apptainer exec mpi_hybrid_container.sif /opt/mpi_hello_world
 ```
 
-The highlighted line in the above slurm script loads the **external** OpenMPI — the version on Mahuika that runs _outside_ the container. In the hybrid model it must match the version of OpenMPI installed _inside_ the container (here, both are OpenMPI 5.0.10).
+The highlighted lines in the above slurm script load the **external** OpenMPI — the version on Mahuika that runs _outside_ the container. In the hybrid model it must match the version of OpenMPI installed _inside_ the container (here, both are OpenMPI 5.0.10).
 
 We launch the program with `mpirun -n $SLURM_NTASKS`. `$SLURM_NTASKS` is an environment variable that slurm sets automatically to the total number of tasks you requested (here `--nodes=2` × `--tasks-per-node=2` = 4). Using it means the number of MPI processes always matches the resources you asked slurm for, so you only have to change it in one place.
 
 Once you have submitted this to slurm (`sbatch submit.sl`) and the job has run, you should obtain an output file that shows something similar to this:
 
 ```bash
-user.name@computer-name:$ bash submit.sl 
+user.name@computer-name:~$ sbatch submit.sl 
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 1 of 4, CPU 167, NUMA node 1, Namespace mnt:[4026536546]
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 0 of 4, CPU 166, NUMA node 1, Namespace mnt:[4026536545]
 Hello world! Processor c010.hpc.nesi.org.nz, Rank 3 of 4, CPU 33, NUMA node 0, Namespace mnt:[4026536577]
@@ -119,7 +119,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
 ### The Bind Model
 
-In this model we do not use MPI from within the container but instead we bind-mount Mahuika's version of MPI (and the libraries it depends on) into the container at runtime. In most cases you will have been provided a container that was built _without_ MPI. For our example, we will use a container that was built using the following definition file:
+In this model we do not use MPI from within the container but instead we bind-mount Mahuika's version of MPI (and the libraries it depends on) into the container at runtime. In most cases you will have been provided a container that was built _without_ MPI. For our example, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`bind_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/08_running_containers_with_MPI/bind_model) folder):
 
 ```def
 Bootstrap: docker
@@ -151,13 +151,13 @@ apptainer exec mpi_bind_container.sif which mpiexec
 You should get:
 
 ```bash
-user.name@computer-name:$ apptainer exec mpi_bind_container.sif which mpiexec
+user.name@computer-name:~$ apptainer exec mpi_bind_container.sif which mpiexec
 which: no mpiexec in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
 ```
 
 We can now run a slurm script for this container. Notice that we load OpenMPI 5.0.10 in the script and bind it into the container. This lets the program _inside_ the container use Mahuika's OpenMPI 5.0.10, which lives _outside_ the container:
 
-```sh
+```sh hl_lines="10-16"
 #!/bin/bash -e
 #SBATCH --job-name=apptainer-bind-mpi
 #SBATCH --nodes=2
@@ -215,7 +215,7 @@ In short: the `for` loop gathers the host's MPI library directories, `APPTAINER_
 Once you have submitted this to slurm (`sbatch submit.sl`) and the job has run, you should obtain an output file that shows something similar to this:
 
 ```bash
-user.name@computer-name:$ bash submit.sl 
+user.name@computer-name:~$ sbatch submit.sl 
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 1 of 4, CPU 167, NUMA node 1, Namespace mnt:[4026536546]
 Hello world! Processor c008.hpc.nesi.org.nz, Rank 0 of 4, CPU 166, NUMA node 1, Namespace mnt:[4026536545]
 Hello world! Processor c010.hpc.nesi.org.nz, Rank 3 of 4, CPU 33, NUMA node 0, Namespace mnt:[4026536577]
@@ -237,7 +237,9 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
 !!! dumbbell "Question 2"
 
-    Before submitting a parallel job, you want to quickly check that the **hybrid** `osu_benchmarks.sif` works by running the `startup/osu_hello` benchmark with a single process. How could you do this interactively?
+    You have a **hybrid** `osu_benchmarks.sif` container (in the [`questions/hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/08_running_containers_with_MPI/questions/hybrid_model) folder) with OpenMPI built in, where the benchmark programs live under the directory `$OSU_DIR`.
+
+    Before submitting a parallel job, you want to quickly check the container works by running the `startup/osu_hello` benchmark with a single process. How could you do this interactively?
 
     ??? success "Solution"
 
@@ -252,9 +254,11 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
 !!! dumbbell "Question 3"
 
-    This container has OpenMPI installed inside it, so we can use the **hybrid model**. Write a slurm script that runs the collective benchmark (`collective/osu_gather`) across 4 MPI processes, with 2 processes on each of 2 nodes.
+    The same hybrid container has OpenMPI inside it, so we can use the **hybrid model** to run it in parallel. Write a slurm script that runs the collective benchmark `collective/osu_gather` across 4 MPI processes, with 2 processes on each of 2 nodes.
 
     ??? success "Solution"
+
+        The container's `%runscript` runs whichever benchmark you name, so we launch it with `apptainer run osu_benchmarks.sif collective/osu_gather`:
 
         ```sh
         #!/bin/bash -e
@@ -266,6 +270,10 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
         module -q purge
         module load OpenMPI/5.0.10-GCC-15.2.0
 
+        # Required on Mahuika: prevents a "Permission denied" error from UCX's
+        # shared-memory transport that otherwise stops the MPI program from running.
+        export APPTAINERENV_UCX_POSIX_USE_PROC_LINK=n
+
         mpirun -n $SLURM_NTASKS apptainer run osu_benchmarks.sif collective/osu_gather
         ```
 
@@ -273,7 +281,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
 !!! dumbbell "Question 4"
 
-    Now run the *same* benchmark (`collective/osu_gather`, across 4 MPI processes with 2 processes on each of 2 nodes), but using the **bind model** instead of the hybrid model. Write the slurm script.
+    There is also a **bind** version of the container (in the [`questions/bind_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/08_running_containers_with_MPI/questions/bind_model) folder) that has no MPI of its own. Run the *same* benchmark (`collective/osu_gather` across 4 MPI processes, with 2 processes on each of 2 nodes), but using the **bind model**. Write the slurm script.
 
     ??? success "Solution"
 
@@ -296,6 +304,9 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
         done
         export APPTAINER_BIND="${SWEEP},/opt/mellanox/hcoll/lib,/usr/lib64:/hostlibs"
         export APPTAINERENV_LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/hostlibs:/opt/mellanox/hcoll/lib"
+
+        # Required on Mahuika: prevents a "Permission denied" error from UCX's
+        # shared-memory transport that otherwise stops the MPI program from running.
         export APPTAINERENV_UCX_POSIX_USE_PROC_LINK=n
 
         mpirun -n $SLURM_NTASKS apptainer run osu_benchmarks.sif collective/osu_gather
@@ -303,17 +314,13 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
         The only difference from Question 3 is the block that binds Mahuika's OpenMPI into the container; the `mpirun` line itself is unchanged.
 
-        !!! note
-            The bind version of `osu_benchmarks.sif` has _no_ MPI of its own. Because the OSU benchmarks have to be compiled against an MPI, they are built on the host (against Mahuika's OpenMPI 5.0.10) and the resulting binaries are copied into the container — see `build_osu.sh` and the bind `osu_benchmarks.def` in the `bind_model/` folder. At runtime the slurm script binds the same OpenMPI 5.0.10 back in, so the binaries find the `libmpi.so` they were built against.
-
 !!! graduation-cap "Keypoints"
 
     - Running MPI with a container is trickier than a normal container because MPI spreads a program across multiple nodes, so processes have to communicate across the container boundary — this means the MPI inside the container and the MPI on the host have to work together.
     - There are two ways to run MPI with containers: the **hybrid model** (MPI installed in the container) and the **bind model** (the host's MPI bound in at runtime).
     - In the **hybrid model**, the container's MPI version should match the host's MPI version.
-    - In the **bind model**, the container has no MPI; you bind the host's MPI and its dependencies in, and set `LD_LIBRARY_PATH` inside the container.
-    - In your slurm script, load the matching MPI module and launch with `mpirun -n $SLURM_NTASKS apptainer exec <container> <program>` (`$SLURM_NTASKS` is the number of tasks slurm gives you).
-    - Expect some trial and error — use `ldd ... | grep 'not found'` to track down any missing libraries.
+    - In the **bind model**, the container has no MPI; you bind the host's MPI and its dependencies in.
+    - You run an MPI container on Mahuika from a slurm script: load the matching MPI module, then launch with `mpirun ... apptainer exec/run ...`.
 
 ## References
 

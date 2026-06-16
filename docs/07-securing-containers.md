@@ -24,13 +24,13 @@ There are two ways to supply the secret used for encryption:
 | Passphrase | `--passphrase` | `APPTAINER_ENCRYPTION_PASSPHRASE` | Simpler, but **less secure** |
 | RSA key pair (PEM) | `--pem-path` | `APPTAINER_ENCRYPTION_PEM_PATH` | **Recommended** |
 
-## Using a passphrase with Containers
+## Using a passphrase
 
 A passphrase is the simplest way to encrypt a container. If you use the `--passphrase` flag *without* giving the passphrase on the command line, Apptainer will prompt you for it — this keeps the secret out of your shell history.
 
 ### Building a container with a passphrase
 
-**Build** the encrypted container, entering a passphrase when prompted:
+**Build** the encrypted container (here from the example [`encrypted.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/07_securing_containers_with_encryption/encrypted.def)), entering a passphrase when prompted:
 
 ```bash
 user.name@computer-name:~$ apptainer build --passphrase encrypted.sif encrypted.def
@@ -73,7 +73,7 @@ APPTAINER_ENCRYPTION_PASSPHRASE="my-secret" apptainer run encrypted.sif
 
     Setting `APPTAINER_ENCRYPTION_PASSPHRASE` inline as above can leave your secret visible in your shell history. Where possible, prefer entering the passphrase at the interactive prompt, or better still, use an RSA key pair.
 
-## Using RSA key pair (PEM) with Containers
+## Using an RSA key pair (PEM)
 
 An RSA key pair is the recommended way to encrypt a container. The **public** key is used to *encrypt* (build) the container, and the matching **private** key is needed to *decrypt* (run) it — so you can build an encrypted container for someone else using only their public key.
 
@@ -96,7 +96,7 @@ You now have `encryption_key_name_pub.pem` (public, used to build) and `encrypti
 
 ### Building an encrypted container
 
-Build the container using the **public** key:
+Build the container (here from the example [`encrypted.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/07_securing_containers_with_encryption/encrypted.def)) using the **public** key:
 
 ```bash
 apptainer build --pem-path=encryption_key_name_pub.pem encrypted.sif encrypted.def
@@ -114,7 +114,7 @@ The same applies to `exec` and `shell`. If you do not provide the correct key, A
 
 ## Exercises
 
-For these exercises, assume you have a definition file called `secret.def` that you want to build into an encrypted container called `secret.sif`.
+For these exercises, you have a definition file called [`secret.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/07_securing_containers_with_encryption/secret.def) that you want to build into an encrypted container called `secret.sif`.
 
 !!! dumbbell "Question 1"
 
@@ -186,7 +186,6 @@ For these exercises, assume you have a definition file called `secret.def` that 
 
         Ask your collaborator for their **public** key, and build the container using it (`--pem-path=their_public_key.pem`). Only someone holding the matching **private** key — your collaborator — can decrypt and run the container. Because you only ever exchange the *public* key, no secret needs to be shared between you.
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 

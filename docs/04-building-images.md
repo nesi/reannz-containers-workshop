@@ -13,7 +13,7 @@
 It is often very useful to be able to build your own containers. This is because you might want to:
 
 * Create an environment with toolchains that don't exist or don't exist exactly as you need them on Mahuika
-* Want to create environments that are transferable to other scientist on other HPC systems
+* Want to create environments that are transferable to other scientists on other HPC systems
 
 Here, we will learn how to build a container using Apptainer from a script called a definition file, known as a `def` file. 
 
@@ -39,7 +39,7 @@ In this section, we will write a `def` file containing the most important sectio
 
 ### The `Bootstrap` and `From` Section
 
-To build a container, you need a base to build it on. `Bootstrap` and `From` allow apptainer to pull the base that you desire:
+To build a container, you need a base to build it on. `Bootstrap` and `From` allow Apptainer to pull the base that you desire:
 
 * `Bootstrap` : The cloud or local archive that the base of the container comes from.
 * `From` : What is the name of the base you want to pull from the `Bootstrap` cloud or local archive.
@@ -64,14 +64,14 @@ From: ghcr.io/nbl-research/nbltools:latest
 
     Your base might not come from a cloud. Your base could be set to a local file that is sitting on your computer. 
 
-    If your base is an apptainer `sif` file (we will talk about `sif` files later), include the following at the start of your `def` file:
+    If your base is an Apptainer `sif` file (we will talk about `sif` files later), include the following at the start of your `def` file:
 
     ```def
     Bootstrap: localimage
     From: /<path-to-sif-file>/my_apptainer_file.sif
     ```
 
-    If you obtained your base image from docker and have it stored locally (using `docker save -o my_docker_archive_file.tar mydocker`):
+    If you obtained your base image from Docker and have it stored locally (using `docker save -o my_docker_archive_file.tar mydocker`):
 
     ```def
     Bootstrap: docker-archive
@@ -133,7 +133,7 @@ This section is responsible for determining what happens when you perform `appta
 
 ## 2. Build your Container
 
-Now that we have the basics of our `.def` file (given below):
+Now that we have the basics of our `.def` file (given below, and available as [`my_python3.12.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/04_building_containers/my_python3.12.def)):
 
 ```def
 Bootstrap: docker
@@ -164,7 +164,7 @@ From: ubuntu:24.04
     python3.12 -c 'print("hello world")'
 ```
 
-We can now build our container. Our container in apptainer is called a `sif` file, which stands for `Singularity Image Format` (Singularity is the predecessor of Apptainer). To build our container, we type into the terminal:
+We can now build our container. Our container in Apptainer is called a `sif` file, which stands for `Singularity Image Format` (Singularity is the predecessor of Apptainer). To build our container, we type into the terminal:
 
 ```bash
 apptainer build <name-of-sif-file> <name-of-def-file>
@@ -179,7 +179,7 @@ apptainer build my_python3.12.sif my_python3.12.def
 Giving the output:
 
 ```bash
-user.name@computer-name:$ apptainer build my_python3.12.sif my_python3.12.def
+user.name@computer-name:~$ apptainer build my_python3.12.sif my_python3.12.def
 INFO:    User not listed in /etc/subuid, trying root-mapped namespace
 INFO:    The %post section will be run under the fakeroot command
 INFO:    Starting build...
@@ -199,7 +199,7 @@ INFO:    Creating SIF file...
 You can now run your container using `apptainer run <name-of-your-sif-file>`. For example: 
 
 ```bash
-user.name@computer-name:$ apptainer run my_python3.12.sif
+user.name@computer-name:~$ apptainer run my_python3.12.sif
 hello world
 ```
 
@@ -214,7 +214,7 @@ Hello Mars!
 
 ### Using the `$1`, `$2`, `$3`, and `$@` symbols in `apptainer run`
 
-Sometimes you want to pass a command into the `apptainer run` command so you can easily do different things. To do this, we use the `$1`, `$2`, `$3`, and `$@` symbols. For example, lets consider that we want to write a container that will say hello to some input planet. We could write the following `def` file:
+Sometimes you want to pass a command into the `apptainer run` command so you can easily do different things. To do this, we use the `$1`, `$2`, `$3`, and `$@` symbols. For example, lets consider that we want to write a container that will say hello to some input planet. We could write the following `def` file ([`tip1.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/04_building_containers/tip1.def)):
 
 ```def
 Bootstrap: docker
@@ -232,7 +232,7 @@ apptainer run tip1.sif Mars
 Hello Mars!
 ```
 
-We could now build a container that allows us to say hello to three planets. We can do this by using `$1`, `$2`, and `$3`:
+We could now build a container that allows us to say hello to three planets. We can do this by using `$1`, `$2`, and `$3` ([`tip2.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/04_building_containers/tip2.def)):
 
 ```def
 Bootstrap: docker
@@ -250,7 +250,7 @@ apptainer run tip2.sif Mercury Venus Earth
 Hello Mercury, Venus, and Earth!
 ```
 
-Finally, maybe we don't want to have any sort of limit to the number of planets that we say hello to. In this case, we can use the `$@` symbol which will access all arguments (inputs) given to `apptainer run`. For example, consider the following `def` file:
+Finally, maybe we don't want to have any sort of limit to the number of planets that we say hello to. In this case, we can use the `$@` symbol which will access all arguments (inputs) given to `apptainer run`. For example, consider the following `def` file ([`tip3.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/04_building_containers/tip3.def)):
 
 ```def
 Bootstrap: docker
@@ -291,7 +291,7 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 
     ??? success "Solution"
 
-        The def file for `lolcow` is:
+        The def file for `lolcow` (available as [`lolcow.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/04_building_containers/lolcow.def)) is:
 
         ```def
         Bootstrap: docker
@@ -384,7 +384,7 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 
 !!! dumbbell "Question 3b"
 
-    A second user has a docker archive file called `my_docker_base.tar` they downloaded from docker (using `docker save -o my_docker_base.tar my_docker`). The user would like to use this docker archive file as a base for their apptainer `def` file. How would this user include `my_docker_base.tar` as the base image in their `def` file?
+    A second user has a Docker archive file called `my_docker_base.tar` they downloaded from Docker (using `docker save -o my_docker_base.tar my_docker`). The user would like to use this Docker archive file as a base for their Apptainer `def` file. How would this user include `my_docker_base.tar` as the base image in their `def` file?
 
     ??? success "Solution"
 
@@ -397,11 +397,10 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 
     Using the skills you have learnt in this tutorial, create your own container for running a program that would be useful for you on Mahuika. 
 
-## Takeaway Points
 
 !!! graduation-cap "Keypoints"
 
-    - Can write a `def` file that apptainer can use to build a container, including the:
+    - Can write a `def` file that Apptainer can use to build a container, including the:
         - `Bootstrap` and `From` sections for downloading the base of the container.
         - `%labels` section for storing metadata such as the author and version.
         - `%environment` section for setting environment variables that are available when the container runs.

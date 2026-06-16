@@ -50,7 +50,7 @@ Either way, you need the secret to *run* the container, so the contents stay pro
 
 To run a container in parallel with MPI, you choose one of two models:
 
-* **Hybrid model** — MPI is installed *inside* the container, and must match the version of MPI on the host.
+* **Hybrid model** — MPI is installed *inside* the container, and it must match the version of MPI on the host.
 * **Bind model** — the container has *no* MPI of its own; you bind the host's MPI (and its dependencies) into the container at runtime.
 
 In both cases you load the matching MPI module and launch with:
