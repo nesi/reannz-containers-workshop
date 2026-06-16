@@ -112,6 +112,36 @@ apptainer run --pem-path=encryption_key_name_pri.pem encrypted.sif
 
 The same applies to `exec` and `shell`. If you do not provide the correct key, Apptainer will not be able to decrypt and run the container.
 
+### Encrypting a container for someone else
+
+The real strength of the RSA method is that **the key used to build is different from the key used to run**. The *public* key encrypts (build) and the *private* key decrypts (run). Because the public key cannot be used to decrypt anything, it is safe to share — which means you can build an encrypted container that *only* a specific person can run, without ever exchanging a password between you.
+
+Imagine you want to send an encrypted container to a collaborator so that only they can run it. The steps are:
+
+1. **Your collaborator generates a key pair** and sends you *only* their public key (e.g. `collaborator_pub.pem`). They keep their private key secret and never share it.
+
+    ```bash
+    ssh-keygen -t rsa -b 4096 -m pem -N '' -f collaborator
+    ssh-keygen -f ./collaborator.pub -e -m pem > collaborator_pub.pem
+    mv collaborator collaborator_pri.pem
+    ```
+
+2. **You build the container using their public key.** This encrypts the container so that only the matching private key can open it:
+
+    ```bash
+    apptainer build --pem-path=collaborator_pub.pem secret.sif secret.def
+    ```
+
+3. **You send the encrypted `secret.sif` to your collaborator.** Even if someone intercepts the file, they cannot read its contents without the private key.
+
+4. **Your collaborator runs it with their private key:**
+
+    ```bash
+    apptainer run --pem-path=collaborator_pri.pem secret.sif
+    ```
+
+Notice that no secret is ever shared between you and your collaborator — only the public key changes hands. This is what makes the RSA method more secure than a shared passphrase, and it is the approach you should reach for when sending an encrypted container to someone else.
+
 ## Exercises
 
 For these exercises, you have a definition file called [`secret.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/07_securing_containers_with_encryption/secret.def) that you want to build into an encrypted container called `secret.sif`.
