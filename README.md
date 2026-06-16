@@ -37,7 +37,8 @@ Optional extra material:
 
 - S1: Other Options for Building Containers
 - S2: Other Commands in Apptainer
-- S3: Building a Container using Sandbox Mode
+- S3: Running Containers as Instances
+- S4: Building a Container using Sandbox Mode
 
 ## Repository layout
 
