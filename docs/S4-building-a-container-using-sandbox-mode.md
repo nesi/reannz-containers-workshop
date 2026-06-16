@@ -12,11 +12,11 @@
     - What is a sandbox, and when would I use one instead of a `def` file?
     - How do I build, modify, and then convert a sandbox into a `sif` container?
 
-Sometimes you do not know what you want in your container or how you want to construct it, or sometimes you want the option to be able to modify your container later on. You can do this by using a sandbox in Apptainer. In this section, we will learn what a sandbox is, and use it to construct and later modify a container.
+Sometimes you do not yet know exactly what you want in your container or how to put it together, or you simply want to be able to change it later on. A *sandbox* in Apptainer lets you do this. In this section, we will learn what a sandbox is, then use one to build a container and later modify it.
 
 ## What is a Sandbox?
 
-Apptainer has the option of constructing a sandbox to develop a container rather than writing a `def` file. Here, you perform all the tasks you would like to construct the container manually, but you can make changes to it as you try things out and learn things about how you want your container to act. 
+A sandbox is a way of developing a container step by step, rather than writing it all up front in a `def` file. You build the container manually — running each installation step yourself — and you can keep changing it as you experiment and work out how you want the container to behave.
 
 
 ## Advantages and Disadvantages of using a Sandbox
@@ -35,9 +35,9 @@ However, there are some disadvantages:
 
 ## Constructing a Container using Sandbox Mode
 
-In this section, we will relook at the `lolcow` container we made earlier and look at how we can create it in sandbox mode.
+Here we will revisit the `lolcow` container we made earlier and see how to create it in sandbox mode instead.
 
-**First**, you need to build a sandbox that is based on some OS. We do this by typing into the terminal
+**First**, you need to create a sandbox based on some operating system. We do this by typing into the terminal:
 
 ```bash
 apptainer build --sandbox sandbox_name.sandbox base_image
@@ -60,21 +60,21 @@ INFO:    Creating sandbox directory...
 INFO:    Build complete: lolcow.sandbox
 ```
 
-**Side-note**: You will see in your directory a folder appear called `sandbox_name.sandbox` (for us, that is `lolcow.sandbox`):
+**Side-note**: A folder called `sandbox_name.sandbox` (for us, `lolcow.sandbox`) will appear in your directory:
 
 ```bash
 user.name@computer-name:~$ ls
 lolcow.sandbox
 ```
 
-If you look inside of it, it will look like a full file system containing everything you need to run the sandbox as a container, as well as to eventually turn the sandbox into a container (see later).
+If you look inside it, you will see a full file system — it contains everything needed to run the sandbox as a container, and later to turn it into a `sif` container.
 
 ```bash
 user.name@computer-name:~$ ls lolcow.sandbox
 bin  boot  dev  environment  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  singularity  srv  sys  tmp  usr  var
 ```
 
-**Second**, we need to use `shell` to allow us to work inside our sandbox. We do this by typing into the terminal: 
+**Second**, we use `shell` to work inside our sandbox. We do this by typing into the terminal:
 
 ```bash
 apptainer shell --writable --contain --fakeroot sandbox_name.sandbox
@@ -94,7 +94,7 @@ WARNING: Skipping mount /etc/localtime [binds]: /etc/localtime doesn't exist in 
 Apptainer> 
 ```
 
-We can now install the packages for `lolcow` we would like using the Apptainer shell (we will also install `nano` for later). 
+We can now use the Apptainer shell to install the packages we want for `lolcow` (we will also install `nano` for later):
 
 ```bash
 apt-get -y update
@@ -121,7 +121,7 @@ done.
 Apptainer> 
 ```
 
-**Third**, while we are still inside the container, we can write files that determine what `run` does. Inside the container terminal (the terminal should show `Apptainer>`), do the following:
+**Third**, while we are still inside the container, we can write the files that determine what `run` does. Inside the container terminal (it should show the `Apptainer>` prompt), do the following:
 
 ```bash
 mkdir -p /.singularity.d
@@ -139,14 +139,12 @@ Then include what you would like `run` to do inside this `runscript` file:
 fortune | cowsay | lolcat
 ```
 
-**Fourth**, due to a small quirk of how Ubuntu works, 
+**Fourth**, there are a couple of small quirks in how Ubuntu is set up:
 
-1. The `fortune`, `cowsay`, and `lolcat` programs are found in `/usr/games`. This folder is not pointed to by default in our sandbox. 
-2. Some of the locale settings are not automatically given.
+1. The `fortune`, `cowsay`, and `lolcat` programs live in `/usr/games`, which is not on the sandbox's default `PATH`.
+2. Some of the locale settings are not set automatically.
 
-These are subtle quirks you would not need to worry about, but are important for getting our `lolcow` program to work. 
-
-Inside the container terminal (the terminal should show `Apptainer>`), do the following:
+These are subtle details you would not normally think about, but they are important for getting our `lolcow` program to work. Inside the container terminal (it should show the `Apptainer>` prompt), do the following:
 
 ```bash
 mkdir -p /.singularity.d/env
@@ -193,7 +191,7 @@ export LC_ALL=C
 
     Hopefully, you should see something happen!
 
-**Finally**, we are done with constructing our container sandbox. We can now use Apptainer to turn our sandbox into a container. First, exit out of your container:
+**Finally**, we have finished constructing our sandbox, and we can use Apptainer to turn it into a container. First, exit the container:
 
 ```bash
 Apptainer> exit
@@ -226,15 +224,15 @@ user.name@computer-name:~$ apptainer run lolcow-from-sandbox.sif
 
 ## Making changes to a Sandbox
 
-Sandboxes allow you to make modifications to your container on the fly, such as adding packages or removing packages. Let's consider we want to create a container that gets My Little Ponies to say quotes. We can do this with sandboxes because they are mutable.
+Because sandboxes are mutable, you can modify your container on the fly — adding or removing packages as you go. Let's say we now want a container that gets My Little Ponies to say quotes.
 
-**First**, open up our original sandbox in a shell by typing into the terminal:
+**First**, open our original sandbox in a shell by typing into the terminal:
 
 ```bash
 apptainer shell --writable  --contain --fakeroot lolcow.sandbox
 ```
 
-**Second**, we need to install ponysay on our sandbox. You can do this by typing into the terminal:
+**Second**, we install `ponysay` into our sandbox by typing into the terminal:
 
 ```bash
 echo "Pacific/Auckland" > /etc/timezone
@@ -247,7 +245,7 @@ cd ponysay
 python3 setup.py install --freedom=partial
 ```
 
-**Third**, we will need to rewrite our `runscript` so that it allows for My Little Ponies to give quotes. To do this, open up `runscript` in the terminal:
+**Third**, we rewrite our `runscript` so that the ponies give the quotes. Open the `runscript` in the terminal:
 
 ```bash
 nano /.singularity.d/runscript
@@ -261,7 +259,7 @@ And make sure your `runscript` looks like this:
 fortune | ponysay
 ```
 
-**Fourth** (Optional), unfortunately there will be a slightly annoying warning from python when you run `ponysay`. You can prevent it from arising by adding a line to your environment file. In the terminal open `/.singularity.d/env/90-runtime.sh`
+**Fourth** (Optional), `ponysay` produces a slightly annoying warning from Python when you run it. You can suppress it by adding one line to your environment file. In the terminal, open `/.singularity.d/env/90-runtime.sh`:
 
 ```bash
 nano /.singularity.d/env/90-runtime.sh
@@ -309,7 +307,7 @@ export PYTHONWARNINGS=ignore
 
     Hopefully, you should see something happen!
 
-**Fifth**, we are done modifying our sandbox. We can now get Apptainer to turn our sandbox into a container. Exit out of your container
+**Fifth**, we have finished modifying our sandbox, so we can get Apptainer to turn it into a container. Exit the container:
 
 ```bash
 Apptainer> exit
@@ -364,13 +362,10 @@ user.name@computer-name:~$ apptainer run lolpony-from-sandbox.sif
 
 ## Advice for using Sandboxes
 
-Sandboxes are great when you want to muck around and play with your container without having to rewrite and build several `def` files over and over. However, it is worth noting that `def` files are very useful as they provide all the information needed to write a container from scratch (particularly due to their `%post` section):
+Sandboxes are great for experimenting with a container without having to rewrite and rebuild a `def` file over and over. That said, `def` files remain valuable, because their `%post` section records every step needed to build a container from scratch. The two work best together:
 
-Therefore, here are some pointers for using sandboxes:
-
-* As you are using sandboxes, write down what worked in the `%post` section of the `def` file. Once you have something working, use the `def` file to build your production-grade container.
-* If you need to modify your container further, you can always use the information from the `def` file to create a new sandbox from which you can make further modifications. 
-    * Again, write your successful steps in the `%post` section of the `def` file.
+* As you work in the sandbox, write down each step that works in the `%post` section of a `def` file. Once everything works, use that `def` file to build your final, production-grade container.
+* If you need to change the container later, use the `def` file to create a fresh sandbox, make your further changes there, and again record the successful steps back in the `%post` section.
 
 ## Exercises
 
@@ -747,7 +742,7 @@ Therefore, here are some pointers for using sandboxes:
 
     - A sandbox is like a container, but you can make changes to it as you go.
     - This makes sandboxes good for debugging.
-    - The best way to use sandboxes is for trying things out, then write a `def` file to construct your official container as this container will be easier to `inspect`. 
+    - The best way to use sandboxes is to try things out first, then write a `def` file to build your official container — it will be reproducible and easier to `inspect`.
     - To create a sandbox, use `apptainer build --sandbox`.
     - Modify a sandbox by opening it with `apptainer shell --writable --contain --fakeroot`.
     - Convert a finished sandbox into a `sif` container with `apptainer build <name>.sif <name>.sandbox`.
