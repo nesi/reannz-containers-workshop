@@ -17,8 +17,6 @@ Well done — you have now gone well beyond the basics and can inspect, modify, 
 | `inspect --runscript` | Shows what the container does when you `run` it. |
 | `inspect --deffile` | Recovers the `def` file that was used to build the container. |
 | `test` | Runs the self-tests the creator built into the container (via `%test`). |
-| `run-help` | Shows the container's help text (via `%help`). |
-| `cache list` / `cache clean` | Lists or clears the files Apptainer stores when pulling and building. |
 
 ## Inspecting, "editing", and versioning
 

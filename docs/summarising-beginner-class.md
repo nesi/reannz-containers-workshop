@@ -1,7 +1,5 @@
 # Summarising Day 1: The Basics of Containers
 
-Well done — you have now covered the essentials of using and building containers with Apptainer on an HPC! This page pulls together everything from Day 1 so you have it all in one place.
-
 ## What we covered today
 
 * **Introduction to Apptainer** — what Apptainer is, checking it is available on Mahuika, and the commands you will use most.
@@ -18,8 +16,6 @@ Well done — you have now covered the essentials of using and building containe
 | `shell` | Opens an interactive session inside the container. |
 | `pull` | Downloads a container from the cloud as a `sif` file. |
 | `build` | Builds a `sif` container from a `def` file. |
-
-You also met some helper commands — `inspect`, `cache`, `test`, and `run-help` — which you will see more of on Day 2.
 
 ## Building containers with a `def` file
 

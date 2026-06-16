@@ -47,7 +47,13 @@ user.name@computer-name:~$ apptainer inspect --runscript hello-world.sif
     echo "Hello World!"
 ```
 
-We will come back to the `inspect` feature later on. 
+We will come back to the `inspect` feature in [Chapter 5](05-editing-containers.md#the-inspect-command). 
+
+<a id="what-is-a-sif-file"></a>
+
+!!! info "What is a `sif` file?"
+
+    A `sif` file (short for **Singularity Image Format**) is a single file that contains an entire container — the software, its dependencies, and everything it needs to run. Because the whole container is packaged into this one file, you can easily copy, share, and run it on any machine that has Apptainer installed, such as Mahuika.
 
 ## The `exec` command
 

@@ -1,6 +1,6 @@
 # Recap of Day 1
 
-Welcome back! Before we move on to the more advanced topics, let's quickly remind ourselves of what we covered on Day 1 (The Basics of Containers). Don't worry if you didn't attend Day 1 — this page gives you everything you need to follow along today.
+Before we move on, let's quickly remind ourselves of what we covered on Day 1 (The Basics of Containers).
 
 ## What is a container?
 
@@ -54,7 +54,7 @@ apptainer build my_container.sif my_container.def
 
 ## What's coming up today
 
-Now that we are back up to speed, Day 2 (Beyond the Basics) builds on these foundations to:
+Day 2 (Beyond the Basics) builds on these foundations to:
 
 * **inspect, "edit", and version** containers,
 * **test** containers so you can be confident they work,

@@ -121,11 +121,12 @@ From: ubuntu:24.04
     fortune | cowsay | lolcat
 ```
 
-We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see the `$1`, `$2`, `$3`, and `$@` section of Chapter 4). 
+## "Editing" a container
+
+We can now make edits to this `def` file output and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see the [`$1`, `$2`, `$3`, and `$@` section of Chapter 4](04-building-images.md#using-the-1-2-3-and-symbols-in-apptainer-run)). 
 
 * In the `%runscript`, we change `fortune | cowsay | lolcat` to `cowsay Hello $1! | lolcat` so the cow greets our argument instead of telling a fortune. Since `fortune` is no longer used, we can also remove it from the `%post` install line.
-* Since we are making changes to the container, we record this in the `%labels` section by updating the `Description`.
-    * We also bump the `Version`. This is a good idea so we can distinguish the modified container from the original `lolcow`. 
+* Since we are making changes to the container, we record this in the `%labels` section by updating the `Description` and bumping the `Version` (we will say more about why this matters in the next section).
 
 ```def
 Bootstrap: docker
@@ -167,6 +168,10 @@ user.name@computer-name:~$ apptainer run hellocow.sif Mars
                 ||----w |
                 ||     ||
 ```
+
+## Versioning your container
+
+Whenever you "edit" a container, it is good practice to bump the `Version` (and note the change in the `Description`) in the `%labels` section, [as we did above](#editing-a-container). This lets you and others tell modified containers apart from the originals, which is important for reproducibility — you can always see exactly which version of a container produced a given result.
 
 If we `inspect` this new container, we will see that its labels have been updated too. Typing into the terminal:
 
@@ -222,19 +227,29 @@ For these exercises, assume you have been given the `lolcow.sif` container.
 
 !!! dumbbell "Question 3"
 
-    Using the `def` file you recovered, you would like to "edit" the container so that it also installs the `figlet` package. Describe the steps you would take to create the modified container.
+    Using the `def` file you recovered, you would like to "edit" the container so that it also installs the `figlet` package and uses it in the `%runscript` to greet an argument as a large ASCII-art banner inside the cow's speech bubble (for example, `apptainer run lolcow_figlet.sif Mars`). Describe the steps you would take to create the modified container.
+
+    Hint: The `%runscript` you want is:
+
+    ```def
+    %runscript
+        figlet Hello $1! | cowsay -n | lolcat
+    ```
 
     ??? success "Solution"
 
         1. Recover the `def` file (if you have not already):
 
             ```bash
-            apptainer inspect --deffile lolcow.sif > lolcow.def
+            apptainer inspect --deffile lolcow.sif > lolcow_figlet.def
             ```
 
-        2. Edit `lolcow.def` to add `figlet` to the `%post` section, and update the `%labels` section (bump the `Version` and note the change in the `Description`):
+        2. Edit `lolcow_figlet.def` to add `figlet` to the `%post` section, update the `%labels` section (bump the `Version` and note the change in the `Description`), and change the `%runscript` to use `figlet`. Since the new `%runscript` no longer uses `fortune`, we can also remove it from the install line. The full `def` file is:
 
             ```def
+            Bootstrap: docker
+            From: ubuntu:24.04
+
             %labels
                 Author Your Name
                 Version 1.0.1
@@ -242,13 +257,26 @@ For these exercises, assume you have been given the `lolcow.sif` container.
 
             %post
                 apt-get -y update
-                apt-get -y install fortune cowsay lolcat figlet
+                apt-get -y install cowsay lolcat figlet
+
+            %environment
+                export LC_ALL=C
+                export PATH=/usr/games:$PATH
+
+            %runscript
+                figlet Hello $1! | cowsay -n | lolcat
             ```
 
         3. Rebuild the container from the edited `def` file:
 
             ```bash
-            apptainer build lolcow_figlet.sif lolcow.def
+            apptainer build lolcow_figlet.sif lolcow_figlet.def
+            ```
+
+            You can then run it on an argument, for example:
+
+            ```bash
+            apptainer run lolcow_figlet.sif Mars
             ```
 
 !!! dumbbell "Question 4"
@@ -262,7 +290,7 @@ For these exercises, assume you have been given the `lolcow.sif` container.
         The version is set in the `%labels` section of the `def` file, and you can check it on a built container with:
 
         ```bash
-        apptainer inspect lolcow.sif
+        apptainer inspect lolcow_figlet.sif
         ```
 
 

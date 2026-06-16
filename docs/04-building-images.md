@@ -64,7 +64,7 @@ From: ghcr.io/nbl-research/nbltools:latest
 
     Your base might not come from a cloud. Your base could be set to a local file that is sitting on your computer. 
 
-    If your base is an Apptainer `sif` file (we will talk about `sif` files later), include the following at the start of your `def` file:
+    If your base is an Apptainer `sif` file, include the following at the start of your `def` file:
 
     ```def
     Bootstrap: localimage
@@ -107,7 +107,7 @@ The `%environment` section defines environment variables that are set every time
 
 This section allows you to build your container the way you want it and install all the programs and packages that you want your container to contain. 
 
-For example, if you wanted to create a container that contained Python 3.12 (as well as all the other packages that Python needs), you could write it like so (Note: there are many ways one could write this `def` file. This is just one of those ways):
+For example, if you want to create a container that contained Python 3.12 (as well as all the other packages that Python needs), you could write it like so (Note: there are many ways one could write this `def` file. This is just one of those ways):
 
 ```def
 %post
@@ -133,7 +133,7 @@ This section is responsible for determining what happens when you perform `appta
 
 ## 2. Build your Container
 
-Now that we have the basics of our `.def` file (given below, and available as [`my_python3.12.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/04_building_containers/my_python3.12.def)):
+Now that we have the basics of our `.def` file (given below, and [available on GitHub](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/04_building_containers/my_python3.12.def)):
 
 ```def
 Bootstrap: docker
@@ -164,7 +164,7 @@ From: ubuntu:24.04
     python3.12 -c 'print("hello world")'
 ```
 
-We can now build our container. Our container in Apptainer is called a `sif` file, which stands for `Singularity Image Format` (Singularity is the predecessor of Apptainer). To build our container, we type into the terminal:
+We can now build our container. Our container in Apptainer is called a [`sif` file](02-running-apptainer.md#what-is-a-sif-file), which stands for `Singularity Image Format` (Singularity is the predecessor of Apptainer). To build our container, we type into the terminal:
 
 ```bash
 apptainer build <name-of-sif-file> <name-of-def-file>
@@ -287,7 +287,13 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
     fortune | cowsay | lolcat
     ```
 
-    Hint: `fortune` and `cowsay` install into `/usr/games`, which is not on the container's default `PATH`. You will need to add it using an `%environment` section so the container can find them.
+    Hint: `fortune` and `cowsay` install into `/usr/games`, which is not on the container's default `PATH`. You will need to add it using an `%environment` section so the container can find them:
+
+    ```def
+    %environment
+        export LC_ALL=C
+        export PATH=/usr/games:$PATH
+    ```
 
     ??? success "Solution"
 
