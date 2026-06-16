@@ -6,13 +6,13 @@
 
 This workshop introduces **containers** and how to use them on a High Performance Cluster (HPC) such as [Mahuika](https://docs.nesi.org.nz/). Containers let you package software, along with all of its dependencies, into a single portable file that runs the same way on your own computer and on an HPC. By the end of the workshop you will be able to find, run, build, inspect, test, secure, and run parallel (MPI) containers using [Apptainer](https://apptainer.org/).
 
-The material is split across two days: **Day 1: Basics** (running and building containers) and **Day 2: Beyond the Basics** (inspecting, testing, securing, and running MPI containers), with optional **supplementary** material.
+The material is split across two days: **Day 1: The Basics of Containers** (running and building containers) and **Day 2: Beyond the Basics** (inspecting, testing, securing, and running MPI containers), with optional **supplementary** material.
 
 | **Lesson** | **Overview** |
 |:-----------|:-------------|
 | [Overview of Containers](00-containers-overview.md) | What a container is, and why you would use one |
 | [Apptainer: Running Containers on HPCs](00-introducing-apptainer.md) | What Apptainer is, and how it differs from Docker |
-| **Day 1: Basics** | |
+| **Day 1: The Basics of Containers** | |
 | [1. Introduction to Apptainer](01-introduction.md) | Check Apptainer is available and meet the core commands |
 | [2. The Basics of Running Containers on Apptainer](02-running-apptainer.md) | Use `run`, `exec`, and `shell` to work with a container |
 | [3. Pulling and Running Containers from the Cloud](03-pulling-and-running-images.md) | Download and run containers from registries such as Docker |

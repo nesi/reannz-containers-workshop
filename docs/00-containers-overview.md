@@ -39,7 +39,7 @@ For this reason, containers are usually:
 
 The reasons you would want to use a container are:
 
-* Reproducibility: You can define an environment once and run the same stack elsewhere and get the same results. This is particularly valuable for:
+* Reproducibility: You can define an environment once and run the same software stack elsewhere and get the same results. This is particularly valuable for:
     * Scientific workflows
     * Published results
     * Long-running projects where the “right” environment changes over time

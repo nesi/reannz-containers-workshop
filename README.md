@@ -8,7 +8,7 @@ The material is delivered over two days and the pages live in [`docs/`](docs/).
 
 ## Workshop structure
 
-### Day 1 — Basics
+### Day 1 — The Basics of Containers
 
 Running and building containers.
 
