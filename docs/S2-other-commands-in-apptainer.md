@@ -84,11 +84,6 @@ user.name@computer-name:~$ apptainer run-help lolcow.sif
       apptainer run lolcow.sif
 ```
 
-!!! note
-
-    Just as Docker can orchestrate long-running containers (for example with Docker Compose or Docker Swarm), Apptainer can run containers as background services called *instances*, using `apptainer instance start`, `apptainer instance list`, and `apptainer instance stop`. The commands an instance runs on start-up come from the `%startscript` section of the `def` file (see [S1: Other Options for Building Containers](S1-other_options_for_building_containers.md)).
-
-
 !!! graduation-cap "Keypoints"
 
     - Understand the following commands:

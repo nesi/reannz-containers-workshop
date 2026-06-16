@@ -1,4 +1,4 @@
-# S3: Building a Container using Sandbox Mode
+# S4: Building a Container using Sandbox Mode
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -574,7 +574,7 @@ Therefore, here are some pointers for using sandboxes:
         GROMACS:      gmx, version 2021.6
         Executable:   /opt/gromacs/bin/gmx
         Data prefix:  /opt/gromacs
-        Working dir:  /nesi/project/nesi99999/geoffreyweal/Tutorials/containers
+        Working dir:  /nesi/project/nesi12345/user.name/Tutorials/containers
         Command line:
           gmx --version
 
@@ -710,12 +710,12 @@ Therefore, here are some pointers for using sandboxes:
         This should give something like this. Notice the version of GROMACS has changed from 2021.6 to 2025.4:
 
         ```bash
-        user.name@computer-name:/nesi/project/nesi99999/geoffreyweal/Tutorials/containers$ apptainer exec GROMACS.sif gmx --version
+        user.name@computer-name:/nesi/project/nesi12345/user.name/Tutorials/containers$ apptainer exec GROMACS.sif gmx --version
                                  :-) GROMACS - gmx, 2025.4 (-:
 
         Executable:   /opt/gromacs/bin/gmx
         Data prefix:  /opt/gromacs
-        Working dir:  /nesi/project/nesi99999/geoffreyweal/Tutorials/containers
+        Working dir:  /nesi/project/nesi12345/user.name/Tutorials/containers
         Command line:
           gmx --version
 

@@ -200,7 +200,7 @@ For these exercises, you have a definition file called [`secret.def`](https://gi
         apptainer build --pem-path=encryption_key_name_pub.pem secret.sif secret.def
         ```
 
-        **(c)** Run the container using the matching **private** key:
+        **(c\)** Run the container using the matching **private** key:
 
         ```bash
         apptainer run --pem-path=encryption_key_name_pri.pem secret.sif
