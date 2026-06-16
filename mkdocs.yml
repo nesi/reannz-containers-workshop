@@ -29,6 +29,8 @@ nav:
     - "S1: Other Options for Building Containers": S1-other_options_for_building_containers.md
     - "S2: Other Commands in Apptainer": S2-other-commands-in-apptainer.md
     - "S3: Building a Container using Sandbox Mode": S3-building-a-container-using-sandbox-mode.md
+  - Setup (for Trainers):
+    - setup-containers.md
 
 theme:
   name: material
