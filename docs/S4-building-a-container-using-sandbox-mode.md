@@ -12,7 +12,7 @@
     - What is a sandbox, and when would I use one instead of a `def` file?
     - How do I build, modify, and then convert a sandbox into a `sif` container?
 
-Sometimes you do not yet know exactly what you want in your container or how to put it together, or you simply want to be able to change it later on. A *sandbox* in Apptainer lets you do this. In this section, we will learn what a sandbox is, then use one to build a container and later modify it.
+Sometimes you do not know exactly what you want in your container or how to put it together, or you simply want to be able to change it later on. A *sandbox* in Apptainer lets you do this. In this section, we will learn what a sandbox is, then use one to build a container and later modify it.
 
 ## What is a Sandbox?
 
@@ -35,7 +35,7 @@ However, there are some disadvantages:
 
 ## Constructing a Container using Sandbox Mode
 
-Here we will revisit the `lolcow` container we made earlier and see how to create it in sandbox mode instead.
+Here we will revisit the `lolcow` container we made earlier in [Chapter 4](04-building-images.md#exercises) and see how to create it in sandbox mode instead.
 
 **First**, you need to create a sandbox based on some operating system. We do this by typing into the terminal:
 
