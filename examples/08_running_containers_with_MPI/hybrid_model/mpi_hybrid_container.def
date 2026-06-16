@@ -1,0 +1,32 @@
+Bootstrap: docker
+From: rockylinux:9
+
+%files
+    mpi_hello_world.c /opt
+
+%post
+    dnf -y update
+    dnf -y install dnf-plugins-core
+    dnf config-manager --set-enabled crb
+    dnf -y install wget git gcc gcc-c++ make file gcc-gfortran bzip2 \
+        findutils librdmacm-devel \
+        ucx ucx-devel libfabric libfabric-devel
+
+    export OMPI_DIR=/opt/ompi
+    export OMPI_VERSION=5.0.10
+    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-$OMPI_VERSION.tar.bz2"
+    mkdir -p /opt/build
+
+    cd /opt/build
+    wget -O openmpi-$OMPI_VERSION.tar.bz2 $OMPI_URL && tar -xjf openmpi-$OMPI_VERSION.tar.bz2
+    cd /opt/build/openmpi-$OMPI_VERSION
+
+    ./configure --prefix=$OMPI_DIR --with-ucx --without-verbs \
+        --with-libfabric --with-pmix
+    make -j8 install
+    cd / && rm -rf /opt/build
+
+    export PATH=$OMPI_DIR/bin:$PATH
+    export LD_LIBRARY_PATH=$OMPI_DIR/lib:$LD_LIBRARY_PATH
+
+    cd /opt && mpicc -o mpi_hello_world mpi_hello_world.c

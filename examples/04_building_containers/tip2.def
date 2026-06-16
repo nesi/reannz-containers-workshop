@@ -1,0 +1,5 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%runscript
+    echo Hello $1, $2, and $3!

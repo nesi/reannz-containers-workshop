@@ -17,16 +17,18 @@ nav:
     - 02-running-apptainer.md
     - 03-pulling-and-running-images.md
     - 04-building-images.md
-    - 05-editting-containers.md
     - summarising-beginner-class.md
   - Advanced:
     - recap-beginner-class.md
-    - 06-running-MPI-containers.md
-    - 07-sandbox.md
+    - 05-editting-containers.md
+    - 06-testing-containers.md
+    - 07-securing-containers.md
+    - 08-running-MPI-containers.md
     - summarising-advancing-class.md
   - Supplementary:
-    - 08-other-commands.md
-    - Supplementary/1-supplementary.md
+    - sandbox.md
+    - other-commands.md
+    - Supplementary/supplementary.md
 
 theme:
   name: material
@@ -129,7 +131,6 @@ plugins:
 
 extra_javascript:
   - javascripts/mathjax.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 copyright : Introduction to Containers workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>

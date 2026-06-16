@@ -1,4 +1,4 @@
-# 1. Supplementary - Other Options for Building Containers
+# Supplementary - Other Options for Building Containers
 
 
 
@@ -54,7 +54,7 @@ From: ubuntu:{{ VERSION }}
 Stage: build
 
 %arguments
-    VERSION=22.04
+    VERSION=24.04
 
 %setup
     touch /file1

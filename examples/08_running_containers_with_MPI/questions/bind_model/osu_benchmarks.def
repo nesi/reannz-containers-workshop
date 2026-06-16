@@ -1,0 +1,24 @@
+Bootstrap: docker
+From: rockylinux:9
+
+# Bind model: this container has NO MPI of its own. The OSU benchmarks are
+# compiled on the host against Mahuika's OpenMPI (see build_osu.sh) and the
+# resulting binaries are copied in below. Mahuika's OpenMPI is bound in at
+# runtime (see submit.sl), where the binaries find libmpi.so.
+
+%files
+    # The ./osu tree produced by build_osu.sh (the compiled OSU benchmarks).
+    osu /usr/local/osu
+
+%environment
+    export OSU_DIR=/usr/local/osu/libexec/osu-micro-benchmarks/mpi
+
+%post
+    # InfiniBand / RDMA user-space libraries (librdmacm, libibverbs).
+    # These are OS-level libs, NOT MPI — MPI itself is bound in at runtime.
+    dnf install -y rdma-core
+    dnf clean all
+
+%runscript
+    echo "Rank ${PMI_RANK} - About to run: ${OSU_DIR}/$*"
+    exec ${OSU_DIR}/$*

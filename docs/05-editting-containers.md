@@ -3,12 +3,17 @@
 !!! clipboard-list "Lesson Objectives"
 
     - Learn about the `inspect` command
-    - Learn how to "edit" containers using the `inspect  --deffile` command in Apptainer
+    - Learn how to "edit" containers using the `inspect --deffile` command in Apptainer
     - Remember to version your containers if you make changes
 
-Here, we will be learning about the `inspect` command and giving versions to your containers. However, unfortunately, the title is a bit of a lie. You can not edit containers once they have been created. However, you can obtain the `def` file from the container. As you can recall from the previous section, the `def` file was used to create the container. From this, you can make some additions, removals, and changes to the container. 
+!!! clipboard-question "Questions"
 
-In this section, we will primarily focus on how you can "edit" containers, with added learning about using the `inspect` command and versioning your containers. 
+    - How can I find out what an existing container contains and does?
+    - Can I change a container after it has been built, and how do I keep track of changes?
+
+The title of this section is a bit of a lie: you cannot actually edit a container once it has been created. What you *can* do is recover the `def` file that was used to build it (the same kind of `def` file you met in the previous section), make additions, removals, and changes to that file, and then rebuild it into a new container.
+
+In this section we focus on "editing" containers in this way, and along the way we learn how to use the `inspect` command and how to version our containers. 
 
 !!! warning
 
@@ -46,7 +51,7 @@ org.label-schema.usage.singularity.deffile.from: ubuntu:24.04
 org.opencontainers.image.version: 24.04
 ```
 
-You will notice the first three lines of `apptainer inspect lolcow.sif` stand out a bit. These are labels that have been given in the `lolcow.def` script. We will see this later on in this lesson: 
+You will notice that the first three lines of the output stand out from the rest. These are labels that were set in the `%labels` section of the `lolcow.def` script that built the container: 
 
 ```bash
 %labels
@@ -57,7 +62,7 @@ You will notice the first three lines of `apptainer inspect lolcow.sif` stand ou
 
 The other `org` labels are recorded by apptainer when it creates the `sif` file. 
 
-And, as mentioned previously, you can also use this command to learn what the `run` command will do by typing 
+And, as we saw in [Chapter 2](02-running-apptainer.md#the-run-command), you can also use this command to learn what the `run` command will do by typing 
 
 ```bash
 apptainer inspect --runscript
@@ -78,7 +83,7 @@ user.name@computer-name:~$ apptainer inspect --runscript lolcow.sif
     fortune | cowsay | lolcat
 ```
 
-## Obtain the `def` file using the `inspect  --deffile` command
+## Obtain the `def` file using the `inspect --deffile` command
 
 **Most importantly for us**, we can also read the `def` file that was used to build this container by using the command:  
 
@@ -112,11 +117,11 @@ From: ubuntu:24.04
     fortune | cowsay | lolcat
 ```
 
-We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see section XYZ). 
+We can now make edits to this file and then rebuild it to create a modified container. For example, consider we want to change `lolcow` so that it says `Hello $1!`, where `$1` means the first argument will be taken when running the container (see the `$1`, `$2`, `$3`, and `$@` section of Chapter 4). 
 
-* To do this, we need to replace `fortune` with `Hello $1!` (we can also remove installing `fortune` in the `%post` section):
-* Since we are making changes to the lolcow container, we should record this in the `%labels` section by making a note of this in the `Description` section. 
-    * We can also change the version of the container if we want. This is generally a good idea so we can distinguish it from previous versions of `lolcow` or `hellocow`. 
+* In the `%runscript`, we change `fortune | cowsay` to `cowsay Hello $1!` so the cow greets our argument instead of telling a fortune. Since `fortune` is no longer used, we can also remove it from the `%post` install line.
+* Since we are making changes to the container, we record this in the `%labels` section by updating the `Description`.
+    * We also bump the `Version`. This is a good idea so we can distinguish the modified container from the original `lolcow`. 
 
 ```def
 Bootstrap: docker
@@ -141,7 +146,7 @@ If we build by typing the following into the terminal (where I have called my mo
 apptainer build hellocow.sif hellocow.def
 ```
 
-We will get a new container that now will show a cow saying `Hello Argument1!`:
+We will get a new container that greets whatever argument we give it. For example, running it with `Mars`:
 
 ```bash
 user.name@computer-name:~$ apptainer run hellocow.sif Mars
@@ -155,7 +160,7 @@ user.name@computer-name:~$ apptainer run hellocow.sif Mars
                 ||     ||
 ```
 
-If we `inspect` this container, we will see that we have also updated it's labels. Typing into the terminal:
+If we `inspect` this new container, we will see that its labels have been updated too. Typing into the terminal:
 
 ```bash
 apptainer inspect hellocow.sif 
@@ -179,14 +184,86 @@ org.opencontainers.image.version: 24.04
 
 ## Exercises
 
+For these exercises, assume you have been given the `lolcow.sif` container.
+
 !!! dumbbell "Question 1"
 
-    Example
+    You have been given `lolcow.sif` but do not know what it does when you run it. How can you find this out *without* actually running the container?
 
+    ??? success "Solution"
+
+        Use `inspect --runscript` to see the command the container runs:
+
+        ```bash
+        apptainer inspect --runscript lolcow.sif
+        ```
+
+        You can also use `apptainer inspect lolcow.sif` to see its labels (author, version, description) and other metadata.
+
+!!! dumbbell "Question 2"
+
+    How would you recover the `def` file that was used to build `lolcow.sif`, and save it to a file called `lolcow.def`?
+
+    ??? success "Solution"
+
+        Use `inspect --deffile` and redirect the output to a file:
+
+        ```bash
+        apptainer inspect --deffile lolcow.sif > lolcow.def
+        ```
+
+!!! dumbbell "Question 3"
+
+    Using the `def` file you recovered, you would like to "edit" the container so that it also installs the `figlet` package. Describe the steps you would take to create the modified container.
+
+    ??? success "Solution"
+
+        1. Recover the `def` file (if you have not already):
+
+            ```bash
+            apptainer inspect --deffile lolcow.sif > lolcow.def
+            ```
+
+        2. Edit `lolcow.def` to add `figlet` to the `%post` section, and update the `%labels` section (bump the `Version` and note the change in the `Description`):
+
+            ```def
+            %labels
+                Author Your Name
+                Version 1.0.1
+                Description "lolcow with figlet added"
+
+            %post
+                apt-get -y update
+                apt-get -y install fortune cowsay lolcat figlet
+            ```
+
+        3. Rebuild the container from the edited `def` file:
+
+            ```bash
+            apptainer build lolcow_figlet.sif lolcow.def
+            ```
+
+!!! dumbbell "Question 4"
+
+    Why is it a good idea to update the `Version` label when you make changes to a container, and how would you check the version of a container you have been given?
+
+    ??? success "Solution"
+
+        Updating the `Version` (and noting the change in the `Description`) lets you tell modified containers apart from the originals, which is important for reproducibility — you and others can see exactly which version produced a given result.
+
+        The version is set in the `%labels` section of the `def` file, and you can check it on a built container with:
+
+        ```bash
+        apptainer inspect lolcow.sif
+        ```
 
 ## Takeaway Points
 
 !!! graduation-cap "What you take away from this lesson"
 
-    - Point 1
+    - Use `apptainer inspect` to view a container's metadata and labels (author, version, description).
+    - Use `apptainer inspect --runscript` to see what the container does when you `run` it.
+    - Use `apptainer inspect --deffile` to recover the `def` file that built a container.
+    - You cannot edit a container in place — instead you recover its `def` file, change it, and rebuild.
+    - Always bump the `Version` (and note the change in the `Description`) in `%labels` when you modify a container, to keep your work reproducible.
 

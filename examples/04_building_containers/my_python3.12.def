@@ -1,0 +1,26 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%labels
+    Author Your Name
+    Version 1.0.0
+    Description "Example Apptainer container with Python 3.12"
+
+%environment
+    export PYTHONNOUSERSITE=1
+    export LANG=C.UTF-8
+    export LC_ALL=C.UTF-8
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    apt-get install -y tzdata software-properties-common
+    ln -fs /usr/share/zoneinfo/UTC /etc/localtime
+    dpkg-reconfigure -f noninteractive tzdata
+
+    add-apt-repository -y ppa:deadsnakes/ppa
+    apt-get update
+    apt-get install -y python3.12
+
+%runscript
+    python3.12 -c 'print("hello world")'

@@ -1,0 +1,37 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%labels
+    Author Your Name
+    Version 1.0.0
+    Description "An apptainer container to run lolcow"
+
+%post
+    apt-get -y update
+    apt-get -y install fortune cowsay lolcat
+
+%environment
+    export LC_ALL=C
+    export PATH=/usr/games:$PATH
+
+%runscript
+    fortune | cowsay | lolcat
+
+%test
+    set -e
+
+    echo "Running container self-tests..."
+
+    # Helper: check command exists and print a friendly message
+    check_found () {
+        if command -v "$1" >/dev/null 2>&1; then
+            echo "$1 was found"
+        else
+            echo "ERROR: $1 was NOT found"
+            exit 1
+        fi
+    }
+
+    check_found fortune
+    check_found cowsay
+    check_found lolcat

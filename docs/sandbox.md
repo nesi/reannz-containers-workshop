@@ -1,4 +1,4 @@
-# 7. Building a Container using Sandbox Mode
+# Building a Container using Sandbox Mode
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -372,7 +372,7 @@ Therefore, here are some pointer for using sandboxes:
 
 !!! dumbbell "Question 1"
 
-    A student want to run GROMACS in a container, but doesn't know what version they want to use. The student knows the protocol for installing GROMACS 2021.6 on Ubuntu 22.04, which is: 
+    A student want to run GROMACS in a container, but doesn't know what version they want to use. The student knows the protocol for installing GROMACS 2021.6 on Ubuntu 24.04, which is: 
 
     ```bash
     # Update Ubuntu
@@ -423,10 +423,10 @@ Therefore, here are some pointer for using sandboxes:
 
     ??? success "Solution"
 
-        **First**, set up your sandbox using Ubuntu 22.04:
+        **First**, set up your sandbox using Ubuntu 24.04:
 
         ```bash 
-        apptainer build --sandbox GROMACS.sandbox docker://ubuntu:22.04
+        apptainer build --sandbox GROMACS.sandbox docker://ubuntu:24.04
         ```
 
         **Second**, open the sandbox in the apptainer shell
@@ -611,7 +611,7 @@ Therefore, here are some pointer for using sandboxes:
     apt-get update -y && apt-get install -y software-properties-common lsb-release ca-certificates gpg wget
     wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
     echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
-    apt-get update && apt-get install -y cmake=4.3.1-0kitware1ubuntu22.04.1
+    apt-get update && apt-get install -y cmake
     ```
 
 
@@ -636,7 +636,7 @@ Therefore, here are some pointer for using sandboxes:
         apt-get update -y && apt-get install -y software-properties-common lsb-release ca-certificates gpg wget
         wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
         echo "deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/kitware.list >/dev/null
-        apt-get update && apt-get install -y cmake=4.3.1-0kitware1ubuntu22.04.1
+        apt-get update && apt-get install -y cmake
         ```
 
         **Fourth**, type the following commands into the terminal:

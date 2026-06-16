@@ -5,6 +5,11 @@
     - Know about the `apptainer` command in the terminal
     - Know about `run`, `exec`, `shell`, `pull` and `build` commands
 
+!!! clipboard-question "Questions"
+
+    - What is Apptainer, and how do I access it on Mahuika?
+    - What are the main commands I will use to work with containers?
+
 ## How to start using Apptainer on Mahuika
 
 Apptainer is loaded on mahuika by default. If you type in
@@ -108,4 +113,7 @@ Some others that we will also look at (but are less essential) are:
 
 !!! graduation-cap "What you take away from this lesson"
 
-    - Know of the 5 most used commands in apptainer: `run`, `exec`, `shell`, `pull`, `build`
+    - Apptainer is available on Mahuika by default — you can check this with `apptainer --version`.
+    - Use `apptainer --help` to list all the commands and options available to you.
+    - Know the 5 most used commands in apptainer: `run`, `exec`, `shell`, `pull`, and `build`.
+    - Be aware of some other useful commands you will meet later: `inspect`, `cache`, `test`, and `run-help`.

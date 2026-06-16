@@ -5,6 +5,10 @@
     - Know how to write a definition (`def`) file
     - Use the `build` command to build a container
 
+!!! clipboard-question "Questions"
+
+    - How do I build my own container from scratch?
+    - How do I describe what goes into a container and what it does when it runs?
 
 It is often very useful to be able to build your own containers. This is because you might want to:
 
@@ -40,18 +44,18 @@ To build a container, you need a base to build it on. `Bootstrap` and `From` all
 * `Bootstrap` : The cloud or local archive that the base of the container comes from.
 * `From` : What is the name of the base you want to pull from the `Bootstrap` cloud or local archive.
 
-If you dont include these, the base will be built on the OS of the computer that you build the container on. 
+You must always include `Bootstrap` — it is the only keyword required for every build, and the build will fail without it. (If you want to build a container without a base operating system, you can set `Bootstrap: scratch`).
 
-For example, if I wanted to build the container based on Ubuntu 22.04, I would include the following in the `Bootstrap` and `From` sections of the `def` file:
+For example, if I wanted to build the container based on Ubuntu 24.04, I would include the following in the `Bootstrap` and `From` sections of the `def` file:
 
 ```def
 Bootstrap: docker
-From: ubuntu:22.04
+From: ubuntu:24.04
 ```
 
 Another example is from ghcr.io (the Github Container Registry, which is a cloud-based service for storing and managing Docker and OCI-compliant container images):
 
-```
+```def
 Bootstrap: docker
 From: ghcr.io/nbl-research/nbltools:latest
 ```
@@ -67,14 +71,14 @@ From: ghcr.io/nbl-research/nbltools:latest
     From: /<path-to-sif-file>/my_apptainer_file.sif
     ```
 
-    If you obtained your base image from docker and have it stored locally (using `docker save -o mydocker.tar mydocker`):
+    If you obtained your base image from docker and have it stored locally (using `docker save -o my_docker_archive_file.tar mydocker`):
 
     ```def
     Bootstrap: docker-archive
     From: /<path-to-tar-file>/my_docker_archive_file.tar
     ```
 
-    We will come back to this in Questions 3a and b3. 
+    We will come back to this in Questions 3a and 3b. 
 
 
 ### The `%labels` Section
@@ -120,7 +124,7 @@ For example, if you wanted to create a container that contained Python 3.12 (as 
 
 ### The `%runscript` Section
 
-This algorithm is responsible for determining what happens when you perform `apptainer run`. This is optional, as you could always execute your container using `apptainer exec`. For example:
+This section is responsible for determining what happens when you perform `apptainer run`. This is optional, as you could always execute your container using `apptainer exec`. For example:
 
 ```def
 %runscript
@@ -133,7 +137,7 @@ Now that we have the basics of our `.def` file (given below):
 
 ```def
 Bootstrap: docker
-From: ubuntu:22.04
+From: ubuntu:24.04
 
 %labels
     Author Your Name
@@ -160,13 +164,13 @@ From: ubuntu:22.04
     python3.12 -c 'print("hello world")'
 ```
 
-We can now build our container. Our container in apptainer is called a `sif` file, which stand for `Singularity Image Format` (Singularity is the predecessor of Apptainer). To build our container, we type into the terminal:
+We can now build our container. Our container in apptainer is called a `sif` file, which stands for `Singularity Image Format` (Singularity is the predecessor of Apptainer). To build our container, we type into the terminal:
 
 ```bash
 apptainer build <name-of-sif-file> <name-of-def-file>
 ```
 
-where `<name-of-sif-file>` is the name of our `sif` file, and `<name-of-def-file>` is the name of our `def` file. For example, if we set our the name of our `sif` and `def` files as `my_python3.12.sif` and `my_python3.12.def` respectively, we would type into the terminal:
+where `<name-of-sif-file>` is the name of our `sif` file, and `<name-of-def-file>` is the name of our `def` file. For example, if we set the name of our `sif` and `def` files as `my_python3.12.sif` and `my_python3.12.def` respectively, we would type into the terminal:
 
 ```bash
 apptainer build my_python3.12.sif my_python3.12.def
@@ -199,7 +203,7 @@ user.name@computer-name:$ apptainer run my_python3.12.sif
 hello world
 ```
 
-We can also use the `exec` command to run python3.12 to say "Hello Sun!"
+We can also use the `exec` command to run python3.12 to say "Hello Mars!"
 
 ```bash
 apptainer exec my_python3.12.sif python3.12 -c 'print("Hello Mars!")' 
@@ -210,11 +214,11 @@ Hello Mars!
 
 ### Using the `$1`, `$2`, `$3`, and `$@` symbols in `apptainer run`
 
-Sometimes you want to pass an command into the `apptainer run` command so you can easily do different things. To do this, we use the `@` symbol. For example, lets consider that we want to write a container that will say hello to some input planet. We could write the following `def` file:
+Sometimes you want to pass a command into the `apptainer run` command so you can easily do different things. To do this, we use the `$1`, `$2`, `$3`, and `$@` symbols. For example, lets consider that we want to write a container that will say hello to some input planet. We could write the following `def` file:
 
 ```def
 Bootstrap: docker
-From: ubuntu:22.04
+From: ubuntu:24.04
 
 %runscript
     echo Hello $1!
@@ -228,11 +232,11 @@ apptainer run tip1.sif Mars
 Hello Mars!
 ```
 
-We could now build a container than allows us to say hello to three planets. We can do this by using `$1`, `$2`, and `$3`:
+We could now build a container that allows us to say hello to three planets. We can do this by using `$1`, `$2`, and `$3`:
 
 ```def
 Bootstrap: docker
-From: ubuntu:22.04
+From: ubuntu:24.04
 
 %runscript
     echo Hello $1, $2, and $3!
@@ -246,11 +250,11 @@ apptainer run tip2.sif Mercury Venus Earth
 Hello Mercury, Venus, and Earth!
 ```
 
-Finally, maybe we dont want to have any sort of limit to the nummber of planets that we say hello to. In this case, we can use the `$@` symbol which will access all arguments (inputs) given to `apptainer run`. For example, consider the following `def` file:
+Finally, maybe we don't want to have any sort of limit to the number of planets that we say hello to. In this case, we can use the `$@` symbol which will access all arguments (inputs) given to `apptainer run`. For example, consider the following `def` file:
 
 ```def
 Bootstrap: docker
-From: ubuntu:22.04
+From: ubuntu:24.04
 
 %runscript
     echo Hello $@!
@@ -268,7 +272,7 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 
 !!! dumbbell "Question 1"
 
-    Write a `def` file that will allows the user build a container that runs `lolcow` from their terminal. 
+    Write a `def` file that will allow the user to build a container that runs `lolcow` from their terminal. 
 
     Hint: The instructions for building lolcow are:
 
@@ -283,24 +287,28 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
     fortune | cowsay | lolcat
     ```
 
-    There is no environment variables needed.
+    Hint: `fortune` and `cowsay` install into `/usr/games`, which is not on the container's default `PATH`. You will need to add it using an `%environment` section so the container can find them.
 
     ??? success "Solution"
 
         The def file for `lolcow` is:
 
-        ```bash
+        ```def
         Bootstrap: docker
         From: ubuntu:24.04
 
         %labels
             Author Your Name
             Version 1.0.0
-            Description "A running image of lolcow"
+            Description "An apptainer container to run lolcow"
 
         %post
             apt-get -y update
             apt-get -y install fortune cowsay lolcat
+
+        %environment
+            export LC_ALL=C
+            export PATH=/usr/games:$PATH
 
         %runscript
             fortune | cowsay | lolcat
@@ -376,13 +384,13 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 
 !!! dumbbell "Question 3b"
 
-    A second user has a docker archive file called `my_docker_base.tar` they downloaded from docker (using `docker save -o my_docker_base.tar my_docker`). The user would like to use this docker archive file as a basef for their apptainer `def` file. How would this user include `my_docker_base.tar` as the base image in their `def` file?
+    A second user has a docker archive file called `my_docker_base.tar` they downloaded from docker (using `docker save -o my_docker_base.tar my_docker`). The user would like to use this docker archive file as a base for their apptainer `def` file. How would this user include `my_docker_base.tar` as the base image in their `def` file?
 
     ??? success "Solution"
 
         ```def
         Bootstrap: docker-archive
-        From: mydocker.tar
+        From: my_docker_base.tar
         ```
 
 !!! dumbbell "Question 4"
@@ -394,8 +402,10 @@ Hello Mercury Venus Earth Mars Jupiter Saturn Neptune!
 !!! graduation-cap "What you take away from this lesson"
 
     - Can write a `def` file that apptainer can use to build a container, including the:
-        - `Bootstrap` and `From` sections for downloading the base of the container
+        - `Bootstrap` and `From` sections for downloading the base of the container.
+        - `%labels` section for storing metadata such as the author and version.
+        - `%environment` section for setting environment variables that are available when the container runs.
         - `%post` section for customising what is built when building the container.
-        - `%runscript` section for write the desired command you would commonly want the user to run when using the container.
+        - `%runscript` section for writing the desired command you would commonly want the user to run when using the container.
     - Understand how to use the `build` command for building a container from the `def` file
     - Know how to include `$1`, `$2`, `$3`, and `$@` symbols in `%runscript` so the user can pass arguments into `apptainer run`

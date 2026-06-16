@@ -1111,3 +1111,8 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Yellow highlight for code lines marked with hl_lines */
+.md-typeset .highlight .hll {
+  background-color: rgba(255, 229, 100, 0.5);
+}

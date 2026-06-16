@@ -1,0 +1,50 @@
+Bootstrap: docker
+From: rockylinux:9
+
+%files
+    osu-micro-benchmarks-7.5.2.tar.gz /opt/
+
+%environment
+    export OMPI_DIR=/opt/ompi
+    export PATH=$OMPI_DIR/bin:$PATH
+    export LD_LIBRARY_PATH=$OMPI_DIR/lib:$LD_LIBRARY_PATH
+    export OSU_DIR=/usr/local/osu/libexec/osu-micro-benchmarks/mpi
+
+%post
+    dnf -y update
+    dnf -y install dnf-plugins-core
+    dnf config-manager --set-enabled crb
+    dnf -y install wget git gcc gcc-c++ make file gcc-gfortran bzip2 \
+        findutils librdmacm-devel \
+        ucx ucx-devel libfabric libfabric-devel
+
+    # Install the internal MPI inside of the container
+    export OMPI_DIR=/opt/ompi
+    export OMPI_VERSION=5.0.10
+    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-$OMPI_VERSION.tar.bz2"
+    mkdir -p /opt/build
+
+    cd /opt/build
+    wget -O openmpi-$OMPI_VERSION.tar.bz2 $OMPI_URL && tar -xjf openmpi-$OMPI_VERSION.tar.bz2
+    cd /opt/build/openmpi-$OMPI_VERSION
+
+    ./configure --prefix=$OMPI_DIR --with-ucx --without-verbs \
+        --with-libfabric --with-pmix
+    make -j8 install
+    cd / && rm -rf /opt/build
+
+    export PATH=$OMPI_DIR/bin:$PATH
+    export LD_LIBRARY_PATH=$OMPI_DIR/lib:$LD_LIBRARY_PATH
+
+    # Build the OSU Micro-Benchmarks against the OpenMPI we just installed
+    cd /opt
+    tar zxvf osu-micro-benchmarks-7.5.2.tar.gz
+    cd osu-micro-benchmarks-7.5.2/
+    echo "Configuring and building OSU Micro-Benchmarks..."
+    ./configure --prefix=/usr/local/osu CC=$OMPI_DIR/bin/mpicc CXX=$OMPI_DIR/bin/mpicxx
+    make -j16 && make install
+
+%runscript
+    echo "Rank ${PMI_RANK} - About to run: ${OSU_DIR}/$*"
+    exec ${OSU_DIR}/$*
+

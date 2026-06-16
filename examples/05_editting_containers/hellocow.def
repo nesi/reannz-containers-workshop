@@ -1,0 +1,36 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%labels
+    Author Your Name
+    Version 1.0.1
+    Description "An apptainer container to run hellocow. Note: This is a modification of lolcow"
+
+%post
+    apt-get -y update
+    apt-get -y install lolcat cowsay
+
+%environment
+    export LC_ALL=C
+    export PATH=/usr/games:$PATH
+
+%runscript
+     cowsay Hello $1! | lolcat
+
+%test
+    set -e
+
+    echo "Running container self-tests..."
+
+    # Helper: check command exists and print a friendly message
+    check_found () {
+        if command -v "$1" >/dev/null 2>&1; then
+            echo "$1 was found"
+        else
+            echo "ERROR: $1 was NOT found"
+            exit 1
+        fi
+    }
+
+    check_found lolcat
+    check_found cowsay

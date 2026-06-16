@@ -1,0 +1,18 @@
+Bootstrap: docker
+From: rockylinux:9
+
+%files
+    mpi_hello_world /opt/mpi_hello_world
+
+%environment
+    export PATH="/opt:$PATH"
+
+%post
+    # InfiniBand / RDMA user-space libraries (librdmacm, libibverbs).
+    # These are OS-level libs, NOT MPI — MPI itself is still bound in at runtime.
+    dnf install -y rdma-core
+    dnf clean all
+    chmod +x /opt/mpi_hello_world
+
+%runscript
+    /opt/mpi_hello_world

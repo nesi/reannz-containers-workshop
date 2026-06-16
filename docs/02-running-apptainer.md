@@ -4,7 +4,12 @@
 
     - Run images using `run`, `exec` and `shell` in Apptainer
 
-The three commands most widely used in apptainer are  `run`, `exec` and `shell`. Very briefly: 
+!!! clipboard-question "Questions"
+
+    - How do I run a container the way its creator intended?
+    - How do I run my own commands inside a container, or work in it interactively?
+
+The three commands most widely used in apptainer are `run`, `exec` and `shell`. Very briefly: 
 
 * `run`: Performs a command as designed by the creator of the container.
 * `exec`: Allows the user to perform a custom command within the container. 
@@ -12,7 +17,7 @@ The three commands most widely used in apptainer are  `run`, `exec` and `shell`.
 
 In this section, we will expand on how to use all three commands and see what they do. 
 
-For these examples, we will use the `hello_world.sif` container, which is based on ubuntu. This container is found in the `XYZ` folder:
+For these examples, we will use the `hello-world.sif` container, which is based on ubuntu. This container is found in the `XYZ` folder:
 
 ```bash 
 cd XYZ 
@@ -55,7 +60,7 @@ user.name@computer-name:$ apptainer exec hello-world.sif echo Hello Mars!
 Hello Mars!
 ```
 
-What happened here
+What does everything mean:
 
 * `apptainer`: We called the Apptainer program
 * `exec`: This is the execution command for apptainer
@@ -105,10 +110,10 @@ Using the `shell` command, we can interactively work inside the container just l
 
 ## Exercises
 
-OK, lets consider we have been given a container called `lolcow.sif` (found in `..`):
+OK, lets consider we have been given a container called `lolcow.sif` (found in `examples/02_basics_of_containers`):
 
 ```bash 
-cd ..
+cd examples/02_basics_of_containers
 ```
 
 !!! dumbbell "Question 1"
@@ -144,10 +149,10 @@ cd ..
 
         There are two solutions to this
 
-        1. Use the 'exec' command by typing in in `apptainer exec lolcow.sif cowsay Hello Mars!`
+        1. Use the `exec` command by typing in `apptainer exec lolcow.sif cowsay Hello Mars!`
 
         ```bash
-            user.name@computer:$ apptainer exec lolcow.sif cowsay Hello Mars!
+            user.name@computer-name:$ apptainer exec lolcow.sif cowsay Hello Mars!
              _____________
             < Hello Mars! >
              -------------
@@ -182,14 +187,3 @@ cd ..
     - Understand how to use the `run` command to perform a specific command as designed by the creator of the container.
     - Know how to use `exec` to perform custom tasks in the container.
     - Can use `shell` to run an interactive session in the container.
-
-
-
-
-
-
-
-
-
-
-

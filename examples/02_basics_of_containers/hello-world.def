@@ -1,0 +1,19 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%labels
+    Author Geoffrey Weal
+    Version 1.0.0
+    Description "Simple Hello World Apptainer container"
+
+%runscript
+    echo "Hello World!"
+
+%help
+    This is a simple Apptainer "Hello World" container.
+
+    Usage:
+        apptainer run hello-world.sif
+
+    What it does:
+        Prints "Hello World!" to stdout.

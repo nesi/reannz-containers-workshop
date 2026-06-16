@@ -5,6 +5,11 @@
     - Pull a container from the cloud
     - Run a container that is on the cloud
 
+!!! clipboard-question "Questions"
+
+    - How do I get a container that lives online, such as on Docker?
+    - Do I always have to download a container before I can use it?
+
 Sometimes you might not have a container file sitting in front of you that you want to use. Most of the time, your container might be sitting on the internet somewhere, like in docker. There are two ways you can interact with containers that are on the cloud:
 
 1. Pull the image from the cloud first using `pull`, then run the container directly from the computer, or 
@@ -49,7 +54,7 @@ INFO:    Creating SIF file...
 [=========================================================================================================] 100 % 0s
 ```
 
-What you can see is apptainer is downloading and contructing the container on your computer. We can now see that we have made a file called `my_alpine.sif`:
+What you can see is apptainer is downloading and constructing the container on your computer. We can now see that we have made a file called `my_alpine.sif`:
 
 ```bash
 user.name@computer-name:$ ls
@@ -61,7 +66,7 @@ We can now use `exec` or `shell` to run Unix commands on the container:
 Performing the `exec` in the `my_alpine.sif` container, we see:
 
 ```bash
-apptainer exec my_alpine.sif echo Hello World!
+user.name@computer-name:$ apptainer exec my_alpine.sif echo Hello World!
 Hello World!
 ```
 
@@ -113,7 +118,7 @@ INFO:    Creating SIF file...
 Hello World!
 ```
 
-or if you have already download alpine once before, you may get the image straight from the cache:
+or if you have already downloaded alpine once before, you may get the image straight from the cache:
 
 ```bash
 user.name@computer-name:~$ apptainer exec docker://alpine echo Hello World!
@@ -189,7 +194,7 @@ In this case, I am using the version of alpine that is currently stored in the a
         apptainer run docker://python:3.14-alpine
         ```
 
-        where I have chosen to call this container `my_python3.14.sif`:
+        This runs Python directly from the cloud image, dropping you straight into the Python interpreter:
 
         ```bash
         user.name@computer-name:~$ apptainer run docker://python:3.14-alpine
