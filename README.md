@@ -2,7 +2,9 @@
 
 Workshop material for **REANNZ's "Introduction to Containers on High Performance Clusters"**. It teaches how to use [Apptainer](https://apptainer.org/) to find, run, build, inspect, test, secure, and run parallel (MPI) containers on an HPC such as [Mahuika](https://docs.nesi.org.nz/).
 
-The material is published as an [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) site (the pages live in [`docs/`](docs/)) and is delivered over two days.
+📖 **Read the workshop here: <https://nesi.github.io/reannz-containers-workshop/>**
+
+The material is delivered over two days and the pages live in [`docs/`](docs/).
 
 ## Workshop structure
 
@@ -45,17 +47,6 @@ Optional extra material:
 | [`examples/`](examples/) | The `def` files, slurm scripts, and build helpers used in the lessons, grouped by chapter |
 | [`mkdocs.yml`](mkdocs.yml) | The MkDocs site configuration and navigation |
 | [`overrides/`](overrides/) | Theme overrides |
-
-## Building the site locally
-
-The site is built with MkDocs and the Material theme. To preview it locally:
-
-```bash
-pip install mkdocs-material mkdocs-glightbox
-mkdocs serve
-```
-
-Then open <http://127.0.0.1:8000> in your browser. To produce the static site, run `mkdocs build` (the output goes to the `public/` directory).
 
 ## Building the example containers
 
