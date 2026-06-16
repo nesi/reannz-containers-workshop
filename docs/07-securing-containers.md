@@ -13,7 +13,7 @@
 
 Sometimes a container holds something you do not want others to be able to read — proprietary code, a licensed application, or sensitive data. Apptainer can build a container whose **file system is encrypted**, so its contents cannot be inspected without the correct secret.
 
-A nice property of Apptainer's encryption is that the container stays encrypted **at rest** (on disk), **in transit** (when copied around), and **while running** — it is only ever decrypted in memory at runtime. This means the unencrypted contents are never written back to disk.
+A nice property of Apptainer's encryption is that the container stays encrypted **at rest** (on disk), **in transit** (when copied around), and **while running** — it is only ever decrypted in memory at runtime.
 
 ## How it works
 
