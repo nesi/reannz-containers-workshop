@@ -68,6 +68,12 @@ From: rockylinux:9
 
 The highlighted lines are the core MPI part of the definition file — downloading, configuring, building, and installing OpenMPI 5.0.10, and adding it to the `PATH` and `LD_LIBRARY_PATH`. The surrounding lines set up the base image, install the libraries OpenMPI relies on (RDMA, UCX, and libfabric), and compile our `mpi_hello_world.c` program with `mpicc`.
 
+??? note "What is `LD_LIBRARY_PATH`?"
+
+    `LD_LIBRARY_PATH` is an environment variable that tells Linux where to look for shared libraries (the `.so` files that programs load at runtime). It holds a list of directories separated by colons (`:`), for example `/path/to/libs1:/path/to/libs2:/path/to/libs3`. When a program starts, the system searches these directories (in order) to find the libraries the program needs.
+
+    When you `module load OpenMPI/5.0.10-GCC-15.2.0` on Mahuika, it adds the directories containing the OpenMPI libraries to `LD_LIBRARY_PATH`. We will make use of this later in the bind model, where it gives us a ready-made list of where the host's MPI libraries live.
+
 We can see the version of OpenMPI installed in the container by typing into the terminal:
 
 ```bash
@@ -105,7 +111,11 @@ mpirun -n $SLURM_NTASKS apptainer exec mpi_hybrid_container.sif /opt/mpi_hello_w
 
 The highlighted lines in the above slurm script load the **external** OpenMPI — the version on Mahuika that runs _outside_ the container. In the hybrid model it must match the version of OpenMPI installed _inside_ the container (here, both are OpenMPI 5.0.10).
 
-We launch the program with `mpirun -n $SLURM_NTASKS`. `$SLURM_NTASKS` is an environment variable that slurm sets automatically to the total number of tasks you requested (here `--nodes=2` × `--ntasks-per-node=2` = 4). Using it means the number of MPI processes always matches the resources you asked slurm for, so you only have to change it in one place.
+We launch the program with `mpirun -n $SLURM_NTASKS`.
+
+??? note "What is `$SLURM_NTASKS`?"
+
+    `$SLURM_NTASKS` is an environment variable that slurm sets automatically to the total number of tasks you requested (here `--nodes=2` × `--ntasks-per-node=2` = 4). Using it means the number of MPI processes always matches the resources you asked slurm for, so you only have to change it in one place.
 
 Once you have submitted this to slurm (`sbatch submit.sl`) and the job has run, you should obtain an output file that shows something similar to this:
 
@@ -181,13 +191,7 @@ export APPTAINERENV_UCX_POSIX_USE_PROC_LINK=n
 mpirun -n $SLURM_NTASKS apptainer exec mpi_bind_container.sif /opt/mpi_hello_world
 ```
 
-The middle part of this script is what makes the bind model work. After loading the OpenMPI module, Mahuika lists all the directories holding its MPI libraries in the `LD_LIBRARY_PATH` environment variable.
-
-!!! note "What is `LD_LIBRARY_PATH`?"
-
-    `LD_LIBRARY_PATH` is an environment variable that tells Linux where to look for shared libraries (the `.so` files that programs load at runtime). It holds a list of directories separated by colons (`:`), for example `/path/to/libs1:/path/to/libs2:/path/to/libs3`. When a program starts, the system searches these directories (in order) to find the libraries the program needs.
-
-    When you `module load OpenMPI/5.0.10-GCC-15.2.0`, Mahuika adds the directories containing the OpenMPI libraries to `LD_LIBRARY_PATH`. This is why we read it here — it is effectively a ready-made list of where the host's MPI libraries live.
+The highlighted part of this script is what makes the bind model work. After loading the OpenMPI module, Mahuika lists all the directories holding its MPI libraries in the `LD_LIBRARY_PATH` environment variable.
 
 We need to make those directories (and a couple of others) visible _inside_ the container, which the following lines do:
 
@@ -210,6 +214,12 @@ Breaking this down:
 * **`APPTAINERENV_LD_LIBRARY_PATH`** sets the `LD_LIBRARY_PATH` _inside_ the container (any variable prefixed with `APPTAINERENV_` is passed through to the container's environment). This tells the program inside the container where to find the libraries we just bound in — the host's library directories, plus our `/hostlibs` mount and the HCOLL library.
 
 In short: the `for` loop gathers the host's MPI library directories, `APPTAINER_BIND` makes them (and the extra InfiniBand/HCOLL libraries) visible inside the container, and `APPTAINERENV_LD_LIBRARY_PATH` tells the program inside the container where to find them.
+
+??? note "What is `LD_LIBRARY_PATH`?"
+
+    `LD_LIBRARY_PATH` is an environment variable that tells Linux where to look for shared libraries (the `.so` files that programs load at runtime). It holds a list of directories separated by colons (`:`), for example `/path/to/libs1:/path/to/libs2:/path/to/libs3`. When a program starts, the system searches these directories (in order) to find the libraries the program needs.
+
+    When you `module load OpenMPI/5.0.10-GCC-15.2.0` on Mahuika, it adds the directories containing the OpenMPI libraries to `LD_LIBRARY_PATH`. This is what the bind script reads — it is effectively a ready-made list of where the host's MPI libraries live.
 
 Once you have submitted this to slurm (`sbatch submit.sl`) and the job has run, you should obtain an output file that shows something similar to this:
 

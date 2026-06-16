@@ -1,7 +1,5 @@
 # Summarising Day 2: Beyond the Basics
 
-Well done — you have now gone well beyond the basics and can inspect, modify, test, secure, and run containers in parallel on an HPC! This page pulls together everything from Day 2 so you have it all in one place.
-
 ## What we covered today
 
 * **Inspecting, "editing", and versioning containers** — using `inspect` to look inside a container you have been given, recovering its `def` file, making changes, and rebuilding it with an updated version.
@@ -28,12 +26,9 @@ You cannot edit a `sif` container in place. Instead you:
 
 Keeping the `Version` label up to date is what makes your work reproducible — you and others can always tell which container produced a given result.
 
-## Testing and documenting
+## Testing
 
-A container that *builds* does not always *run* correctly, so it is good practice to add:
-
-* a **`%test`** section — self-tests that run at the end of the build and whenever a user runs `apptainer test`, and
-* a **`%help`** section — notes shown by `apptainer run-help` that explain how to use the container.
+A container that *builds* does not always *run* correctly, so it is good practice to add a **`%test`** section — self-tests that run at the end of the build and whenever a user runs `apptainer test`.
 
 ## Securing containers with encryption
 
@@ -50,9 +45,3 @@ To run a container in parallel with MPI, you choose one of two models:
 
 * **Hybrid model** — MPI is installed *inside* the container, and it must match the version of MPI on the host.
 * **Bind model** — the container has *no* MPI of its own; you bind the host's MPI (and its dependencies) into the container at runtime.
-
-In both cases you load the matching MPI module and launch with:
-
-```bash
-mpirun -n $SLURM_NTASKS apptainer exec my_container.sif my_program
-```
