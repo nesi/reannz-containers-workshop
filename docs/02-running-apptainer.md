@@ -110,6 +110,16 @@ exit
 
 Using the `shell` command, we can interactively work inside the container just like we were on a computer/terminal that was built on that container. 
 
+## A note about using GPUs with containers
+
+By default, a container cannot see the host's GPU. If you want to use an NVIDIA graphics card inside a container, add the `--nv` flag to your `run`, `exec`, or `shell` command. This makes the host's NVIDIA drivers and libraries available inside the container, for example:
+
+```bash
+apptainer run --nv my_container.sif
+apptainer exec --nv my_container.sif my_gpu_program
+apptainer shell --nv my_container.sif
+```
+
 ## Exercises
 
 OK, let's consider we have been given a container called `lolcow.sif` (found in `examples/02_basics_of_containers`):
