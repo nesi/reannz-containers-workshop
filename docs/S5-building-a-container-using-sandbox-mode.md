@@ -1,4 +1,4 @@
-# S4: Building a Container using Sandbox Mode
+# S5: Building a Container using Sandbox Mode
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -30,7 +30,7 @@ The advantages of using a sandbox are:
 However, there are some disadvantages:
 
 * They can be a bit tricky to work with.
-* You can't use `inspect --deffile` (see [Chapter 5](05-editing-containers.md)) to recover a record of how you built it, because the sandbox was not built from a `def` file — there is no recorded recipe to recover.
+* You can't use `inspect --deffile` (see [Supplementary S4](S4-editing-containers.md)) to recover a record of how you built it, because the sandbox was not built from a `def` file — there is no recorded recipe to recover.
 
 
 ## Constructing a Container using Sandbox Mode

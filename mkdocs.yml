@@ -20,16 +20,16 @@ nav:
     - summarising-beginner-class.md
   - "Day 2: Beyond the Basics":
     - recap-beginner-class.md
-    - 05-editing-containers.md
-    - 06-testing-containers.md
-    - 07-securing-containers.md
-    - 08-running-MPI-containers.md
+    - 05-testing-containers.md
+    - 06-securing-containers.md
+    - 07-running-MPI-containers.md
     - summarising-advancing-class.md
   - Supplementary:
     - "S1: Other Options for Building Containers": S1-other_options_for_building_containers.md
     - "S2: Other Commands in Apptainer": S2-other-commands-in-apptainer.md
     - "S3: Running Containers as Instances": S3-running-containers-as-instances.md
-    - "S4: Building a Container using Sandbox Mode": S4-building-a-container-using-sandbox-mode.md
+    - "S4: Inspecting, Editing, and Versioning Containers": S4-editing-containers.md
+    - "S5: Building a Container using Sandbox Mode": S5-building-a-container-using-sandbox-mode.md
   - Setup (for Trainers):
     - setup-containers.md
 

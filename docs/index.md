@@ -7,7 +7,7 @@
 
 This workshop introduces **containers** and how to use them on a High Performance Cluster (HPC) such as [Mahuika](https://docs.nesi.org.nz/). Containers let you package software, along with all of its dependencies, into a single portable file that runs the same way on your own computer and on an HPC. By the end of the workshop you will be able to find, run, build, inspect, test, secure, and run parallel (MPI) containers using [Apptainer](https://apptainer.org/).
 
-The material is split across two days: **Day 1: The Basics of Containers** (running and building containers) and **Day 2: Beyond the Basics** (inspecting, testing, securing, and running MPI containers), with optional **supplementary** material.
+The material is split across two days: **Day 1: The Basics of Containers** (running and building containers) and **Day 2: Beyond the Basics** (testing, securing, and running MPI containers), with optional **supplementary** material.
 
 | **Lesson** | **Overview** |
 |:-----------|:-------------|
@@ -19,15 +19,15 @@ The material is split across two days: **Day 1: The Basics of Containers** (runn
 | [3. Pulling and Running Containers from the Cloud](03-pulling-and-running-images.md) | Download and run containers from registries such as Docker Hub |
 | [4. Building Containers](04-building-images.md) | Write a `def` file and build it into a `sif` container |
 | **Day 2: Beyond the Basics** | |
-| [5. Inspecting, "Editing", and Versioning Containers](05-editing-containers.md) | Inspect a container, recover its `def` file, and re-version it |
-| [6. Making Tests in Containers](06-testing-containers.md) | Add a `%test` section and run `apptainer test` |
-| [7. Securing Containers with Encryption](07-securing-containers.md) | Encrypt a container with a passphrase or an RSA key pair |
-| [8. Running Containers with MPI](08-running-MPI-containers.md) | Run containers in parallel with the hybrid and bind models |
+| [5. Making Tests in Containers](05-testing-containers.md) | Add a `%test` section and run `apptainer test` |
+| [6. Securing Containers with Encryption](06-securing-containers.md) | Encrypt a container with a passphrase or an RSA key pair |
+| [7. Running Containers with MPI](07-running-MPI-containers.md) | Run containers in parallel with the hybrid and bind models |
 | **Supplementary** | |
 | [S1: Other Options for Building Containers](S1-other_options_for_building_containers.md) | The full set of `def` file sections, build arguments, and multi-stage builds |
 | [S2: Other Commands in Apptainer](S2-other-commands-in-apptainer.md) | Managing the cache and providing help text |
 | [S3: Running Containers as Instances](S3-running-containers-as-instances.md) | Run a container in the background as a long-running service |
-| [S4: Building a Container using Sandbox Mode](S4-building-a-container-using-sandbox-mode.md) | Build a container interactively while experimenting |
+| [S4: Inspecting, "Editing", and Versioning Containers](S4-editing-containers.md) | Inspect a container, recover its `def` file, and re-version it |
+| [S5: Building a Container using Sandbox Mode](S5-building-a-container-using-sandbox-mode.md) | Build a container interactively while experimenting |
 
 
 !!! clipboard-list "Getting Started"

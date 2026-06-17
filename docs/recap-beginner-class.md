@@ -56,10 +56,11 @@ apptainer build my_container.sif my_container.def
 
 Day 2 (Beyond the Basics) builds on these foundations to:
 
-* **inspect, "edit", and version** containers,
 * **test** containers so you can be confident they work,
 * **secure and encrypt** containers, and
 * run containers in parallel across an HPC using **MPI**.
+
+Inspecting, "editing", and versioning containers is now available as optional supplementary material (S4).
 
 !!! clipboard-question "Quick check"
 

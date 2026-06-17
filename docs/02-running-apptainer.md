@@ -47,7 +47,7 @@ user.name@computer-name:~$ apptainer inspect --runscript hello-world.sif
     echo "Hello World!"
 ```
 
-We will come back to the `inspect` feature in [Chapter 5](05-editing-containers.md#the-inspect-command). 
+We will come back to the `inspect` feature in [Supplementary S4](S4-editing-containers.md#the-inspect-command). 
 
 <a id="what-is-a-sif-file"></a>
 
