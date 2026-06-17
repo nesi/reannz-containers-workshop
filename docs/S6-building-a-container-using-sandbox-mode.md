@@ -1,4 +1,4 @@
-# S5: Building a Container using Sandbox Mode
+# S6: Building a Container using Sandbox Mode
 
 !!! clipboard-list "Lesson Objectives"
 

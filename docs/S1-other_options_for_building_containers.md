@@ -26,12 +26,12 @@ The remaining sections each begin with a `%` keyword:
 
 * `%arguments`: defines default values for *template variables* — the `{{ ... }}` placeholders used elsewhere in the file. For example, `{{ VERSION }}` is filled in from the `VERSION` value set in `%arguments`. You can override these at build time with the `--build-arg` option.
 * `%setup`: commands that run on the **host** during the build, *before* `%post`. The container's file system is available through the `$APPTAINER_ROOTFS` variable, so you can create or place files into the container from the host. (Use this with care — these commands run on your own machine, not inside the container.)
-* `%files`: copies files from the host into the container, written as `source destination` (we used this in [Chapter 7](07-running-MPI-containers.md) to copy programs into MPI containers).
+* `%files`: copies files from the host into the container, written as `source destination` (we used this in [Chapter 6](06-running-MPI-containers.md) to copy programs into MPI containers).
 * `%environment`: environment variables that are set every time the container *runs* (see [Chapter 4](04-building-images.md)). Note that these are not available during `%post` — they apply at runtime, not at build time.
 * `%post`: commands run **inside** the container during the build to install and configure software (see [Chapter 4](04-building-images.md)).
 * `%runscript`: the commands run when you `apptainer run` the container (see [Chapter 4](04-building-images.md)).
 * `%startscript`: the commands run when you start the container as a background service with `apptainer instance start`.
-* `%test`: commands run at the end of the build (and whenever you run `apptainer test`) to check that the container was built correctly (see [Chapter 5](05-testing-containers.md)).
+* `%test`: commands run at the end of the build (and whenever you run `apptainer test`) to check that the container was built correctly (see [Supplementary S5](S5-testing-containers.md)).
 * `%labels`: metadata such as the author and version, which you can read back with `apptainer inspect` (see [Chapter 4](04-building-images.md) and [Supplementary S4](S4-editing-containers.md)).
 * `%help`: free text describing the container, shown when a user runs `apptainer run-help` (see [S2: Other Commands in Apptainer](S2-other-commands-in-apptainer.md)).
 

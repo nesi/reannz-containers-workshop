@@ -1,4 +1,4 @@
-# 6. Securing Containers with Encryption
+# 5. Securing Containers with Encryption
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -30,7 +30,7 @@ A passphrase is the simplest way to encrypt a container. If you use the `--passp
 
 ### Building a container with a passphrase
 
-**Build** the encrypted container (here from the example [`encrypted.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/06_securing_containers_with_encryption/encrypted.def)), entering a passphrase when prompted:
+**Build** the encrypted container (here from the example [`encrypted.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/05_securing_containers_with_encryption/encrypted.def)), entering a passphrase when prompted:
 
 ```bash
 user.name@computer-name:~$ apptainer build --passphrase encrypted.sif encrypted.def
@@ -96,7 +96,7 @@ You now have `encryption_key_name_pub.pem` (public, used to build) and `encrypti
 
 ### Building an encrypted container
 
-Build the container (here from the example [`encrypted.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/06_securing_containers_with_encryption/encrypted.def)) using the **public** key:
+Build the container (here from the example [`encrypted.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/05_securing_containers_with_encryption/encrypted.def)) using the **public** key:
 
 ```bash
 apptainer build --pem-path=encryption_key_name_pub.pem encrypted.sif encrypted.def
@@ -144,7 +144,7 @@ Notice that no secret is ever shared between you and your collaborator — only 
 
 ## Exercises
 
-For these exercises, you have a definition file called [`secret.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/06_securing_containers_with_encryption/secret.def) that you want to build into an encrypted container called `secret.sif`.
+For these exercises, you have a definition file called [`secret.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/05_securing_containers_with_encryption/secret.def) that you want to build into an encrypted container called `secret.sif`.
 
 !!! dumbbell "Question 1"
 

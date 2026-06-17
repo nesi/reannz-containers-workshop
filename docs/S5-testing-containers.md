@@ -1,4 +1,4 @@
-# 5. Making Tests in Containers
+# S5: Making Tests in Containers
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -20,7 +20,7 @@ Apptainer lets the **creator** of a container embed a set of self-tests inside i
 
 You add tests to a container by including a `%test` section in your `def` file. The commands in this section are run *inside* the container, and the test **passes if the section exits with status `0`** and **fails if it exits with a non-zero status**.
 
-For example, consider a container built to run the `fortune`, `cowsay`, and `lolcat` tools. We can add a `%test` section that checks each of these programs is present (the full file is available as [`lolcow.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/05_making_tests_in_containers/lolcow.def)):
+For example, consider a container built to run the `fortune`, `cowsay`, and `lolcat` tools. We can add a `%test` section that checks each of these programs is present (the full file is available as [`lolcow.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/S5_making_tests_in_containers/lolcow.def)):
 
 ```def
 Bootstrap: docker
@@ -112,7 +112,7 @@ A useful `%test` section does more than check that files exist — it confirms t
 
 ## Exercises
 
-For these exercises, we will use the [`my_python3.12.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/05_making_tests_in_containers/my_python3.12.def) file from Chapter 4, which builds a container with Python 3.12.
+For these exercises, we will use the [`my_python3.12.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/S5_making_tests_in_containers/my_python3.12.def) file from Chapter 4, which builds a container with Python 3.12.
 
 !!! dumbbell "Question 1"
 
