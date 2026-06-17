@@ -28,7 +28,9 @@ Both these methods have their advantages and disadvantages, and there is no one 
 
 ### The Hybrid Model
 
-In the hybrid model, we install the same version of MPI on the container as we have on our computer/HPC. In most cases you will have been provided a container and it may have OpenMPI installed on it. In this case, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/07_running_containers_with_MPI/hybrid_model) folder), which installs OpenMPI 5.0.10:
+In the hybrid model, we install the **same version** of MPI on the container as we have on our computer/HPC.
+
+In most cases you will have been provided a container and it may have OpenMPI installed on it. In this case, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/07_running_containers_with_MPI/hybrid_model) folder), which installs OpenMPI 5.0.10:
 
 ```def hl_lines="15-31"
 Bootstrap: docker
