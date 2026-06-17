@@ -1,7 +1,8 @@
 # Introduction to Containers on High Performance Clusters (HPC)
 
 
-![image](./fig/Title_Containers.png){: width="500px" .center}
+![image](./fig/Title_Containers.png#only-light){: width="500px" .center}
+![image](./fig/Title_Containers_dark.png#only-dark){: width="500px" .center}
 
 
 This workshop introduces **containers** and how to use them on a High Performance Cluster (HPC) such as [Mahuika](https://docs.nesi.org.nz/). Containers let you package software, along with all of its dependencies, into a single portable file that runs the same way on your own computer and on an HPC. By the end of the workshop you will be able to find, run, build, inspect, test, secure, and run parallel (MPI) containers using [Apptainer](https://apptainer.org/).
