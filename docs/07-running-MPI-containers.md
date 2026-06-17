@@ -70,7 +70,7 @@ From: rockylinux:9
 
 The highlighted lines are the core MPI part of the definition file — downloading, configuring, building, and installing OpenMPI 5.0.10, and adding it to the `PATH` and `LD_LIBRARY_PATH`.
 
-* We are specifically installing OpenMPI 5.0.10 to **match the version of OpenMPI that we are using externally in Mahuika**.
+* We are specifically installing OpenMPI 5.0.10 to **match the version of OpenMPI that we are using externally on Mahuika**.
 
 The surrounding lines set up the base image, install the libraries OpenMPI relies on (RDMA, UCX, and libfabric), and compile our `mpi_hello_world.c` program with `mpicc`.
 
