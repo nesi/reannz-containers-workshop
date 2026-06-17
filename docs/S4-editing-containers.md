@@ -11,7 +11,7 @@
     - How can I find out what an existing container contains and does?
     - Can I change a container after it has been built, and how do I keep track of changes?
 
-The title of this section is a bit of a lie: you cannot actually edit a container once it has been created. What you *can* do is recover the `def` file that was used to build it (the same kind of `def` file you met in the previous section), make additions, removals, and changes to that file, and then rebuild it into a new container.
+The title of this section is a bit of a lie: you cannot actually edit a container once it has been created. What you *can* do is recover the `def` file that was used to build it (the same kind of `def` file you met in [Chapter 4](04-building-images.md)), make additions, removals, and changes to that file, and then rebuild it into a new container.
 
 In this section we focus on "editing" containers in this way, and along the way we learn how to use the `inspect` command and how to version our containers. 
 
