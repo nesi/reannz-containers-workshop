@@ -27,7 +27,15 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
-     showgrid="false" />
+     showgrid="false"
+     inkscape:zoom="0.79928291"
+     inkscape:cx="390.97546"
+     inkscape:cy="171.40364"
+     inkscape:window-width="1472"
+     inkscape:window-height="825"
+     inkscape:window-x="0"
+     inkscape:window-y="814"
+     inkscape:window-maximized="0" />
   <defs
      id="defs1" />
   <g
@@ -41,7 +49,10 @@
        cx="400.98795"
        cy="561.25983"
        rx="213.05832"
-       ry="88.41629" />
+       ry="88.41629"
+       inkscape:export-filename="Title_Containers_dark.png"
+       inkscape:export-xdpi="200"
+       inkscape:export-ydpi="200" />
     <text
        xml:space="preserve"
        style="font-size:64px;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#ffffff;stroke:none"
