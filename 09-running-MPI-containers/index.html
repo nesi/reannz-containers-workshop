@@ -1,0 +1,1664 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="REANNZ">
+      
+      
+        <link rel="canonical" href="https://github.com/nesi/reannz-containers-workshop/09-running-MPI-containers/">
+      
+      
+        <link rel="prev" href="../08-testing-containers/">
+      
+      
+        <link rel="next" href="../summarising-beyond-the-basics/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../fig/reannz-favicon.jpeg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>9. Running Containers with MPI - Introduction to Containers on High Performance Clusters (HPC)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CFira+Code:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Fira Code"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#9-running-containers-with-mpi" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Introduction to Containers on High Performance Clusters (HPC)" class="md-header__button md-logo" aria-label="Introduction to Containers on High Performance Clusters (HPC)" data-md-component="logo">
+      
+  <img src="../fig/reannz-logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Introduction to Containers on High Performance Clusters (HPC)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              9. Running Containers with MPI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to light mode" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to dark mode" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo" aria-label="Switch to system preference" type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/nesi/reannz-containers-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    nesi/reannz-containers-workshop
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Introduction to Containers on High Performance Clusters (HPC)" class="md-nav__button md-logo" aria-label="Introduction to Containers on High Performance Clusters (HPC)" data-md-component="logo">
+      
+  <img src="../fig/reannz-logo.svg" alt="logo">
+
+    </a>
+    Introduction to Containers on High Performance Clusters (HPC)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/nesi/reannz-containers-workshop" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    nesi/reannz-containers-workshop
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-containers-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview of Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-introducing-apptainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Apptainer: Running Containers on HPCs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Basics of Containers
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    The Basics of Containers
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction to Apptainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-running-apptainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. The Basics of Running Containers on Apptainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-pulling-and-running-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Pulling and Running Containers from the Cloud
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-building-images/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Building Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-building-a-container-using-sandbox-mode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Building a Container using Sandbox Mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-securing-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Securing Containers with Encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summarising-the-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summarising The Basics of Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beyond the Basics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Beyond the Basics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recap-the-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recap of The Basics of Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-editing-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Inspecting, "Editing", and Versioning Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-testing-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Making Tests in Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Running Containers with MPI
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    9. Running Containers with MPI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#the-two-methods-of-using-mpi-with-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Two Methods of using MPI with Containers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Two Methods of using MPI with Containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-hybrid-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Hybrid Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-bind-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Bind Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercises
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../summarising-beyond-the-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Summarising Beyond the Basics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6">
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supplementary
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Supplementary
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../S1-other_options_for_building_containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S1: Other Options for Building Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../S2-other-commands-in-apptainer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S2: Other Commands in Apptainer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../S3-running-containers-as-instances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3: Running Containers as Instances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7">
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup (for Trainers)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Setup (for Trainers)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup-containers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Containers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#the-two-methods-of-using-mpi-with-containers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Two Methods of using MPI with Containers
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Two Methods of using MPI with Containers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-hybrid-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Hybrid Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-bind-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Bind Model
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercises
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="9-running-containers-with-mpi">9. Running Containers with MPI<a class="headerlink" href="#9-running-containers-with-mpi" title="Permanent link">¶</a></h1>
+<div class="admonition clipboard-list">
+<p class="admonition-title">Lesson Objectives</p>
+<ul>
+<li>Understand why running MPI inside a container is trickier than running a normal container</li>
+<li>Know the two methods for using MPI with containers: the hybrid model and the bind model</li>
+<li>Be able to run an MPI container on Mahuika using a slurm script</li>
+</ul>
+</div>
+<div class="admonition clipboard-question">
+<p class="admonition-title">Questions</p>
+<ul>
+<li>Why is running MPI with a container more complicated than running an ordinary container?</li>
+<li>What are the two ways to use MPI with a container, and how do I decide which to use?</li>
+</ul>
+</div>
+<p>Running jobs in parallel is crucial to gain the benefits of using an HPC. HPCs deal with parallelisation in multiple ways, but one way is to harness the Message Passing Interface (MPI) protocol.</p>
+<p>It is possible to run MPI with containers, but it can be a bit tricky. This is because MPI spreads a program across multiple nodes, which means a process launched from the container can effectively escape the container. You can find more detail about this on <a href="https://ciq.com/blog/a-new-approach-to-mpi-in-apptainer/">this blog site</a>.</p>
+<p>In this lesson, we will look at two methods for using MPI with containers.</p>
+<h2 id="the-two-methods-of-using-mpi-with-containers">The Two Methods of using MPI with Containers<a class="headerlink" href="#the-two-methods-of-using-mpi-with-containers" title="Permanent link">¶</a></h2>
+<p>There are two main methods for using MPI with containers. These are:</p>
+<ul>
+<li>The hybrid model</li>
+<li>The bind model</li>
+</ul>
+<p>Both these methods have their advantages and disadvantages, and there is no one right way to use MPI with containers. Often, you will need to perform some trial and error on your specific container to see which will work for you. </p>
+<h3 id="the-hybrid-model">The Hybrid Model<a class="headerlink" href="#the-hybrid-model" title="Permanent link">¶</a></h3>
+<p>In the hybrid model, we install the <strong>same version</strong> of MPI on the container as we have on our computer/HPC.</p>
+<p>In most cases you will have been provided a container and it may have OpenMPI installed on it. In this case, we will use a container that was built using the following definition file (found, along with the other files it needs, in the <a href="https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/hybrid_model"><code>hybrid_model</code></a> folder), which installs OpenMPI 5.0.10:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Bootstrap: docker
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>From: rockylinux:9
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>%files
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    mpi_hello_world.c /opt
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>%post
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    dnf -y update
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    dnf -y install dnf-plugins-core
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    dnf config-manager --set-enabled crb
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    dnf -y install wget git gcc gcc-c++ make file gcc-gfortran bzip2 \
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>        findutils librdmacm-devel \
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>        ucx ucx-devel libfabric libfabric-devel
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="hll">    # Install the internal MPI inside of the container
+</span><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="hll">    export OMPI_DIR=/opt/ompi
+</span><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="hll">    export OMPI_VERSION=5.0.10
+</span><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="hll">    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v5.0/openmpi-$OMPI_VERSION.tar.bz2"
+</span><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="hll">    mkdir -p /opt/build
+</span><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="hll">
+</span><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="hll">    cd /opt/build
+</span><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="hll">    wget -O openmpi-$OMPI_VERSION.tar.bz2 $OMPI_URL &amp;&amp; tar -xjf openmpi-$OMPI_VERSION.tar.bz2
+</span><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="hll">    cd /opt/build/openmpi-$OMPI_VERSION
+</span><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="hll">
+</span><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="hll">    ./configure --prefix=$OMPI_DIR --with-ucx --without-verbs \
+</span><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="hll">        --with-libfabric --with-pmix
+</span><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="hll">    make -j8 install
+</span><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="hll">    cd / &amp;&amp; rm -rf /opt/build
+</span><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="hll">
+</span><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="hll">    export PATH=$OMPI_DIR/bin:$PATH
+</span><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="hll">    export LD_LIBRARY_PATH=$OMPI_DIR/lib:$LD_LIBRARY_PATH
+</span><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>    cd /opt &amp;&amp; mpicc -o mpi_hello_world mpi_hello_world.c
+</code></pre></div>
+<p>The highlighted lines are the core MPI part of the definition file — downloading, configuring, building, and installing OpenMPI 5.0.10, and adding it to the <code>PATH</code> and <code>LD_LIBRARY_PATH</code>.</p>
+<ul>
+<li>We are specifically installing OpenMPI 5.0.10 to <strong>match the version of OpenMPI that we are using externally on Mahuika</strong>.</li>
+</ul>
+<p>The surrounding lines set up the base image, install the libraries OpenMPI relies on (RDMA, UCX, and libfabric), and compile our <code>mpi_hello_world.c</code> program with <code>mpicc</code>.</p>
+<details class="note">
+<summary>What is <code>LD_LIBRARY_PATH</code>?</summary>
+<p><code>LD_LIBRARY_PATH</code> is an environment variable that tells Linux where to look for shared libraries (the <code>.so</code> files that programs load at runtime). It holds a list of directories separated by colons (<code>:</code>), for example <code>/path/to/libs1:/path/to/libs2:/path/to/libs3</code>. When a program starts, the system searches these directories (in order) to find the libraries the program needs.</p>
+<p>When you <code>module load OpenMPI/5.0.10-GCC-15.2.0</code> on Mahuika, it adds the directories containing the OpenMPI libraries to <code>LD_LIBRARY_PATH</code>. We will make use of this later in the bind model, where it gives us a ready-made list of where the host's MPI libraries live.</p>
+</details>
+<p>We can see the version of OpenMPI installed in the container by typing into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>mpi_hybrid_container.sif<span class="w"> </span>/opt/ompi/bin/mpiexec<span class="w"> </span>--version
+</code></pre></div>
+<p>You should get:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>user.name@computer-name:~$<span class="w"> </span>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>mpi_hybrid_container.sif<span class="w"> </span>/opt/ompi/bin/mpiexec<span class="w"> </span>--version
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>mpiexec<span class="w"> </span><span class="o">(</span>Open<span class="w"> </span>MPI<span class="o">)</span><span class="w"> </span><span class="m">5</span>.0.10
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>Report<span class="w"> </span>bugs<span class="w"> </span>to<span class="w"> </span>https://www.open-mpi.org/community/help/
+</code></pre></div>
+<p>We can now run a slurm script for this container. Notice that we load the same version of OpenMPI (5.0.10) in the script as the one installed inside the container:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1">#SBATCH --job-name=apptainer-hybrid-mpi</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1">#SBATCH --nodes=2</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1">#SBATCH --ntasks-per-node=2</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1">#SBATCH --time=00:05:00</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>module<span class="w"> </span>-q<span class="w"> </span>purge
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="hll"><span class="c1"># Load the external MPI in the slurm script</span>
+</span><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="hll">module<span class="w"> </span>load<span class="w"> </span>OpenMPI/5.0.10-GCC-15.2.0
+</span><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># Required on Mahuika: prevents a "Permission denied" error from UCX's</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># shared-memory transport that otherwise stops the MPI program from running.</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINERENV_UCX_POSIX_USE_PROC_LINK</span><span class="o">=</span>n
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>mpi_hybrid_container.sif<span class="w"> </span>/opt/mpi_hello_world
+</code></pre></div>
+<p>The highlighted lines in the above slurm script load the <strong>external</strong> OpenMPI — the version on Mahuika that runs <em>outside</em> the container. In the hybrid model it must match the version of OpenMPI installed <em>inside</em> the container (here, both are OpenMPI 5.0.10).</p>
+<p>We launch the program with <code>mpirun -n $SLURM_NTASKS</code>.</p>
+<details class="note">
+<summary>What is <code>$SLURM_NTASKS</code>?</summary>
+<p><code>$SLURM_NTASKS</code> is an environment variable that slurm sets automatically to the total number of tasks you requested (here <code>--nodes=2</code> × <code>--ntasks-per-node=2</code> = 4). Using it means the number of MPI processes always matches the resources you asked slurm for, so you only have to change it in one place.</p>
+</details>
+<p>Once you have submitted this to slurm (<code>sbatch submit.sl</code>) and the job has run, you should obtain an output file that shows something similar to this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c008.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">1</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">167</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536546</span><span class="o">]</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c008.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">0</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">166</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536545</span><span class="o">]</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c010.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">3</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">33</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536577</span><span class="o">]</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c010.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">2</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">200</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536576</span><span class="o">]</span>
+</code></pre></div>
+<h3 id="the-bind-model">The Bind Model<a class="headerlink" href="#the-bind-model" title="Permanent link">¶</a></h3>
+<p>In this model we do not use MPI from within the container but instead we bind-mount Mahuika's version of MPI (and the libraries it depends on) into the container at runtime. In most cases you will have been provided a container that was built <em>without</em> MPI. For our example, we will use a container that was built using the following definition file (found, along with the other files it needs, in the <a href="https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/bind_model"><code>bind_model</code></a> folder):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Bootstrap: docker
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>From: rockylinux:9
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>%files
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    mpi_hello_world /opt/mpi_hello_world
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>%environment
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    export PATH="/opt:$PATH"
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>%post
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    # InfiniBand / RDMA user-space libraries (librdmacm, libibverbs).
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    # These are OS-level libs, NOT MPI — MPI itself is still bound in at runtime.
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    dnf install -y rdma-core
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    dnf clean all
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    chmod +x /opt/mpi_hello_world
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>%runscript
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    /opt/mpi_hello_world
+</code></pre></div>
+<p>Notice that this definition file does not install any MPI of its own — it only sets up the program and the OS-level InfiniBand/RDMA libraries. You can confirm the container has no MPI by typing into the terminal:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>mpi_bind_container.sif<span class="w"> </span>which<span class="w"> </span>mpiexec
+</code></pre></div>
+<p>You should get:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>user.name@computer-name:~$<span class="w"> </span>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>mpi_bind_container.sif<span class="w"> </span>which<span class="w"> </span>mpiexec
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>which:<span class="w"> </span>no<span class="w"> </span>mpiexec<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">(</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin<span class="o">)</span>
+</code></pre></div>
+<p>We can now run a slurm script for this container. Notice that we load OpenMPI 5.0.10 in the script and bind it into the container. This lets the program <em>inside</em> the container use Mahuika's OpenMPI 5.0.10, which lives <em>outside</em> the container:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="c1">#SBATCH --job-name=apptainer-bind-mpi</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1">#SBATCH --nodes=2</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1">#SBATCH --ntasks-per-node=2</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1">#SBATCH --time=00:05:00</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>module<span class="w"> </span>-q<span class="w"> </span>purge
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>module<span class="w"> </span>load<span class="w"> </span>OpenMPI/5.0.10-GCC-15.2.0
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="hll"><span class="c1"># Bind Mahuika's MPI libraries (and their dependencies) into the container.</span>
+</span><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="hll"><span class="nv">SWEEP</span><span class="o">=</span><span class="s2">""</span>
+</span><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="hll"><span class="k">for</span><span class="w"> </span>d<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">':'</span><span class="w"> </span><span class="s1">'\n'</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+</span><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="hll"><span class="w">    </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">"</span><span class="nv">$d</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">SWEEP</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SWEEP</span><span class="p">:+</span><span class="nv">$SWEEP</span><span class="p">,</span><span class="si">}</span><span class="nv">$d</span><span class="s2">"</span>
+</span><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="hll"><span class="k">done</span>
+</span><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="hll"><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINER_BIND</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SWEEP</span><span class="si">}</span><span class="s2">,/opt/mellanox/hcoll/lib,/usr/lib64:/hostlibs"</span>
+</span><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="hll"><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINERENV_LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">:/hostlibs:/opt/mellanox/hcoll/lib"</span>
+</span><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>
+<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="c1"># Required on Mahuika: prevents a "Permission denied" error from UCX's</span>
+<a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a><span class="c1"># shared-memory transport that otherwise stops the MPI program from running.</span>
+<a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINERENV_UCX_POSIX_USE_PROC_LINK</span><span class="o">=</span>n
+<a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>
+<a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>apptainer<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>mpi_bind_container.sif<span class="w"> </span>/opt/mpi_hello_world
+</code></pre></div>
+<p>The highlighted part of this script is what makes the bind model work. After loading the OpenMPI module, Mahuika lists all the directories holding its MPI libraries in the <code>LD_LIBRARY_PATH</code> environment variable.</p>
+<p>We need to make those directories (and a couple of others) visible <em>inside</em> the container, which the following lines do:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Bind Mahuika's MPI libraries (and their dependencies) into the container.</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">SWEEP</span><span class="o">=</span><span class="s2">""</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">for</span><span class="w"> </span>d<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">':'</span><span class="w"> </span><span class="s1">'\n'</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">"</span><span class="nv">$d</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">SWEEP</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SWEEP</span><span class="p">:+</span><span class="nv">$SWEEP</span><span class="p">,</span><span class="si">}</span><span class="nv">$d</span><span class="s2">"</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">done</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINER_BIND</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SWEEP</span><span class="si">}</span><span class="s2">,/opt/mellanox/hcoll/lib,/usr/lib64:/hostlibs"</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINERENV_LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">:/hostlibs:/opt/mellanox/hcoll/lib"</span>
+</code></pre></div>
+<p>Breaking this down:</p>
+<ul>
+<li><strong>The <code>for</code> loop</strong> splits <code>LD_LIBRARY_PATH</code> on its <code>:</code> separators (using <code>tr ':' '\n'</code>) and walks through each directory. For every directory that actually exists (<code>[ -d "$d" ]</code>), it appends the path to a comma-separated list called <code>SWEEP</code>. The result is a clean list of all the host MPI library directories, ready to hand to Apptainer.</li>
+<li><strong><code>APPTAINER_BIND</code></strong> tells Apptainer which host directories to bind-mount (make available) inside the container. We give it our <code>SWEEP</code> list, plus:<ul>
+<li><code>/opt/mellanox/hcoll/lib</code> — the Mellanox HCOLL collective-communication library, which OpenMPI depends on but which does not live on <code>LD_LIBRARY_PATH</code>.</li>
+<li><code>/usr/lib64:/hostlibs</code> — the host's <code>/usr/lib64</code> (holding the InfiniBand/RDMA libraries such as <code>librdmacm</code> and <code>libibverbs</code>) mounted at the path <code>/hostlibs</code> inside the container. We mount it at a <em>different</em> path so it does not overwrite the container's own <code>/usr/lib64</code>.</li>
+</ul>
+</li>
+<li><strong><code>APPTAINERENV_LD_LIBRARY_PATH</code></strong> sets the <code>LD_LIBRARY_PATH</code> <em>inside</em> the container (any variable prefixed with <code>APPTAINERENV_</code> is passed through to the container's environment). This tells the program inside the container where to find the libraries we just bound in — the host's library directories, plus our <code>/hostlibs</code> mount and the HCOLL library.</li>
+</ul>
+<p>In short: the <code>for</code> loop gathers the host's MPI library directories, <code>APPTAINER_BIND</code> makes them (and the extra InfiniBand/HCOLL libraries) visible inside the container, and <code>APPTAINERENV_LD_LIBRARY_PATH</code> tells the program inside the container where to find them.</p>
+<details class="note">
+<summary>What is <code>LD_LIBRARY_PATH</code>?</summary>
+<p><code>LD_LIBRARY_PATH</code> is an environment variable that tells Linux where to look for shared libraries (the <code>.so</code> files that programs load at runtime). It holds a list of directories separated by colons (<code>:</code>), for example <code>/path/to/libs1:/path/to/libs2:/path/to/libs3</code>. When a program starts, the system searches these directories (in order) to find the libraries the program needs.</p>
+<p>When you <code>module load OpenMPI/5.0.10-GCC-15.2.0</code> on Mahuika, it adds the directories containing the OpenMPI libraries to <code>LD_LIBRARY_PATH</code>. This is what the bind script reads — it is effectively a ready-made list of where the host's MPI libraries live.</p>
+</details>
+<p>Once you have submitted this to slurm (<code>sbatch submit.sl</code>) and the job has run, you should obtain an output file that shows something similar to this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c008.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">1</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">167</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536546</span><span class="o">]</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c008.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">0</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">166</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">1</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536545</span><span class="o">]</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c010.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">3</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">33</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536577</span><span class="o">]</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>Hello<span class="w"> </span>world!<span class="w"> </span>Processor<span class="w"> </span>c010.hpc.nesi.org.nz,<span class="w"> </span>Rank<span class="w"> </span><span class="m">2</span><span class="w"> </span>of<span class="w"> </span><span class="m">4</span>,<span class="w"> </span>CPU<span class="w"> </span><span class="m">200</span>,<span class="w"> </span>NUMA<span class="w"> </span>node<span class="w"> </span><span class="m">0</span>,<span class="w"> </span>Namespace<span class="w"> </span>mnt:<span class="o">[</span><span class="m">4026536576</span><span class="o">]</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The exact directories you need to bind depend on how your host's MPI was built. If the container reports a missing library, you can list everything it cannot find at once with <code>apptainer exec mpi_bind_container.sif ldd /opt/mpi_hello_world | grep 'not found'</code>, then bind in the directories that contain those libraries.</p>
+</div>
+<h2 id="exercises">Exercises<a class="headerlink" href="#exercises" title="Permanent link">¶</a></h2>
+<div class="admonition dumbbell">
+<p class="admonition-title">Question 1</p>
+<p>What is the key difference between the <strong>hybrid model</strong> and the <strong>bind model</strong> for using MPI with containers?</p>
+<details class="success">
+<summary>Solution</summary>
+<p>In the <strong>hybrid model</strong>, MPI is installed <em>inside</em> the container (and should match the version of MPI on the host). In the <strong>bind model</strong>, the container has no MPI of its own — instead the host's MPI (and the libraries it depends on) is bind-mounted into the container at runtime.</p>
+</details>
+</div>
+<div class="admonition dumbbell">
+<p class="admonition-title">Question 2</p>
+<p>You have a <strong>hybrid</strong> <code>osu_benchmarks.sif</code> container (in the <a href="https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/questions/hybrid_model"><code>questions/hybrid_model</code></a> folder) with OpenMPI built in, where the benchmark programs live under the directory <code>$OSU_DIR</code>.</p>
+<p>Before submitting a parallel job, you want to quickly check the container works by running the <code>startup/osu_hello</code> benchmark with a single process. How could you do this interactively?</p>
+<details class="success">
+<summary>Solution</summary>
+<p>The hybrid container has OpenMPI (and therefore <code>mpirun</code>) inside it, so we can open a shell in the container (where <code>$OSU_DIR</code> is defined) and run it with a single process:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>apptainer<span class="w"> </span>shell<span class="w"> </span>osu_benchmarks.sif
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Apptainer&gt;<span class="w"> </span>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="nv">$OSU_DIR</span>/startup/osu_hello
+</code></pre></div>
+<p>(This would not work in the bind container, which has no MPI of its own — there is no <code>mpirun</code> inside it.)</p>
+</details>
+</div>
+<div class="admonition dumbbell">
+<p class="admonition-title">Question 3</p>
+<p>The same hybrid container has OpenMPI inside it, so we can use the <strong>hybrid model</strong> to run it in parallel. Write a slurm script that runs the collective benchmark <code>collective/osu_gather</code> across 4 MPI processes, with 2 processes on each of 2 nodes.</p>
+<details class="success">
+<summary>Solution</summary>
+<p>The container's <code>%runscript</code> runs whichever benchmark you name, so we launch it with <code>apptainer run osu_benchmarks.sif collective/osu_gather</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1">#SBATCH --job-name=osu-gather-hybrid</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1">#SBATCH --nodes=2</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1">#SBATCH --ntasks-per-node=2</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1">#SBATCH --time=00:05:00</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>module<span class="w"> </span>-q<span class="w"> </span>purge
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>module<span class="w"> </span>load<span class="w"> </span>OpenMPI/5.0.10-GCC-15.2.0
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Required on Mahuika: prevents a "Permission denied" error from UCX's</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># shared-memory transport that otherwise stops the MPI program from running.</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINERENV_UCX_POSIX_USE_PROC_LINK</span><span class="o">=</span>n
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>apptainer<span class="w"> </span>run<span class="w"> </span>osu_benchmarks.sif<span class="w"> </span>collective/osu_gather
+</code></pre></div>
+<p>With <code>--nodes=2</code> and <code>--ntasks-per-node=2</code>, <code>$SLURM_NTASKS</code> is 4. The host's <code>mpirun</code> launches the four containerised processes, and the matching OpenMPI inside the container performs the MPI communication between them.</p>
+</details>
+</div>
+<div class="admonition dumbbell">
+<p class="admonition-title">Question 4</p>
+<p>There is also a <strong>bind</strong> version of the container (in the <a href="https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/questions/bind_model"><code>questions/bind_model</code></a> folder) that has no MPI of its own. Run the <em>same</em> benchmark (<code>collective/osu_gather</code> across 4 MPI processes, with 2 processes on each of 2 nodes), but using the <strong>bind model</strong>. Write the slurm script.</p>
+<details class="success">
+<summary>Solution</summary>
+<p>In the bind model we do not rely on the OpenMPI inside the container — instead we bind Mahuika's OpenMPI (and its dependencies) in at runtime, exactly as we did for the bind example earlier:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="c1">#SBATCH --job-name=osu-gather-bind</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1">#SBATCH --nodes=2</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1">#SBATCH --ntasks-per-node=2</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1">#SBATCH --time=00:05:00</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>module<span class="w"> </span>-q<span class="w"> </span>purge
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>module<span class="w"> </span>load<span class="w"> </span>OpenMPI/5.0.10-GCC-15.2.0
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1"># Bind Mahuika's MPI libraries (and their dependencies) into the container.</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="nv">SWEEP</span><span class="o">=</span><span class="s2">""</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="k">for</span><span class="w"> </span>d<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$LD_LIBRARY_PATH</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tr<span class="w"> </span><span class="s1">':'</span><span class="w"> </span><span class="s1">'\n'</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">    </span><span class="o">[</span><span class="w"> </span>-d<span class="w"> </span><span class="s2">"</span><span class="nv">$d</span><span class="s2">"</span><span class="w"> </span><span class="o">]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">SWEEP</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SWEEP</span><span class="p">:+</span><span class="nv">$SWEEP</span><span class="p">,</span><span class="si">}</span><span class="nv">$d</span><span class="s2">"</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="k">done</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINER_BIND</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">SWEEP</span><span class="si">}</span><span class="s2">,/opt/mellanox/hcoll/lib,/usr/lib64:/hostlibs"</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINERENV_LD_LIBRARY_PATH</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">LD_LIBRARY_PATH</span><span class="si">}</span><span class="s2">:/hostlibs:/opt/mellanox/hcoll/lib"</span>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a><span class="c1"># Required on Mahuika: prevents a "Permission denied" error from UCX's</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="c1"># shared-memory transport that otherwise stops the MPI program from running.</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="nb">export</span><span class="w"> </span><span class="nv">APPTAINERENV_UCX_POSIX_USE_PROC_LINK</span><span class="o">=</span>n
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a>
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>mpirun<span class="w"> </span>-n<span class="w"> </span><span class="nv">$SLURM_NTASKS</span><span class="w"> </span>apptainer<span class="w"> </span>run<span class="w"> </span>osu_benchmarks.sif<span class="w"> </span>collective/osu_gather
+</code></pre></div>
+<p>The only difference from Question 3 is the block that binds Mahuika's OpenMPI into the container; the <code>mpirun</code> line itself is unchanged.</p>
+</details>
+</div>
+<div class="admonition graduation-cap">
+<p class="admonition-title">Keypoints</p>
+<ul>
+<li>Running MPI with a container is trickier than a normal container because MPI spreads a program across multiple nodes, so processes have to communicate across the container boundary — this means the MPI inside the container and the MPI on the host have to work together.</li>
+<li>There are two ways to run MPI with containers: the <strong>hybrid model</strong> (MPI installed in the container) and the <strong>bind model</strong> (the host's MPI bound in at runtime).</li>
+<li>In the <strong>hybrid model</strong>, the container's MPI version should match the host's MPI version.</li>
+<li>In the <strong>bind model</strong>, the container has no MPI; you bind the host's MPI and its dependencies in.</li>
+<li>You run an MPI container on Mahuika from a slurm script: load the matching MPI module, then launch with <code>mpirun ... apptainer exec/run ...</code>.</li>
+</ul>
+</div>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h2>
+<ul>
+<li><a href="https://ciq.com/blog/a-new-approach-to-mpi-in-apptainer/">A new approach to MPI in Apptainer — Dave Godlove (CIQ)</a>. This lesson follows this blog post, with amendments for using Mahuika.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer">
+        
+          
+          <a href="../08-testing-containers/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 8. Making Tests in Containers">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                8. Making Tests in Containers
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../summarising-beyond-the-basics/" class="md-footer__link md-footer__link--next" aria-label="Next: Summarising Beyond the Basics">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Summarising Beyond the Basics
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Introduction to Containers workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
