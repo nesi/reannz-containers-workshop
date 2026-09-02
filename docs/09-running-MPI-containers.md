@@ -1,4 +1,4 @@
-# 6. Running Containers with MPI
+# 9. Running Containers with MPI
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -30,7 +30,7 @@ Both these methods have their advantages and disadvantages, and there is no one 
 
 In the hybrid model, we install the **same version** of MPI on the container as we have on our computer/HPC.
 
-In most cases you will have been provided a container and it may have OpenMPI installed on it. In this case, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/06_running_containers_with_MPI/hybrid_model) folder), which installs OpenMPI 5.0.10:
+In most cases you will have been provided a container and it may have OpenMPI installed on it. In this case, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/hybrid_model) folder), which installs OpenMPI 5.0.10:
 
 ```def hl_lines="15-31"
 Bootstrap: docker
@@ -134,7 +134,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
 ### The Bind Model
 
-In this model we do not use MPI from within the container but instead we bind-mount Mahuika's version of MPI (and the libraries it depends on) into the container at runtime. In most cases you will have been provided a container that was built _without_ MPI. For our example, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`bind_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/06_running_containers_with_MPI/bind_model) folder):
+In this model we do not use MPI from within the container but instead we bind-mount Mahuika's version of MPI (and the libraries it depends on) into the container at runtime. In most cases you will have been provided a container that was built _without_ MPI. For our example, we will use a container that was built using the following definition file (found, along with the other files it needs, in the [`bind_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/bind_model) folder):
 
 ```def
 Bootstrap: docker
@@ -251,7 +251,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
 !!! dumbbell "Question 2"
 
-    You have a **hybrid** `osu_benchmarks.sif` container (in the [`questions/hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/06_running_containers_with_MPI/questions/hybrid_model) folder) with OpenMPI built in, where the benchmark programs live under the directory `$OSU_DIR`.
+    You have a **hybrid** `osu_benchmarks.sif` container (in the [`questions/hybrid_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/questions/hybrid_model) folder) with OpenMPI built in, where the benchmark programs live under the directory `$OSU_DIR`.
 
     Before submitting a parallel job, you want to quickly check the container works by running the `startup/osu_hello` benchmark with a single process. How could you do this interactively?
 
@@ -295,7 +295,7 @@ Hello world! Processor c010.hpc.nesi.org.nz, Rank 2 of 4, CPU 200, NUMA node 0, 
 
 !!! dumbbell "Question 4"
 
-    There is also a **bind** version of the container (in the [`questions/bind_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/06_running_containers_with_MPI/questions/bind_model) folder) that has no MPI of its own. Run the *same* benchmark (`collective/osu_gather` across 4 MPI processes, with 2 processes on each of 2 nodes), but using the **bind model**. Write the slurm script.
+    There is also a **bind** version of the container (in the [`questions/bind_model`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/questions/bind_model) folder) that has no MPI of its own. Run the *same* benchmark (`collective/osu_gather` across 4 MPI processes, with 2 processes on each of 2 nodes), but using the **bind model**. Write the slurm script.
 
     ??? success "Solution"
 

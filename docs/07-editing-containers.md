@@ -1,4 +1,4 @@
-# S4: Inspecting, "Editing", and Versioning Containers
+# 7. Inspecting, "Editing", and Versioning Containers
 
 !!! clipboard-list "Lesson Objectives"
 
@@ -149,7 +149,7 @@ From: ubuntu:24.04
     cowsay Hello $1! | lolcat
 ```
 
-If we build by typing the following into the terminal (where I have called my modified `def` file [`hellocow.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/S4_editing_containers/hellocow.def)):
+If we build by typing the following into the terminal (where I have called my modified `def` file [`hellocow.def`](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/07_editing_containers/hellocow.def)):
 
 ```bash
 apptainer build hellocow.sif hellocow.def

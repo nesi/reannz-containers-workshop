@@ -24,27 +24,45 @@ apptainer build tip2.sif tip2.def
 apptainer build tip3.sif tip3.def
 ```
 
-## 5. Securing Containers with Encryption
+## 6. Securing Containers with Encryption
 
-From the [`05_securing_containers_with_encryption`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/05_securing_containers_with_encryption) directory. These containers are encrypted, so you build them with a passphrase (enter it when prompted):
+From the [`06_securing_containers_with_encryption`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/06_securing_containers_with_encryption) directory. These containers are encrypted, so you build them with a passphrase (enter it when prompted):
 
 ```bash
 apptainer build --passphrase encrypted.sif encrypted.def
 apptainer build --passphrase secret.sif secret.def
 ```
 
-## 6. Running Containers with MPI
+## 7. Inspecting, "Editing", and Versioning Containers
 
-From the [`06_running_containers_with_MPI`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/06_running_containers_with_MPI) directory. These containers build OpenMPI from source, which is CPU-intensive — it is best to build them through slurm. A few of them need an extra step.
+From the [`07_editing_containers`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/07_editing_containers) directory:
 
-The [**hybrid**](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/06_running_containers_with_MPI/hybrid_model/mpi_hybrid_container.def) container builds everything itself, so you can build it directly:
+```bash
+apptainer build lolcow.sif lolcow.def
+apptainer build hellocow.sif hellocow.def
+```
+
+## 8. Making Tests in Containers
+
+From the [`08_making_tests_in_containers`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/08_making_tests_in_containers) directory:
+
+```bash
+apptainer build lolcow.sif lolcow.def
+apptainer build my_python3.12.sif my_python3.12.def
+```
+
+## 9. Running Containers with MPI
+
+From the [`09_running_containers_with_MPI`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI) directory. These containers build OpenMPI from source, which is CPU-intensive — it is best to build them through slurm. A few of them need an extra step.
+
+The [**hybrid**](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/09_running_containers_with_MPI/hybrid_model/mpi_hybrid_container.def) container builds everything itself, so you can build it directly:
 
 ```bash
 cd hybrid_model
 apptainer build mpi_hybrid_container.sif mpi_hybrid_container.def
 ```
 
-The [**bind**](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/06_running_containers_with_MPI/bind_model/mpi_bind_container.def) container needs the `mpi_hello_world` program compiled on the host first (it has no MPI of its own), then the container is built around it:
+The [**bind**](https://github.com/nesi/reannz-containers-workshop/blob/main/examples/09_running_containers_with_MPI/bind_model/mpi_bind_container.def) container needs the `mpi_hello_world` program compiled on the host first (it has no MPI of its own), then the container is built around it:
 
 ```bash
 cd bind_model
@@ -53,7 +71,7 @@ mpicc mpi_hello_world.c -o mpi_hello_world
 apptainer build mpi_bind_container.sif mpi_bind_container.def
 ```
 
-The [**OSU benchmark**](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/06_running_containers_with_MPI/questions) containers (used in the exercises) each provide a `build_osu.sh` helper that performs any host-side compilation and then builds the container:
+The [**OSU benchmark**](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/09_running_containers_with_MPI/questions) containers (used in the exercises) each provide a `build_osu.sh` helper that performs any host-side compilation and then builds the container:
 
 ```bash
 cd questions/hybrid_model
@@ -61,22 +79,4 @@ bash build_osu.sh
 
 cd ../bind_model
 bash build_osu.sh
-```
-
-## S4: Inspecting, "Editing", and Versioning Containers
-
-From the [`S4_editing_containers`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/S4_editing_containers) directory:
-
-```bash
-apptainer build lolcow.sif lolcow.def
-apptainer build hellocow.sif hellocow.def
-```
-
-## S5: Making Tests in Containers
-
-From the [`S5_making_tests_in_containers`](https://github.com/nesi/reannz-containers-workshop/tree/main/examples/S5_making_tests_in_containers) directory:
-
-```bash
-apptainer build lolcow.sif lolcow.def
-apptainer build my_python3.12.sif my_python3.12.def
 ```

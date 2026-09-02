@@ -12,24 +12,24 @@ nav:
   - Home: index.md
   - 00-containers-overview.md
   - 00-introducing-apptainer.md
-  - "Day 1: The Basics of Containers":
+  - "The Basics of Containers":
     - 01-introduction.md
     - 02-running-apptainer.md
     - 03-pulling-and-running-images.md
     - 04-building-images.md
-    - summarising-beginner-class.md
-  - "Day 2: Beyond the Basics":
-    - recap-beginner-class.md
-    - 05-securing-containers.md
-    - 06-running-MPI-containers.md
-    - summarising-advancing-class.md
+    - 05-building-a-container-using-sandbox-mode.md
+    - 06-securing-containers.md
+    - summarising-the-basics.md
+  - "Beyond the Basics":
+    - recap-the-basics.md
+    - 07-editing-containers.md
+    - 08-testing-containers.md
+    - 09-running-MPI-containers.md
+    - summarising-beyond-the-basics.md
   - Supplementary:
     - "S1: Other Options for Building Containers": S1-other_options_for_building_containers.md
     - "S2: Other Commands in Apptainer": S2-other-commands-in-apptainer.md
     - "S3: Running Containers as Instances": S3-running-containers-as-instances.md
-    - "S4: Inspecting, Editing, and Versioning Containers": S4-editing-containers.md
-    - "S5: Making Tests in Containers": S5-testing-containers.md
-    - "S6: Building a Container using Sandbox Mode": S6-building-a-container-using-sandbox-mode.md
   - Setup (for Trainers):
     - setup-containers.md
 

@@ -1,6 +1,6 @@
-# Recap of Day 1
+# Recap of The Basics of Containers
 
-Before we move on, let's quickly remind ourselves of what we covered on Day 1 (The Basics of Containers).
+Before we move on, let's quickly remind ourselves of what we covered in The Basics of Containers.
 
 ## What is a container?
 
@@ -8,7 +8,7 @@ A container packages a piece of software together with **all of its dependencies
 
 ## The commands you should know
 
-These are the commands we will lean on today:
+These are the commands we will lean on here:
 
 | Command | What it does |
 |---------|--------------|
@@ -16,7 +16,7 @@ These are the commands we will lean on today:
 | `exec` | Runs a custom command of your choice inside the container. |
 | `shell` | Opens an interactive session inside the container. |
 | `pull` | Downloads a container from the cloud as a `sif` file. |
-| `build` | Builds a `sif` container from a `def` file. |
+| `build` | Builds a `sif` container from a `def` file, or a sandbox with `--sandbox`. |
 
 For example, to run a container, execute a one-off command in it, or open a shell:
 
@@ -34,7 +34,7 @@ A `def` file is the recipe for a container. The key sections are:
 * `%labels` — metadata such as the author and version.
 * `%environment` — environment variables that are set when the container runs.
 * `%post` — the commands that install and configure everything inside the container.
-* `%runscript` — what happens when someone runs the container with `apptainer run`.
+* `%runscript` — what happens when someone runs the container with `apptainer run` (arguments come in as `$1`, `$2`, … and `$@`).
 
 A simple example:
 
@@ -52,14 +52,20 @@ You then build it into a `sif` file with:
 apptainer build my_container.sif my_container.def
 ```
 
-## What's coming up today
+## Sandboxes and encrypted containers
 
-Day 2 (Beyond the Basics) builds on these foundations to:
+We also saw two other ways of working with containers:
 
-* **secure and encrypt** containers, and
+* **Sandbox mode** — build a container interactively with `apptainer build --sandbox`, change it with `apptainer shell --writable --contain --fakeroot`, and turn the finished sandbox into a `sif` container with `apptainer build`.
+* **Encryption** — protect the contents of a container with either a passphrase (`--passphrase`) or an RSA key pair (`--pem-path`), so it stays encrypted at rest, in transit, and while running.
+
+## What's coming up
+
+**Beyond the Basics** builds on these foundations to:
+
+* **inspect, "edit", and version** containers,
+* add **tests** to containers, and
 * run containers in parallel across an HPC using **MPI**.
-
-Inspecting, "editing", and versioning containers (S4) and making tests in containers (S5) are now available as optional supplementary material.
 
 !!! clipboard-question "Quick check"
 
@@ -68,5 +74,6 @@ Inspecting, "editing", and versioning containers (S4) and making tests in contai
     - What is the difference between `run`, `exec`, and `shell`?
     - What does the `%post` section of a `def` file do?
     - How would you build a `sif` container from a `def` file?
+    - When would you use a sandbox instead of a `def` file?
 
-    If any of these are fuzzy, the Day 1 chapters are a good place to refresh.
+    If any of these are fuzzy, the earlier chapters are a good place to refresh.

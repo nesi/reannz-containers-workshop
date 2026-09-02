@@ -4,31 +4,32 @@ Workshop material for **REANNZ's "Introduction to Containers on High Performance
 
 📖 **Read the workshop here: <https://nesi.github.io/reannz-containers-workshop/>**
 
-The material is delivered over two days and the pages live in [`docs/`](docs/).
+The material is split into The Basics of Containers and Beyond the Basics, and the pages live in [`docs/`](docs/).
 
 ## Workshop structure
 
-### Day 1 — The Basics of Containers
+### The Basics of Containers
 
-Running and building containers.
+Running, building, and securing containers.
 
 - Overview of Containers
 - Apptainer: Running Containers on HPCs
-- Introduction to Apptainer
-- The Basics of Running Containers on Apptainer
-- Pulling and Running Containers from the Cloud
-- Building Containers
-- Summarising the Basics
+- Chapter 1: Introduction to Apptainer
+- Chapter 2: The Basics of Running Containers on Apptainer
+- Chapter 3: Pulling and Running Containers from the Cloud
+- Chapter 4: Building Containers
+- Chapter 5: Building a Container using Sandbox Mode
+- Chapter 6: Securing Containers with Encryption
+- Summarising The Basics of Containers
 
-### Day 2 — Beyond the Basics
+### Beyond the Basics
 
-Inspecting, testing, securing, and running MPI containers.
+Inspecting, testing, and running containers in parallel with MPI.
 
-- Recap of Day 1
-- Inspecting, "Editing", and Versioning Containers
-- Making Tests in Containers
-- Securing Containers with Encryption
-- Running Containers with MPI
+- Recap of The Basics of Containers
+- Chapter 7: Inspecting, "Editing", and Versioning Containers
+- Chapter 8: Making Tests in Containers
+- Chapter 9: Running Containers with MPI
 - Summarising Beyond the Basics
 
 ### Supplementary
@@ -38,7 +39,6 @@ Optional extra material:
 - S1: Other Options for Building Containers
 - S2: Other Commands in Apptainer
 - S3: Running Containers as Instances
-- S4: Building a Container using Sandbox Mode
 
 ## Repository layout
 
